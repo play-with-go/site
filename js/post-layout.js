@@ -19,7 +19,7 @@ function replaceInText(element, replacements) {
 		}
 	}
 }
-var siteUrl = "https://docker-labs.com";
+var siteUrl = "https://play-with-go.dev";
 var fontChanged = false;
 var pwd = new PWD();
 var guideRequest = new XMLHttpRequest();
