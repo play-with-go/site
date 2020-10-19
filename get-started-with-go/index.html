@@ -9,13 +9,13 @@ layout: compress
 <html>
 
   <head>
-<title>play-with-go.dev</title>
+<title>Tutorial: Get started with Go</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="play-with-go.dev" />
+<meta name="twitter:title" content="Tutorial: Get started with Go" />
 <meta name="twitter:description" content="Learn Go through interactive online guides on play-with-go.dev" />
 <meta name="twitter:image" content="https://blog.golang.org/gopher/gopher.png" />
 
@@ -87,49 +87,343 @@ layout: compress
 </header>
 
     
-    <div class="container">
-  <div class="row">
-    <div class="col-md-8">
-      <article class="post">
+    
+<div class="progress-bar"></div>
+<div class="panel-container">
 
-        <header class="post-header">
-          <h1 class="post-title"></h1>
-        </header>
+    <div class="menu-panel">
+        <div class="menu-container">
+  <h3 class="menu-title">
+    Tutorial: Get started with Go
+  </h3>
 
-        <div class="post-content">
-          <div class="tags-expo">
-  
-  <div class="tags-expo-section">
+  <div class="toc-menu-container">
     
-    <ul class="tags-expo-posts">
-      
-      <li>
-        <a class="post-title" href="/basic-go-modules-example/">A simple Go modules guide</a>
-      </li>
-      
-    </ul>
-    
-    <ul class="tags-expo-posts">
-      
-      <li>
-        <a class="post-title" href="/get-started-with-go/">Tutorial: Get started with Go</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/intro-to-play-with-go-dev/">An introduction to play-with-go.dev guides</a>
-      </li>
-      
-    </ul>
-    
+  </div>
+
+  <div class="menu-extra-options">
+    <a id="help" class="menu-extra-options-option">
+      <i class="fa fa-question-circle" aria-hidden="true"></i>
+      ¿Need Help?
+    </a>
+    <a class="menu-extra-options-option show-wizard">
+      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+      Show wizard
+    </a>
   </div>
 </div>
 
+<!-- Help -->
+<div
+  class="modal fade"
+  id="helpModal"
+  tabindex="-2"
+  role="dialog"
+  aria-labelledby="helpModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content feedback-modal-content">
+      <div class="modal-body feedback-modal-body">
+        <h5 class="feedback-title">
+          Report an Issue.
+        </h5>
+        <p class="feedback-text">
+          ¿Having technical problems or want to give feedback on the experience?
+          Send us you message and we will get back to you as soon as possible.
+        </p>
+        <textarea
+          class="form-control feedback-textarea"
+          placeholder="Your message here.."
+          name=""
+          id="helpMessage"
+          rows="2"
+          cols="40"
+          required
+        ></textarea>
+        <div class="row">
+          <div class="col-sm">
+            <button
+              type="button"
+              data-dismiss="modal"
+              class="btn btn-link close-button"
+            >
+              CLOSE
+            </button>
+          </div>
+          <div class="col-sm">
+            <button
+              type="button"
+              id="sendHelp"
+              class="btn btn-primary float-right send-button"
+              disabled
+            >
+              SEND
+            </button>
+          </div>
         </div>
-
-      </article>
+      </div>
+      <div class="feedback-modal-footer">
+        <h6 class="feedback-modal-footer-title">Questions on the lab material?</h6>
+        <p class="feedback-modal-footer-text">
+          Go to the
+          <a href="https://forums.docker.com" target="_blank">
+            Go forum
+          </a>
+          , Go community is there for you.
+        </p>
+      </div>
     </div>
   </div>
 </div>
+
+    </div>
+
+    <div class="panel-left">
+        <div class="course-index-button panel-nav" style="padding: 11px 0 0 15px; color: #007d9c; margin-bottom: 10px">
+            <i class="menu-button fa fa-bars fa-2x pull-left"></i>
+            <h4 style="line-height: 30px;" class="course-index-bttn-text">Course Index</h4>
+        </div>
+        <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">Tutorial: Get started with Go</h1>
+            </header>
+            <div class="post-content" itemprop="articleBody">
+                <p>In this tutorial we present a brief introduction to Go programming. You will:</p>
+
+<ul>
+  <li>Write some simple “Hello, world” code</li>
+  <li>Use the <code>go</code> command to run your code</li>
+  <li>Use the Go package discovery site to find packages you can use in your own code</li>
+  <li>Call functions of an external module</li>
+</ul>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<p>You should already have completed:</p>
+
+<ul>
+  <li><a href="https://tour.golang.org/">The Go Tour</a></li>
+  <li><a href="/intro-to-play-with-go-dev/">An introduction to play-with-go.dev guides</a></li>
+</ul>
+
+<p>This guide is running using: <code>go version go1.15.2 linux/amd64</code></p>
+
+<h3 id="write-some-code">Write some code</h3>
+
+<p>As with all play-with-go.dev guides, we start in our home directory:</p>
+
+<pre data-command-src="cHdkCg=="><code class="language-.term1">$ pwd
+/home/gopher
+</code></pre>
+
+<p>Create a hello directory for your first Go source code:</p>
+
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL2hlbGxvCmNkIC9ob21lL2dvcGhlci9oZWxsbwo="><code class="language-.term1">$ mkdir /home/gopher/hello
+$ cd /home/gopher/hello
+</code></pre>
+
+<p>Create the file <code>hello.go</code> in <code>/home/gopher/hello</code>:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2hlbGxv" data-upload-src="aGVsbG8uZ28=:cGFja2FnZSBtYWluCgppbXBvcnQgImZtdCIKCmZ1bmMgbWFpbigpIHsKCWZtdC5QcmludGxuKCJIZWxsbywgV29ybGQhIikKfQ==" data-upload-term=".term1"><code class="language-go">package main
+
+import "fmt"
+
+func main() {
+	fmt.Println("Hello, World!")
+}</code></pre>
+
+<p>This is your first <code>.go</code> file! In this code you:</p>
+
+<ul>
+  <li>Declare a <code>main</code> package (a package is a way to group related code and concepts).</li>
+  <li>Import the popular <a href="https://golang.org/pkg/fmt/"><code>fmt</code></a> package, which contains functions for formatting text,
+including printing to the console. This package is one of the <a href="https://golang.org/pkg/">standard library</a> packages you
+got when you installed Go.</li>
+  <li>Implement a <code>main</code> function to print a message to the console. A <code>main</code> function executes by default when you run code
+in the file.</li>
+</ul>
+
+<p>Run your code to see the greeting:</p>
+
+<pre data-command-src="Z28gcnVuIGhlbGxvLmdvCg=="><code class="language-.term1">$ go run hello.go
+Hello, World!
+</code></pre>
+
+<h3 id="call-code-in-an-external-package">Call code in an external package</h3>
+
+<p>When you want your code to do something that might have been implemented by someone else, you can look for a package
+that has the functionality you need.</p>
+
+<p>Let’s make your printed message a little more interesting by using a function from an another package.</p>
+
+<ol>
+  <li>Visit <a href="https://pkg.go.dev">pkg.go.dev</a> and <a href="https://pkg.go.dev/search?q=quote">search for a “quote” package</a>.</li>
+  <li>Locate and click the <code>rsc.io/quote</code> package in search results (if you see <code>rsc.io/quote/v3</code>, ignore it for now).</li>
+  <li>On the <strong>Doc</strong> tab, under <strong>Index</strong>, note the list of functions you can call from your code. You will use the <code>Go</code>
+function.</li>
+  <li>At the top of this page, note that package quote is included in the <code>rsc.io/quote</code> module</li>
+  <li>On the <strong>Versions</strong> tab, note the list of available versions of the <code>rsc.io/quote</code> module.</li>
+</ol>
+
+<p>Packages are published in modules – like <code>rsc.io/quote</code> – where others can use them. Modules are improved with new
+versions over time, and you can upgrade your code to use the improved versions. You can use
+<a href="https://pkg.go.dev">pkg.go.dev</a> to discover published modules whose packages have functions you can use in your own
+code.</p>
+
+<p><em>Modules can contain multiple packackages. In the case of the the <code>rsc.io/quote</code> module, it contains just one package:
+<code>rsc.io/quote</code>.</em></p>
+
+<p>Let’s import the <code>rsc.io/quote</code> package and add a call to its <code>Go</code> function:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2hlbGxv" data-upload-src="aGVsbG8uZ28=:cGFja2FnZSBtYWluCgppbXBvcnQgImZtdCIKCmltcG9ydCAicnNjLmlvL3F1b3RlIgoKZnVuYyBtYWluKCkgewoJZm10LlByaW50bG4ocXVvdGUuR28oKSkKfQ==" data-upload-term=".term1"><code class="language-go">package main
+
+import "fmt"
+
+<b style="color:darkblue">import "rsc.io/quote"</b>
+<b style="color:darkblue"></b>
+func main() {
+<b style="color:darkblue">	fmt.Println(quote.Go())</b>
+</code></pre>
+
+<p>To import packages from another module, your code must belong to a module. Go modules are identified by a <code>go.mod</code> file
+in a directory. A <code>go.mod</code> file lists the specific modules and versions providing those packages. That file stays with
+your code, including in your source code repository. We refer to <code>hello</code> as the current development
+module.</p>
+
+<p>To create a module and its <code>go.mod</code> file, run the <code>go mod init</code> command, giving it the name of the module your
+code will be in (here, just use <code>hello</code>):</p>
+
+<pre data-command-src="Z28gbW9kIGluaXQgaGVsbG8K"><code class="language-.term1">$ go mod init hello
+go: creating new go.mod: module hello
+</code></pre>
+
+<p>Our <code>main</code> package now belongs to the <code>hello</code> module.</p>
+
+<p>We need to declare a dependency on the <code>rsc.io/quote</code> module, specifically version <code>v1.5.2</code>:</p>
+
+<pre data-command-src="Z28gZ2V0IHJzYy5pby9xdW90ZUB2MS41LjIK"><code class="language-.term1">$ go get rsc.io/quote@v1.5.2
+go: downloading rsc.io/quote v1.5.2
+go: downloading rsc.io/sampler v1.3.0
+go: downloading golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c
+</code></pre>
+
+<p><a href="https://golang.org/cmd/go/#hdr-Add_dependencies_to_current_module_and_install_them"><code>go get</code></a> resolves and adds
+dependencies to the current development module, <code>hello</code> in our case.</p>
+
+<p>Re-run your code to see the message generated by the function you’re calling.</p>
+
+<pre data-command-src="Z28gcnVuIGhlbGxvLmdvCg=="><code class="language-.term1">$ go run hello.go
+Don't communicate by sharing memory, share memory by communicating.
+</code></pre>
+
+<p>Notice that your code calls the Go function, printing a clever message about communication.</p>
+
+<h3 id="write-more-code">Write more code</h3>
+
+<p>With this quick introduction, you learned some of the basics. To write some more code with another tutorial, take a look at <a href="/create-a-go-module">Create a Go module</a>.</p>
+
+<script>let pageGuide="2020-10-15-get-started-with-go"; let pageLanguage="en"; let pageScenario="go115";</script>
+
+
+            </div>
+        </article>
+    </div>
+
+
+    <div class="panel-right">
+        <div class="panel-nav">
+            <i class="expand-button fa fa-expand pull-right"></i>
+            <ul class="nav nav-tabs">
+            
+                <li class="nav-item">
+                    <a class="nav-link active" id="term1-tab" data-toggle="tab" href="#term1" role="tab" aria-controls="term1" aria-selected="true" >T.1</a>
+                </li>
+            
+            </ul>
+        </div>
+        <div class="twrapper">
+            <div class="splitter"></div>
+            <div class="tab-content" id="myTabContent">
+                
+                <div class="tab-pane show term1 active" id="term1" role="tabpanel" aria-labelledby="term1-tab"></div>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var imageName = "";
+    (function() {
+        var font3 = document.createElement('link');
+        font3.type = 'text/css';
+        font3.rel = 'stylesheet';
+        font3.href = '/css/syntax-highlighting.css';
+        var q = document.getElementsByTagName('link')[0];
+        q.parentNode.insertBefore(font3, q);
+    })();
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+<script src="https://rawgit.com/RickStrahl/jquery-resizable/master/dist/jquery-resizable.min.js"></script>
+<script src="https://unpkg.com/pwd-sdk@0.0.4/dist/pwd.min.js"></script>
+<script src="/js/quiz.js"></script>
+<script src="/js/post-layout.js"></script>
+<script src="/js/progress-bar.js"></script>
+<script src="/js/menu.js"></script>
+<script src="/js/feedback-footer.js"></script>
+<script src="/js/import-file.js"></script>
+<script src="/js/dark-mode.js"></script>
+<script src="/js/exit-warning.js"></script>
+<script src="/js/zoom.js"></script>
+<div
+  class="modal fade"
+  id="congratz-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img src="/images/success.png" />
+        <h2 class="post-title">
+          Congratulations!
+        </h2>
+        <p class="congratz-text">
+          Great work! you are getting closer and closer to archieving your
+          goals. Go foward!
+        </p>
+        <div class="congratz-footer">
+          <button type="button" class="text-btn" data-dismiss="modal">
+            CLOSE
+          </button>
+          <div class="share">
+            <p class="share-text">Share your archievements</p>
+            <a
+              href="http://twitter.com/share?url=URL_TO_PAGE&text=TITLE_TO_SHARE&via=TWITTER_USERNAME"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u=http://labs.docker.com"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-facebook-official" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
     
     <div class="feedback-footer">
@@ -164,6 +458,93 @@ layout: compress
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
   
+    <!-- Welcome -->
+<div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="tab-content" id="welcomeContent">
+          <div class="tab-pane fade show active" id="welcome" role="tabpanel" aria-labelledby="welcome-tab">
+            <img src="/images/welcome.png"/>
+            <h2>Welcome to Go Labs.</h2>
+            <p>First time here? Take a short tour through Labs platform and learn how to use the new features.</p>
+          </div>
+          <div class="tab-pane fade" id="index" role="tabpanel" aria-labelledby="index-tab">
+            <img src="/images/index.png"/>
+            <h2>Course index.</h2>
+            <p>You will find the Lab’s content index on the menu. Also, look for the option "help" in the menu if you experience any problem, want to send us feedback or just need advice from your peers.</p>
+          </div>
+          <div class="tab-pane fade" id="dark" role="tabpanel" aria-labelledby="dark-tab">
+            <img src="/images/dark.png"/>
+            <h2>Dark mode and text size.</h2>
+            <p>On the upper right corner, you will find the dark mode switch and the option to change the font size. Also, you will see the icon to import files from your local computer.</p>
+          </div>
+          <div class="tab-pane fade" id="progress" role="tabpanel" aria-labelledby="progress-tab">
+            <img src="/images/progress.png"/>
+            <h2>Lab progress.</h2>
+            <p>You will see you Lab’s progress on a green bar, located on the top left side of your window.</p>
+          </div>
+          <div class="tab-pane fade" id="terminal" role="tabpanel" aria-labelledby="terminal-tab">
+            <img src="/images/terminal.png"/>
+            <h2>Full screen terminal.</h2>
+            <p>You'll be able to maximize your terminal by clicking on the icon you have on the upper right side.</p>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <button type="button" data-dismiss="modal"  class="btn btn-link">Skip</button>
+            </div>
+            <div class="col-sm my-auto">
+              <ul class="nav pagination justify-content-center" id="myTab" role="tablist">
+                <li class="page-item">
+                  <a class="page-link active" id="welcome-tab" data-toggle="tab" href="#welcome" role="tab" aria-controls="welcome" aria-selected="true"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="index-tab" data-toggle="tab" href="#index" role="tab" aria-controls="index" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="dark-tab" data-toggle="tab" href="#dark" role="tab" aria-controls="dark" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="progress-tab" data-toggle="tab" href="#progress" role="tab" aria-controls="progress" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="terminal-tab" data-toggle="tab" href="#terminal" role="tab" aria-controls="terminal" aria-selected="false"></a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm">
+              <button type="button" id="welcomeNext" class="btn btn-primary float-right">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  if (localStorage.getItem("skipTutorial") === null) {
+    ga('send', 'event', 'Welcome', 'skip-wizard');
+    $('#welcomeModal').modal();
+  }
+  $('#welcomeModal').on('hidden.bs.modal', function (e) {
+    ga('send', 'event', 'Welcome', 'skip-wizard');
+    localStorage.setItem("skipTutorial", true);
+  })
+  $('#welcomeNext').click(function() {
+    let next = $('.page-item .page-link.active').parent().next().find('a');
+    if (next.length) {
+      next.click();
+    } else {
+      $('#welcomeModal').modal('hide');
+    }
+  });
+</script>
+
+
+  
 
 
   <!-- Google Analytics Tracking code -->
@@ -190,25 +571,6 @@ layout: compress
     <!--}}();-->
     <!--}-->
     <!---->
-    
-    <!--try {-->
-      <!--pwd.getUserInfo(function(pwduser){-->
-              <!--user = pwduser;-->
-              <!--if(user !== undefined){-->
-                  <!--analytics.identify(user.provider_user_id,{"email":user.email});-->
-              <!--}-->
-              <!--else {-->
-
-                  <!--analytics.identify();-->
-              <!--}-->
-          <!--});-->
-    <!--}-->
-    <!--catch (error) {-->
-      <!--analytics.identify();-->
-      <!--}-->
-    
-     
-      <!---->
     <!--</script>-->
     <!-- Twitter universal website tag code -->
 
