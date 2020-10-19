@@ -202,34 +202,36 @@ from writing tests, understanding Go modules, static analysis, code generation a
 
 <p><code>play-with-go.dev</code> guides are best viewed on a laptop or desktop device with a good sized screen. The left hand side
 (the bit you are reading now) is the guide itself, otherwise known as the prose. The right hand size is an interactive
-terminal that is connected to a remote virtual session, hosted on <a href="https://cloud.google.com/">Google Cloud</a>.</p>
+terminal that is connected to a remote virtual session, hosted on <a href="https://cloud.google.com/">Google Cloud</a>. <em>Do not
+enter any personal credentials/details into the interactive terminal. We make no guarantees on the security of these
+remotes sessions.</em></p>
 
-<p>Throughout each guide (prose) you will see clickable blocks of command and code. For example, try clicking on the
-following command block:</p>
+<p>Throughout each guide (prose) you will see clickable <em>command</em> and <em>code</em> blocks. For example, click on the following
+command block:</p>
 
 <pre data-command-src="ZWNobyAiSGVsbG8sIHdvcmxkISIK"><code class="language-.term1">$ echo "Hello, world!"
 Hello, world!
 </code></pre>
 
-<p>Clicking on block of commands causes those commands to run in the interactive terminal on the right hand side. Blocks of
-commands are indicated by a <code>$</code> sign at the beginning of a line; the output from that command (if there is any) will be
-on the lines that follow. Command blocks can contain multiple commands:</p>
+<p>Clicking on command block causes those commands to run in the interactive terminal on the right hand side. Command
+blocks are indicated by a <code>$</code> sign at the beginning of a line; the output from that command (if there is any) will be on
+the lines that follow. Command blocks can contain multiple commands:</p>
 
-<pre data-command-src="d2hvYW1pCmVjaG8gIkhlbGxvLCBnb3BoZXIhIgo="><code class="language-.term1">$ whoami
-gopher
-$ echo "Hello, gopher!"
-Hello, gopher!
+<pre data-command-src="ZWNobyAiSGVsbG8iCmVjaG8gIkdvcGhlciEiCg=="><code class="language-.term1">$ echo "Hello"
+Hello
+$ echo "Gopher!"
+Gopher!
 </code></pre>
 
-<p>We can also upload code/content to our interactive session using code blocks. Try clicking on the following code block
-to upload contents to <code>/home/gopher/readme.txt</code>:</p>
+<p>You can also upload code/content to our interactive session using code blocks. Click on the following code block to
+upload contents to <code>/home/gopher/readme.txt</code>:</p>
 
 <pre data-upload-path="L2hvbWUvZ29waGVy" data-upload-src="cmVhZG1lLnR4dA==:VGhpcyBpcyAvaG9tZS9nb3BoZXIvcmVhZG1lLnR4dC4KCkhlbGxvLCBnb3BoZXIhCg==" data-upload-term=".term1"><code class="language-txt">This is /home/gopher/readme.txt.
 
 Hello, gopher!
 </code></pre>
 
-<p>When we update a file, we highlight the bits that have changed:</p>
+<p>If a later code block updates a file, we typically highlight the bits that have changed:</p>
 
 <pre data-upload-path="L2hvbWUvZ29waGVy" data-upload-src="cmVhZG1lLnR4dA==:VGhpcyBpcyAvaG9tZS9nb3BoZXIvcmVhZG1lLnR4dC4KCkhlbGxvLCBnb3BoZXIhCgpXZSBtYWRlIGEgY2hhbmdlIQo=" data-upload-term=".term1"><code class="language-txt">This is /home/gopher/readme.txt.
 
@@ -238,7 +240,7 @@ Hello, gopher!
 <b style="color:darkblue">We made a change!</b>
 </code></pre>
 
-<p>Now that we have uploaded <code>/home/gopher/readme.txt</code> we can run another command to do something with it:</p>
+<p>Now that we have uploaded <code>/home/gopher/readme.txt</code> we can run another command to show us its contents:</p>
 
 <pre data-command-src="Y2F0IC9ob21lL2dvcGhlci9yZWFkbWUudHh0Cg=="><code class="language-.term1">$ cat /home/gopher/readme.txt
 This is /home/gopher/readme.txt.
@@ -248,6 +250,26 @@ Hello, gopher!
 We made a change!
 
 </code></pre>
+
+<h3 id="the-interactive-terminal">The interactive terminal</h3>
+
+<p>As mentioned above, the interactive terminal is connected to a remote virtual session, hosted on <a href="https://cloud.google.com/">Google
+Cloud</a>. For Go-related guides, the remote session starts with the following user and working
+directory unless indicated otherwise:</p>
+
+<pre data-command-src="d2hvYW1pCnB3ZAo="><code class="language-.term1">$ whoami
+gopher
+$ pwd
+/home/gopher
+</code></pre>
+
+<p><code>/home/gopher
+</code> is referred to as the home directory of the <code>gopher
+</code> user.</p>
+
+<p>Some guides need you to publish code to a remote source code repository. For such guides, a unique remote repository is
+automatically created against the https://gopher.live <a href="https://gitea.io"><code>gitea</code></a> instance. The URL of the repository will be
+made clear in the guide; authentication will be handled automatically.</p>
 
 <h3 id="im-lost-help">I’m lost, help!</h3>
 
