@@ -225,13 +225,14 @@ $ cd /home/gopher/hello
 
 <p>Create the file <code>hello.go</code> in <code>/home/gopher/hello</code>:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVyL2hlbGxv" data-upload-src="aGVsbG8uZ28=:cGFja2FnZSBtYWluCgppbXBvcnQgImZtdCIKCmZ1bmMgbWFpbigpIHsKCWZtdC5QcmludGxuKCJIZWxsbywgV29ybGQhIikKfQ==" data-upload-term=".term1"><code class="language-go">package main
+<pre data-upload-path="L2hvbWUvZ29waGVyL2hlbGxv" data-upload-src="aGVsbG8uZ28=:cGFja2FnZSBtYWluCgppbXBvcnQgImZtdCIKCmZ1bmMgbWFpbigpIHsKCWZtdC5QcmludGxuKCJIZWxsbywgV29ybGQhIikKfQo=" data-upload-term=".term1"><code class="language-go">package main
 
 import "fmt"
 
 func main() {
 	fmt.Println("Hello, World!")
-}</code></pre>
+}
+</code></pre>
 
 <p>This is your first <code>.go</code> file! In this code you:</p>
 
@@ -276,7 +277,7 @@ code.</p>
 
 <p>Let’s import the <code>rsc.io/quote</code> package and add a call to its <code>Go</code> function:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVyL2hlbGxv" data-upload-src="aGVsbG8uZ28=:cGFja2FnZSBtYWluCgppbXBvcnQgImZtdCIKCmltcG9ydCAicnNjLmlvL3F1b3RlIgoKZnVuYyBtYWluKCkgewoJZm10LlByaW50bG4ocXVvdGUuR28oKSkKfQ==" data-upload-term=".term1"><code class="language-go">package main
+<pre data-upload-path="L2hvbWUvZ29waGVyL2hlbGxv" data-upload-src="aGVsbG8uZ28=:cGFja2FnZSBtYWluCgppbXBvcnQgImZtdCIKCmltcG9ydCAicnNjLmlvL3F1b3RlIgoKZnVuYyBtYWluKCkgewoJZm10LlByaW50bG4ocXVvdGUuR28oKSkKfQo=" data-upload-term=".term1"><code class="language-go">package main
 
 import "fmt"
 
@@ -284,6 +285,7 @@ import "fmt"
 <b style="color:darkblue"></b>
 func main() {
 <b style="color:darkblue">	fmt.Println(quote.Go())</b>
+}
 </code></pre>
 
 <p>To import packages from another module, your code must belong to a module. Go modules are identified by a <code>go.mod</code> file
