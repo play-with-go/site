@@ -217,33 +217,31 @@ Hello, world!
 blocks are indicated by a <code>$</code> sign at the beginning of a line; the output from that command (if there is any) will be on
 the lines that follow. Command blocks can contain multiple commands:</p>
 
-<pre data-command-src="ZWNobyAiSGVsbG8iCmVjaG8gIkdvcGhlciEiCg=="><code class="language-.term1">$ echo "Hello"
-Hello
-$ echo "Gopher!"
-Gopher!
+<pre data-command-src="bWtkaXIgaGVsbG8KY2QgaGVsbG8K"><code class="language-.term1">$ mkdir hello
+$ cd hello
 </code></pre>
 
 <p>You can also upload code/content to our interactive session using code blocks. Click on the following code block to
-upload contents to <code>/home/gopher/readme.txt</code>:</p>
+upload contents to <code>README.md</code>:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVy" data-upload-src="cmVhZG1lLnR4dA==:VGhpcyBpcyAvaG9tZS9nb3BoZXIvcmVhZG1lLnR4dC4KCkhlbGxvLCBnb3BoZXIhCg==" data-upload-term=".term1"><code class="language-txt">This is /home/gopher/readme.txt.
+<pre data-upload-path="L2hvbWUvZ29waGVyL2hlbGxv" data-upload-src="UkVBRE1FLm1k:VGhpcyBpcyBSRUFETUUubWQuCgpIZWxsbywgZ29waGVyIQo=" data-upload-term=".term1"><code class="language-md">This is README.md.
 
 Hello, gopher!
 </code></pre>
 
 <p>If a later code block updates a file, we typically highlight the bits that have changed:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVy" data-upload-src="cmVhZG1lLnR4dA==:VGhpcyBpcyAvaG9tZS9nb3BoZXIvcmVhZG1lLnR4dC4KCkhlbGxvLCBnb3BoZXIhCgpXZSBtYWRlIGEgY2hhbmdlIQo=" data-upload-term=".term1"><code class="language-txt">This is /home/gopher/readme.txt.
+<pre data-upload-path="L2hvbWUvZ29waGVyL2hlbGxv" data-upload-src="UkVBRE1FLm1k:VGhpcyBpcyBSRUFETUUubWQuCgpIZWxsbywgZ29waGVyIQoKV2UgbWFkZSBhIGNoYW5nZSEK" data-upload-term=".term1"><code class="language-md">This is README.md.
 
 Hello, gopher!
 <b style="color:darkblue"></b>
 <b style="color:darkblue">We made a change!</b>
 </code></pre>
 
-<p>Now that we have uploaded <code>/home/gopher/readme.txt</code> we can run another command to show us its contents:</p>
+<p>Now that we have uploaded <code>README.md</code> we can run another command to show us its contents:</p>
 
-<pre data-command-src="Y2F0IC9ob21lL2dvcGhlci9yZWFkbWUudHh0Cg=="><code class="language-.term1">$ cat /home/gopher/readme.txt
-This is /home/gopher/readme.txt.
+<pre data-command-src="Y2F0IFJFQURNRS5tZAo="><code class="language-.term1">$ cat README.md
+This is README.md.
 
 Hello, gopher!
 
@@ -254,28 +252,45 @@ We made a change!
 <h3 id="the-interactive-terminal">The interactive terminal</h3>
 
 <p>As mentioned above, the interactive terminal is connected to a remote virtual session, hosted on <a href="https://cloud.google.com/">Google
-Cloud</a>. For Go-related guides, the remote session starts with the following user and working
-directory unless indicated otherwise:</p>
+Cloud</a>. For Go-related guides, the remote session is running as the <code>gopher</code>
+user, with a working directory of <code>/home/gopher</code>, which is also referred to as the home directory of the
+<code>gopher</code> user.</p>
 
-<pre data-command-src="d2hvYW1pCnB3ZAo="><code class="language-.term1">$ whoami
-gopher
-$ pwd
-/home/gopher
+<h3 id="remote-source-code-repositories">Remote source code repositories</h3>
+
+<p>Some guides need you to publish code to a remote source code repository. For such guides, a unique user is automatically
+created for you in the <a href="https://gopher.live"><code>gopher.live</code></a> <a href="https://gitea.io"><code>gitea</code></a> instance. Repostitories are
+created beneath that user account. For example, for this guide we have created the unique user <code>{{{.GITEA_USERNAME}}}</code>
+and a repository called <code>hello</code>.</p>
+
+<p>Let’s add the <code>README.md</code> file we created earlier to this remote repository.</p>
+
+<p>Initialise a local <code>git</code> repository and add the remote:</p>
+
+<pre data-command-src="Z2l0IGluaXQgLXEKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8vZ29waGVyLmxpdmUve3t7LkdJVEVBX1VTRVJOQU1FfX19L3t7ey5SRVBPMX19fS5naXQK"><code class="language-.term1">$ git init -q
+$ git remote add origin https://gopher.live/{{{.GITEA_USERNAME}}}/{{{.REPO1}}}.git
 </code></pre>
 
-<p><code>/home/gopher
-</code> is referred to as the home directory of the <code>gopher
-</code> user.</p>
+<p>Add and commit the <code>README.md</code> file we created earlier:</p>
 
-<p>Some guides need you to publish code to a remote source code repository. For such guides, a unique remote repository is
-automatically created against the https://gopher.live <a href="https://gitea.io"><code>gitea</code></a> instance. The URL of the repository
-will be made clear in the guide; authentication will be handled automatically. For example, if we are creating a module
-called <code>hello</code>, the guide will automatically create a module path for us, like <code>gopher.live/{{{.REPO1}}}</code>. The first part
-of this module path looks familiar: <code>gopher.live/hello</code>. It is followed by a random suffix that makes it unique to you.
-The remote version control system URL corresponding to this module path is <code>https://gopher.live/{{{.REPO1}}}.git</code>:</p>
-
-<pre data-command-src="Z2l0IGxzLXJlbW90ZSBodHRwczovL2dvcGhlci5saXZlL3t7ey5SRVBPMX19fS5naXQK"><code class="language-.term1">$ git ls-remote https://gopher.live/{{{.REPO1}}}.git
+<pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1hbSAnSW5pdGlhbCBjb21taXQnCg=="><code class="language-.term1">$ git add -A
+$ git commit -am 'Initial commit'
+[main (root-commit) abcd123] Initial commit
+ 1 file changed, 6 insertions(+)
+ create mode 100644 README.md
 </code></pre>
+
+<p>Push the commit to the remote repository:</p>
+
+<pre data-command-src="Z2l0IHB1c2ggb3JpZ2luIG1haW4K"><code class="language-.term1">$ git push origin main
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+To https://gopher.live/{{{.GITEA_USERNAME}}}/{{{.REPO1}}}.git
+ * [new branch]      main -&gt; main
+</code></pre>
+
+<p>It’s as easy as that. Authentication is taken care of for you. The user and repository will be destroyed after 3 hours
+along with the guide session.</p>
 
 <h3 id="im-lost-help">I’m lost, help!</h3>
 
