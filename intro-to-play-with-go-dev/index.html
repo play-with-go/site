@@ -252,9 +252,14 @@ We made a change!
 <h3 id="the-interactive-terminal">The interactive terminal</h3>
 
 <p>As mentioned above, the interactive terminal is connected to a remote virtual session, hosted on <a href="https://cloud.google.com/">Google
-Cloud</a>. For Go-related guides, the remote session is running as the <code>gopher</code>
-user, with a working directory of <code>/home/gopher</code>, which is also referred to as the home directory of the
-<code>gopher</code> user.</p>
+Cloud</a>. For Go-related guides, the remote session runs with the following user and starts
+with a working directory of that user:</p>
+
+<pre data-command-src="d2hvYW1pCnB3ZAo="><code class="language-.term1">$ whoami
+gopher
+$ pwd
+/home/gopher
+</code></pre>
 
 <h3 id="remote-source-code-repositories">Remote source code repositories</h3>
 
@@ -267,26 +272,21 @@ and a repository called <code>hello</code>.</p>
 
 <p>Initialise a local <code>git</code> repository and add the remote:</p>
 
-<pre data-command-src="Z2l0IGluaXQgLXEKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8vZ29waGVyLmxpdmUve3t7LkdJVEVBX1VTRVJOQU1FfX19L3t7ey5SRVBPMX19fS5naXQK"><code class="language-.term1">$ git init -q
-$ git remote add origin https://gopher.live/{{{.GITEA_USERNAME}}}/{{{.REPO1}}}.git
+<pre data-command-src="Z2l0IGluaXQgLXEKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8ve3t7LlJFUE8xfX19LmdpdAo="><code class="language-.term1">$ git init -q
+$ git remote add origin https://{{{.REPO1}}}.git
 </code></pre>
 
 <p>Add and commit the <code>README.md</code> file we created earlier:</p>
 
-<pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1hbSAnSW5pdGlhbCBjb21taXQnCg=="><code class="language-.term1">$ git add -A
-$ git commit -am 'Initial commit'
-[main (root-commit) abcd123] Initial commit
- 1 file changed, 6 insertions(+)
- create mode 100644 README.md
+<pre data-command-src="Z2l0IGFkZCBSRUFETUUubWQKZ2l0IGNvbW1pdCAtcSAtbSAnSW5pdGlhbCBjb21taXQnCg=="><code class="language-.term1">$ git add README.md
+$ git commit -q -m 'Initial commit'
 </code></pre>
 
 <p>Push the commit to the remote repository:</p>
 
-<pre data-command-src="Z2l0IHB1c2ggb3JpZ2luIG1haW4K"><code class="language-.term1">$ git push origin main
+<pre data-command-src="Z2l0IHB1c2ggLXEgb3JpZ2luIG1haW4K"><code class="language-.term1">$ git push -q origin main
 remote: . Processing 1 references        
 remote: Processed 1 references in total        
-To https://gopher.live/{{{.GITEA_USERNAME}}}/{{{.REPO1}}}.git
- * [new branch]      main -&gt; main
 </code></pre>
 
 <p>It’s as easy as that. Authentication is taken care of for you. The user and repository will be destroyed after 3 hours

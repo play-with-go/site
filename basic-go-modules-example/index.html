@@ -192,18 +192,18 @@ layout: compress
             <div class="post-content" itemprop="articleBody">
                 <p>Create a module:</p>
 
-<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL21vZDEKY2QgL2hvbWUvZ29waGVyL21vZDEKZ2l0IGluaXQKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8vZ29waGVyLmxpdmUve3t7LkdJVEVBX1VTRVJOQU1FfX19L3t7ey5SRVBPMX19fS5naXQKZ28gbW9kIGluaXQgZ29waGVyLmxpdmUve3t7LkdJVEVBX1VTRVJOQU1FfX19L3t7ey5SRVBPMX19fQo="><code class="language-.term1">$ mkdir /home/gopher/mod1
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL21vZDEKY2QgL2hvbWUvZ29waGVyL21vZDEKZ2l0IGluaXQKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8ve3t7LlJFUE8xfX19LmdpdApnbyBtb2QgaW5pdCB7e3suUkVQTzF9fX0K"><code class="language-.term1">$ mkdir /home/gopher/mod1
 $ cd /home/gopher/mod1
 $ git init
-Initialized empty Git repository in /home/gopher/{{{.REPO1}}}/.git/
-$ git remote add origin https://gopher.live/{{{.GITEA_USERNAME}}}/{{{.REPO1}}}.git
-$ go mod init gopher.live/{{{.GITEA_USERNAME}}}/{{{.REPO1}}}
-go: creating new go.mod: module gopher.live/{{{.GITEA_USERNAME}}}/{{{.REPO1}}}
+Initialized empty Git repository in /home/gopher/mod1/.git/
+$ git remote add origin https://{{{.REPO1}}}.git
+$ go mod init {{{.REPO1}}}
+go: creating new go.mod: module {{{.REPO1}}}
 </code></pre>
 
 <p>Write a readme:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVyL21vZDE=" data-upload-src="UkVBRE1FLm1k:IyMgYGdvcGhlci5saXZlL3t7ey5HSVRFQV9VU0VSTkFNRX19fS97e3suUkVQTzF9fX1g" data-upload-term=".term1"><code class="language-md">## `gopher.live/{{{.GITEA_USERNAME}}}/{{{.REPO1}}}`</code></pre>
+<pre data-upload-path="L2hvbWUvZ29waGVyL21vZDE=" data-upload-src="UkVBRE1FLm1k:IyMgYHt7ey5SRVBPMX19fWA=" data-upload-term=".term1"><code class="language-md">## `{{{.REPO1}}}`</code></pre>
 
 <p>Write a readme:</p>
 
@@ -218,31 +218,23 @@ func main() {
 
 <p>Commit and push:</p>
 
-<pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1tICJJbml0aWFsIGNvbW1pdCIKZ2l0IHB1c2ggLXUgb3JpZ2luIG1haW4K"><code class="language-.term1">$ git add -A
-$ git commit -m "Initial commit"
-[main (root-commit) abcd123] Initial commit
- 3 files changed, 12 insertions(+)
- create mode 100644 README.md
- create mode 100644 go.mod
- create mode 100644 main.go
-$ git push -u origin main
+<pre data-command-src="Z2l0IGFkZCBSRUFETUUubWQgbWFpbi5nbwpnaXQgY29tbWl0IC1xIC1tICJJbml0aWFsIGNvbW1pdCIKZ2l0IHB1c2ggLXEgb3JpZ2luIG1haW4K"><code class="language-.term1">$ git add README.md main.go
+$ git commit -q -m "Initial commit"
+$ git push -q origin main
 remote: . Processing 1 references        
 remote: Processed 1 references in total        
-To https://gopher.live/{{{.GITEA_USERNAME}}}/{{{.REPO1}}}.git
- * [new branch]      main -&gt; main
-Branch 'main' set up to track remote branch 'main' from 'origin'.
 </code></pre>
 
 <p>Use the module:</p>
 
-<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL21vZDIKY2QgL2hvbWUvZ29waGVyL21vZDIKZ28gbW9kIGluaXQgbW9kLmNvbQpnbyBnZXQgZ29waGVyLmxpdmUve3t7LkdJVEVBX1VTRVJOQU1FfX19L3t7ey5SRVBPMX19fQpnbyBydW4gZ29waGVyLmxpdmUve3t7LkdJVEVBX1VTRVJOQU1FfX19L3t7ey5SRVBPMX19fQo="><code class="language-.term1">$ mkdir /home/gopher/mod2
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL21vZDIKY2QgL2hvbWUvZ29waGVyL21vZDIKZ28gbW9kIGluaXQgbW9kLmNvbQpnbyBnZXQge3t7LlJFUE8xfX19CmdvIHJ1biB7e3suUkVQTzF9fX0K"><code class="language-.term1">$ mkdir /home/gopher/mod2
 $ cd /home/gopher/mod2
 $ go mod init mod.com
 go: creating new go.mod: module mod.com
-$ go get gopher.live/{{{.GITEA_USERNAME}}}/{{{.REPO1}}}
-go: downloading gopher.live/{{{.GITEA_USERNAME}}}/{{{.REPO1}}} v0.0.0-20060102150405-abcde12345
-go: gopher.live/{{{.GITEA_USERNAME}}}/{{{.REPO1}}} upgrade =&gt; v0.0.0-20060102150405-abcde12345
-$ go run gopher.live/{{{.GITEA_USERNAME}}}/{{{.REPO1}}}
+$ go get {{{.REPO1}}}
+go: downloading {{{.REPO1}}} v0.0.0-20060102150405-abcedf12345
+go: {{{.REPO1}}} upgrade =&gt; v0.0.0-20060102150405-abcedf12345
+$ go run {{{.REPO1}}}
 Hello, world!
 </code></pre>
 
