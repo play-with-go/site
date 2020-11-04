@@ -1,0 +1,1383 @@
+<!-- Remove the comments to compress html
+
+---
+layout: compress
+--- 
+
+-->
+<!DOCTYPE html>
+<html>
+
+  <head>
+<title>Tutorial: Go fundamentals</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Tutorial: Go fundamentals" />
+<meta name="twitter:description" content="Learn Go through interactive online guides on play-with-go.dev" />
+<meta name="twitter:image" content="https://blog.golang.org/gopher/gopher.png" />
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Source+Code+Pro:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+
+<style>
+          
+          :root{--docker-color: #00ADD8;--btn-color: #5DC9E2;--navbar-color: #00A29C ;--term-color: #000;--expand-color: #021b29;--titles-color: #33444c;--font-color: #577482;--pre-bgcolor: #e8f5f8;--suc-bgcolor: #e8f8ef;--pre-color: #00758D;--page-bgcolor: #fafafa;--terminal-text-color: #fafafa;--card-bgcolor: #f3f3f3;--disabled-bgcolor: #CDCDCD;--right-color: #06e2a0;--wrong-color: #CE3262;--drawer-bgcolor: ;--aqua: #0decd1;--feedbak-footer: #26343B;--quote-color: #71a6bf;--modal-bg-color: #FFFFFF}:root .dark-mode{--navbar-color: #26343B;--titles-color: #BFD2DB;--docker-color: #00ADD8;--page-bgcolor: #061F2F;--font-color: #C0C8CD;--expand-color: #C0C8CD;--pre-bgcolor: #0A121B;--pre-color: #B3E1DF;--drawer-bgcolor: #072336;--terminal-text-color: #fafafa;--card-bgcolor: #0A121B;--disabled-bgcolor: #26343B;--modal-bg-color: #26343B}@font-face{font-family:"Geomanist";src:url("../fonts/hinted-Geomanist-Book.ttf")}html,body{height:100%;background-color:var(--page-bgcolor);text-rendering:geometricPrecision}img{max-width:100%}.mt50{margin-top:50px}.mt20{margin-top:20px}.mt10{margin-top:10px}.mb10{margin-bottom:10px}body{display:flex;flex-direction:column}.navbar{border-radius:0px;margin-bottom:0px;padding:12px 24px 12px 24px;background-color:var(--navbar-color);border-color:var(--navbar-color)}.navbar-brand{font-weight:900;padding:0;margin:0;font-size:1em}.navbar-header{line-height:1}.post-meta{color:#828282}div.post-content{max-width:1200px}.panel{border:none;box-shadow:0px 0px 1px #828282}.panel:hover{box-shadow:0px 0px 6px #828282}.post-img img{width:100%}.announce{margin-top:10px;margin-bottom:60px;text-align:center}.pack{display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;flex-wrap:wrap;-webkit-flex-wrap:wrap}.banner{display:block;margin:auto}.terminal{font-size:14px;font-weight:400;font-style:normal;font-stretch:normal;line-height:20px;letter-spacing:0.7px;color:var(--terminal-text-color) !important}.terminal .xterm-viewport{background-color:var(--term-color) !important}.xterm-color-9{color:#e65555 !important}.xterm-color-10{color:#0decd1 !important}.xterm-color-12{color:#c90fc8 !important}.content{padding:0 24px;overflow-y:auto}.content{padding:0 24px}.panel-singular{margin:0 auto;max-width:1200}.splitter{flex:0 0 auto;width:18px;background:url(../images/resizer.png) center center no-repeat var(--term-color);min-height:200px;cursor:col-resize}@media (max-width: 768px){.panel-right{display:none;flex:1 1 auto}}.getting-started ul{list-style-type:none;font-size:36px}.card{float:none}code[class*="."]{cursor:pointer}pre:not(.highlight){color:var(--pre-color);background-color:var(--pre-bgcolor);cursor:pointer;font-size:14px;border-radius:4px;padding:16px 8px 16px 8px;display:block;word-break:normal !important;word-wrap:break-word}.resize-warning{background-color:var(--term-color);color:white;text-align:center}.nav-container{display:flex;height:50px;flex:1 1 auto}.nav-left{flex:0 0 50%}.nav-right{flex:0 0 50%}.panel-nav{height:42px;flex:0 0 auto;margin-top:8px;margin-bottom:0px !important}.twrapper{flex:1 1 auto;display:flex;background-color:var(--term-color);height:calc(100% - 50px)}.nav-tabs{border-bottom:none;height:100%}.nav .nav-item .nav-link{padding:11px 24px 11px 24px;border:none}.nav .nav-item .active{background-color:var(--term-color);color:white}.page-item{margin:0px 3px}.page-link{padding:3px;border-radius:50% 50% !important}.page-link.active{background-color:#0decd1}#welcomeContent .tab-pane{padding-top:0px;padding-bottom:8px}i.fa-expand{margin-top:8px;margin-right:16px;color:var(--expand-color);font-size:24px;cursor:pointer}.tab-content,.tab-pane{width:100%;height:100%}.tab-content h2,.tab-pane h2{font-family:'Work Sans', sans-serif;font-size:32px;font-weight:normal;font-style:normal;font-stretch:normal;line-height:1.25;letter-spacing:0.2px;color:--var(--titles-color)}.tab-content p,.tab-pane p{font-family:'Roboto', sans-serif;font-size:16px;font-weight:400;font-style:normal;font-stretch:normal;line-height:1.5;letter-spacing:0.2px;color:var(--font-color)}.tab-content>.tab-pane{padding-top:2px}h1,h2,h3,h4{font-family:'Work Sans', sans-serif;letter-spacing:0.5px;font-weight:500}h1,h2,h3{color:var(--titles-color);margin:56px 0px 8px 0px}h2{font-size:26px;font-weight:normal;font-style:normal;font-stretch:normal;line-height:normal}h3{font-size:20px;font-weight:normal;font-style:normal;font-stretch:normal;line-height:normal}h4{font-size:20px;font-style:normal;font-stretch:normal;line-height:normal;color:var(--docker-color);margin-bottom:0px}p{font-family:'Work Sans', sans-serif;font-size:16px;font-weight:normal;font-style:normal;font-stretch:normal;line-height:1.5;letter-spacing:normal;color:var(--font-color)}blockquote{display:block;margin-block-start:24px;margin-block-end:24px;margin-inline-start:24px;margin-inline-end:24px;border-left:2px solid var(--quote-color)}blockquote>p{font-weight:600;font-size:16px;padding:8px 0;line-height:1.7;font-style:italic;margin-inline-start:16px;color:var(--quote-color)}.post-title{font-size:32px;font-style:normal;font-stretch:normal;line-height:1.25;letter-spacing:0.2px;margin:32px 0px 8px 0px}.post-subtitle{font-weight:600;letter-spacing:0.2px}.menu-button,.expand-button{font-size:24px !important}.fa.pull-left{margin-right:16px !important}.nav .nav-item{font-size:14px;letter-spacing:0.2px}.panel-container .panel-left .panel-nav{padding:11px 0 0 24px !important}.highlight{padding:10px 8px 1px 8px;cursor:pointer;margin-bottom:16px;color:var(--titles-color);border-radius:4px}li{font-size:15px;color:var(--font-color)}.np-container{max-width:568px;margin:0 auto}.np-container .np-logo{margin:72px auto 0 auto;width:234px;height:48px}.np-container .np-logo .logo{width:234px;height:48px;object-fit:contain}.np-container .np-headline{display:inline-block;margin-top:32px;margin-bottom:0;width:100%;height:40px;font-family:'Work Sans', sans-serif;font-size:32px;font-weight:normal;font-style:normal;font-stretch:normal;line-height:1.25;letter-spacing:0.2px;text-align:center;color:var(--titles-color)}.np-container .np-subheader{margin-top:16px;margin-bottom:0;width:100%;height:48px;font-family:'Work Sans', sans-serif;font-size:16px;font-weight:600;font-style:normal;font-stretch:normal;line-height:1.5;letter-spacing:0.2px;text-align:center;color:rgba(2,27,41,0.7)}.np-container .np-login{margin-top:32px;text-align:center}.np-container .np-login .np-login-btn{width:112px;height:40px;background-color:var(--docker-color);margin:0 50px;text-transform:uppercase;font-family:'Work Sans', sans-serif;font-size:13.7px;font-weight:600;font-style:normal;font-stretch:normal;line-height:1.17;letter-spacing:1.3px;text-align:center;color:#ffffff}@media (max-width: 600px){.np-headline{font-size:24px}.np-subheader{font-size:12px}}.btn{font-family:'Roboto', sans-serif}.btn-primary{background-color:var(--btn-color);border:transparent;padding:8px 24px}.btn-primary:hover{background-color:#FDDD00}.btn-secondary{color:var(--pre-color);background-color:transparent;border:transparent;padding:8px 24px}.btn-secondary:hover{color:#FDDD00;background-color:transparent}.btn-header{color:#fff;background-color:transparent;border:transparent;padding:8px 24px}.btn-header:hover{color:#FDDD00;background-color:transparent}.modal-body{padding:32px}.modal-body h2{font-size:26px;margin-top:32px}.modal-body .hr{margin-top:32px !important;margin-bottom:32px !important;padding:16px 0px}.modal-content{border:0px;background-color:var(--modal-bg-color)}.modal-body .container{padding:16px 0px 0px 0px}.modal-title{padding-bottom:16px}#helpMessage{margin-bottom:24px !important;margin-top:0px !important}@media (min-width: 576px){.modal-dialog{max-width:600px}}.modal-backdrop{background-color:var(--term-color)}.highlighter-rouge{margin-bottom:16px}.highlighter-rouge .highlight{color:var(--docker-color);background-color:var(--page-bgcolor);font-size:12px;border-radius:4px;padding:8px 8px 8px 8px;display:block;word-break:normal !important;word-wrap:break-word;line-height:20px;margin-bottom:0px}.highlighter-rouge>.highlight{border:solid;border-color:var(--docker-color);border-width:1px}.btn-toggle.btn-text{margin:0 2.1rem;padding:0;position:relative;border:none;height:2.5rem;width:0px}.btn-toggle.btn-text:focus,.btn-toggle.btn-text:focus.active,.btn-toggle.btn-text.focus,.btn-toggle.btn-text.focus.active{box-shadow:none !important;outline:none}.btn-toggle.btn-text:before,.btn-toggle.btn-text:after{line-height:1.75rem;width:2.1rem;text-align:center;font-weight:400;font-size:1rem;letter-spacing:0px;position:absolute;bottom:0;transition:opacity 0.25s}.btn-toggle.btn-text:before{content:"t";left:-1.68rem}.btn-toggle.btn-text:after{content:"T";right:-2.1rem;opacity:0.5}.btn-toggle.btn-text.active{transition:background-color 0.25s}.btn-toggle.btn-text.active>.handle{left:2.8125rem;transition:left 0.25s}.btn-toggle.btn-text.active:before{opacity:0.5}.btn-toggle.btn-text.active:after{opacity:1}.btn-toggle.btn-mode{margin:0 2.5rem;padding:0;position:relative;border:none;height:2.5rem;width:0px;margin-left:45px !important}.btn-toggle.btn-mode:focus,.btn-toggle.btn-mode:focus.active,.btn-toggle.btn-mode.focus,.btn-toggle.btn-mode.focus.active{box-shadow:none !important;outline:none}.btn-toggle.btn-mode:before,.btn-toggle.btn-mode:after{line-height:1.75rem;width:2.5rem;text-align:center;font-weight:400;font-size:1rem;letter-spacing:0px;position:absolute;bottom:0;transition:opacity 0.25s}.btn-toggle.btn-mode:before{content:"";left:-2rem}.btn-toggle.btn-mode:after{content:"";right:-2.5rem;opacity:0.5}.btn-toggle.btn-mode.active{transition:background-color 0.25s}.btn-toggle.btn-mode.active>.handle{left:2.8125rem;transition:left 0.25s}.btn-toggle.btn-mode.active:before{opacity:0.5}.btn-toggle.btn-mode.active:after{opacity:1}.btn.btn-lg.btn-link{padding:0rem 0rem;font-size:1rem;line-height:1}.btn-link{color:#00758D}.btn-toggle.btn-mode,.btn-toggle.btn-text{height:1.7rem;margin:0 3.7rem}.menu-panel{flex:0 0 250px !important;background-color:var(--drawer-bgcolor) !important}.menu-title{color:var(--titles-color) !important;font-size:18px !important}a{color:var(--docker-color) !important}.panel-container{display:flex;flex-direction:row;height:calc(100% - 57px);flex:1 1 auto}.menu-panel{display:none;flex:0 0 224px;background-color:#fff}.panel-left{display:flex;flex-direction:column;height:100%;width:50%;min-width:30%}.panel-right{display:flex;flex-direction:column;flex:1;min-width:40%}.menu-title{margin:0;padding:24px 16px 0;color:var(--btn-color)}.toc-menu-container{padding:24px 16px 31px;border-bottom:solid 1px var(--page-bgcolor)}.toc-menu-container .section-nav{list-style:none;padding:0}.toc-menu-container .toc-entry{font-size:16px;font-family:"Open Sans";padding-left:40px;position:relative;padding-left:24px !important}.toc-menu-container .toc-entry a{color:var(--titles-color);text-decoration:none}.dark-mode .toc-menu-container .toc-entry a{color:var(--font-color) !important}.toc-menu-container .toc-entry:not(:first-child){margin:16px 0 0}.toc-menu-container .toc-entry:before{content:"\f0da";font:normal normal normal 14px/1 FontAwesome;position:absolute;left:10px;color:var(--docker-color);font-size:16px;top:5px}.menu-extra-options{padding:34px 16px 0}.menu-extra-options-option{font-size:16px;font-family:"Open Sans";text-decoration:none;display:block;color:var(--titles-color);cursor:pointer}.menu-extra-options-option:not(:first-child){margin-top:16px}.menu-extra-options-option .fa{font-size:20px;margin-right:18px}#helpMessage{margin-bottom:40px;margin-top:32px}#sendHelp:disabled{background-color:rgba(0,0,0,0.87);opacity:0.12}.congratz-footer{display:flex;justify-content:space-between}.share{display:flex;align-items:center}.share-text{margin:0}.share-link{font-size:24px;margin:0 5px}.quiz,.quiz+*{display:none}.new-quiz{margin-top:16px;margin-bottom:40px}.new-quiz-title{color:var(--titles-color);font-size:24px;line-height:1.6}.question-card{padding:24px;background-color:var(--card-bgcolor);border-radius:4px;margin-top:16px}.question-number{font-size:14px;color:var(--font-color);font-weight:normal;letter-spacing:0.5px;line-height:1.5;font-family:"Open Sans", sans-serif}.question-title{color:var(--titles-color);font-weight:normal;line-height:24px;font-size:18px;margin-top:8px;letter-spacing:0.3px}.question-answers{margin-top:24px;list-style:none;padding:0}.question-answers-item{margin-top:16px}.show-answers .question-answers-item[data-is-correct="true"] .question-answers-item-fieldset{color:var(--right-color)}.show-answers .question-answers-item[data-is-correct="true"] .question-answers-item-fieldset .question-answers-input:checked{display:none}.show-answers .question-answers-item[data-is-correct="true"] .question-answers-item-fieldset .question-answers-input:checked+:before{color:var(--right-color);content:"\f00c";display:inline-block;width:20px;font:normal normal normal 16px/1 FontAwesome}.show-answers .question-answers-item[data-is-correct="false"] .question-answers-item-fieldset .question-answers-input:checked{display:none}.show-answers .question-answers-item[data-is-correct="false"] .question-answers-item-fieldset .question-answers-input:checked+.question-answers-text{color:var(--wrong-color)}.show-answers .question-answers-item[data-is-correct="false"] .question-answers-item-fieldset .question-answers-input:checked+:before{display:inline-block;width:20px;color:var(--wrong-color);content:"\f00d";font:normal normal normal 16px/1 FontAwesome}.question-answers-item-fieldset{margin:0;font-size:16px;font-family:"Open Sans", sans-serif;color:var(--titles-color);letter-spacing:0.2px;display:flex;align-items:center}.question-answers-input{margin-right:10px}.quiz-footer{margin-top:16px;display:flex;justify-content:space-between}.submit-btn,.text-btn{padding:12px 16px;font-family:"Open Sans", sans-serif;text-align:center;border:none;border-radius:3px;background-color:var(--btn-color);color:white}.submit-btn:disabled,.text-btn:disabled{color:var(--font-color);background-color:var(--disabled-bgcolor)}.text-btn{background-color:transparent;color:var(--btn-color)}.post-tag{display:inline-block;background:rgba(0,117,141,0.15);padding:0 .5rem;margin-right:.5rem;border-radius:4px;color:#00758D;font-family:"Open Sans",serif;font-size:90%}.post-tag:before{content:"\f02b";font-family:FontAwesome;padding-right:.5em}.post-tag:hover{text-decoration:none;background:#00758D;color:#fff}small .post-tag{background:#eee;color:#000}small .post-tag:before{content:none}small .post-tag:hover{text-decoration:none;background:#000;color:#fff;cursor:default}.tags-expo :target:before{content:"";display:block;height:72px;margin:-72px 0 0}@media (min-width: 38em){.tags-expo .tags-expo-list{font-size:2.9rem}.tags-expo .tags-expo-list .post-tag{margin:.2em .3em}}.tags-expo .tags-expo-section{font-family:"Open Sans",serif}.tags-expo .tags-expo-section ul{list-style-type:circle;list-style-position:inside;padding:0}.tags-expo .tags-expo-section ul li{padding:0 1rem}.tags-expo .tags-expo-section ul li:hover{list-style-type:disc}.tags-expo .tags-expo-section a{font-size:20px}.tags-expo .tags-expo-section .post-date{display:inline-block;font-size:80%;color:#000;margin:0;padding:0}.progress-bar{height:4px;background-color:var(--aqua);transition:all 0.2s;width:0px;position:relative}.progress-bar[data-progress]:after{content:attr(data-progress) "%";font-family:"Geomanist";font-size:14px;padding:5px 8px 3px;vertical-align:middle;color:var(--navbar-color);border-radius:5px;background-color:white;position:absolute;right:-10px;top:8px;box-shadow:0 3px 5px -1px rgba(0,0,0,0.2),0 1px 18px 0 rgba(0,0,0,0.12),0 6px 10px 0 rgba(13,156,236,0.14)}.welcome-title{margin-top:100px}.welcome-par{margin-bottom:30px}.btn-welcome{text-emphasis-color:var(--navbar-color);background-color:#ffffff}.dark-mode .feedback-modal-content{background-color:var(--disabled-bgcolor)}.feedback-title{font-family:Geomanist;font-size:24px;color:var(--titles-color)}.feedback-text,.feedback-modal-footer-text,.feedback-textarea{font-family:"Open Sans";line-height:1.5;letter-spacing:0.15px;font-size:16px;font-weight:400;margin:0;color:var(--font-color)}.feedback-text{margin-bottom:24px}.close-button,.send-button{font-family:"Open Sans";font-size:13.7px;font-weight:600}.feedback-textarea{border:solid 1px rgba(0,0,0,0.32)}.feedback-modal-footer{background-color:#f5f5f5;padding:32px}.dark-mode .feedback-modal-footer{background-color:rgba(0,0,0,0.2)}.feedback-modal-footer-title{font-family:Geomanist;font-size:20px;color:var(--titles-color)}.feedback-footer-item{position:fixed;bottom:16px;left:16px;right:16px;padding:12px;color:white;box-shadow:0 3px 5px -1px rgba(0,0,0,0.2),0 1px 18px 0 rgba(0,0,0,0.12),0 6px 10px 0 rgba(0,0,0,0.14);border-radius:4px}.feedback-footer-item-neutral{background-color:var(--feedbak-footer)}.feedback-footer-item-negative{background-color:var(--wrong-color)}.feedback-footer-item-positive{background-color:var(--right-color)}.feedback-footer-item:not([selected]){display:none}.feedback-footer-item-label{font-family:"Open Sans", sans-serif;font-size:14px;margin-left:8px;letter-spacing:0.3px}
+
+</style>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="alternate" type="application/rss+xml" title="play-with-go.dev" href="https://play-with-go.dev/feed.xml">
+<link rel="stylesheet" href="/css/quiz.css">
+<link rel="stylesheet" href="https://unpkg.com/pwd-sdk@0.0.2/dist/styles.css">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+  <nav class="navbar navbar-expand-lg justify-content-between">
+      <!-- Brand and toggle get grouped for better mobile display -->
+
+        <a class="navbar-brand" href="/">
+          <svg width="145px" height="26px" viewBox="0 0 145 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+            <title>Logo</title>
+            <desc>Created with Sketch.</desc>
+            <g id="Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="GoLogo-01">
+                    <g id="Group" fill="#FFFFFF">
+                        <path d="M5.89,7.94 C5.75,7.94 5.72,7.87 5.79,7.77 L6.5,6.86 C6.57,6.76 6.74,6.69 6.87,6.69 L18.92,6.69 C19.06,6.69 19.09,6.79 19.02,6.89 L18.45,7.77 C18.38,7.87 18.21,7.97 18.11,7.97 L5.89,7.94 Z" id="Path"></path>
+                        <path d="M0.79,11.04 C0.65,11.04 0.62,10.97 0.69,10.87 L1.4,9.96 C1.47,9.86 1.64,9.79 1.77,9.79 L17.17,9.79 C17.31,9.79 17.37,9.89 17.34,9.99 L17.07,10.8 C17.04,10.94 16.9,11 16.77,11 L0.79,11.04 Z" id="Path"></path>
+                        <path d="M8.96,14.15 C8.82,14.15 8.79,14.05 8.86,13.95 L9.33,13.11 C9.4,13.01 9.53,12.91 9.67,12.91 L16.42,12.91 C16.56,12.91 16.62,13.01 16.62,13.15 L16.55,13.96 C16.55,14.1 16.41,14.2 16.31,14.2 L8.96,14.15 Z" id="Path"></path>
+                        <g transform="translate(19.000000, 0.000000)">
+                            <path d="M25.01,7.33 C22.88,7.87 21.43,8.28 19.34,8.82 C18.83,8.96 18.8,8.99 18.36,8.48 C17.85,7.91 17.48,7.53 16.77,7.2 C14.64,6.15 12.58,6.46 10.66,7.71 C8.36,9.2 7.18,11.39 7.22,14.12 C7.25,16.82 9.11,19.05 11.78,19.42 C14.08,19.72 16,18.91 17.52,17.19 C17.82,16.82 18.09,16.41 18.43,15.94 C17.21,15.94 15.7,15.94 11.91,15.94 C11.2,15.94 11.03,15.5 11.27,14.93 C11.71,13.88 12.52,12.13 12.99,11.25 C13.09,11.05 13.33,10.71 13.83,10.71 L26.12,10.71 C26.05,11.62 26.05,12.53 25.92,13.44 C25.55,15.87 24.64,18.1 23.15,20.06 C20.72,23.27 17.55,25.26 13.53,25.8 C10.22,26.24 7.15,25.6 4.45,23.57 C1.95,21.68 0.53,19.18 0.16,16.08 C-0.28,12.4 0.8,9.09 3.03,6.19 C5.43,3.05 8.6,1.06 12.48,0.35 C15.65,-0.22 18.69,0.15 21.43,2 C23.22,3.18 24.5,4.8 25.35,6.76 C25.55,7.06 25.41,7.23 25.01,7.33 Z" id="Path"></path>
+                            <path d="M36.18,26 C33.11,25.93 30.31,25.05 27.94,23.03 C25.95,21.31 24.7,19.11 24.29,16.51 C23.68,12.69 24.73,9.32 27.02,6.31 C29.48,3.07 32.46,1.38 36.47,0.67 C39.91,0.06 43.15,0.4 46.09,2.39 C48.76,4.21 50.41,6.68 50.85,9.92 C51.42,14.48 50.11,18.19 46.97,21.37 C44.74,23.63 42.01,25.05 38.87,25.69 C37.97,25.86 37.06,25.9 36.18,26 Z M44.22,12.36 C44.19,11.92 44.19,11.58 44.12,11.25 C43.51,7.9 40.44,6.01 37.23,6.76 C34.09,7.47 32.06,9.46 31.32,12.63 C30.71,15.26 32,17.93 34.43,19.01 C36.29,19.82 38.14,19.72 39.93,18.81 C42.6,17.42 44.05,15.26 44.22,12.36 L44.22,12.36 Z" id="Shape" fill-rule="nonzero"></path>
+                        </g>
+                    </g>
+                    <rect id="Rectangle" x="0" y="0" width="145" height="26"></rect>
+                </g>
+            </g>
+        </svg>
+        </a>
+      <div class="btn-group"> 
+        <button type="button" class="btn btn-lg btn-secondary btn-toggle btn-mode fa dark-mode" data-toggle="button">
+        </button>
+
+        <button type="button" id="help" class="btn btn-lg btn-link" style="color: white;">
+          Help &nbsp <span class="btn-label"><i class="fa fa-question-circle"></i></span>
+        </button>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <!--<div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">-->
+      <!--<ul class="nav navbar-nav navbar-right">-->
+      <!--<li><a href="/about/">About</a></li>-->
+      <!--</ul>-->
+      <!--</div>[> /.navbar-collapse <]-->
+  </nav>
+</header>
+
+<!-- Help -->
+<div
+  class="modal fade"
+  id="helpModal"
+  tabindex="-2"
+  role="dialog"
+  aria-labelledby="helpModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content feedback-modal-content">
+      <div class="modal-body feedback-modal-body">
+        <div class="row">
+        <div class="col-sm">
+          <h5 class="feedback-title">
+          Report an Issue.
+          </h5>
+        </div>
+        <div class="col-sm">
+          <button
+            type="button"
+            data-dismiss="modal"
+            class="btn btn-secondary float-right close-button"
+          >
+            CLOSE
+          </button>
+        </div>
+      </div>
+        <p class="feedback-text">
+          ¿Having technical problems or want to give feedback on the experience?
+          Send us you message and we will get back to you as soon as possible.
+        </p>
+        <div class="row">
+          
+          <div class="col-sm">
+            <a href="https://github.com/play-with-go/play-with-go/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BHELP%5D+-+" target="_blank">
+              <button
+                type="button"
+                class="btn btn-primary float-left send-button"
+              >
+                Report issue in GitHub
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="feedback-modal-footer">
+        <h6 class="feedback-modal-footer-title">Other questions or comments?</h6>
+        <p class="feedback-modal-footer-text">
+          Find us in the
+          <a href="https://gophers.slack.com/archives/C01C1KKRMAP" target="_blank">
+            play-with-go channel
+          </a>
+           at the Gopher's community slack.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    
+<div class="progress-bar"></div>
+<div class="panel-container">
+
+
+    <div class="panel-left">
+        
+        <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">Tutorial: Go fundamentals</h1>
+            </header>
+            <div class="post-content" itemprop="articleBody">
+                <p><em>This tutorial is based on the official <a href="https://golang.org/doc/tutorial/create-module">“Create a module”</a> tutorial.</em></p>
+
+<p>This tutorial introduces a few fundamental features of the Go language. If you’re just getting started with Go, be sure
+to take a look at the <a href="/get-started-with-go/">getting started tutorial</a>, which introduces the go command, Go modules,
+and very simple Go code.</p>
+
+<p>In this tutorial you’ll create two modules. The first is a library which is intended to be imported by other libraries
+or applications. The second is a caller application which will use the first.</p>
+
+<p>This tutorial’s sequence includes six brief topics that each illustrate a different part of the language.</p>
+
+<ol>
+  <li>Create a module – Write a small module with functions you can call from another module.</li>
+  <li>Call your code from another module – Import and use your new module.</li>
+  <li>Return and handle an error – Add simple error handling.</li>
+  <li>Return a random greeting – Handle data in slices (Go’s dynamically-sized arrays).</li>
+  <li>Return greetings for multiple people – Store key/value pairs in a map.</li>
+  <li>Add a test – Use Go’s built-in unit testing features to test your code.</li>
+  <li>Compile and install the application – Compile and install your code locally.</li>
+</ol>
+
+<p>This guide requires you to push code to remote source code repositories. A unique user, <code class="highlighter-rouge">{{{.GITEA_USERNAME}}}</code>, has
+been automatically created for you, as have the repositories <a href="https://{{{.GREETINGS}}}.git"><code class="highlighter-rouge">{{{.GREETINGS}}}</code></a> and
+<a href="https://{{{.HELLO}}}.git"><code class="highlighter-rouge">{{{.HELLO}}}</code></a>. For more details on how <code class="highlighter-rouge">play-with-go.dev</code> guides work, please see the
+<a href="ntro-to-play-with-go-dev/"><em>Introduction to <code class="highlighter-rouge">play-with-go.dev</code> guides</em></a> guide.</p>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<p>You should already have completed:</p>
+
+<ul>
+  <li><a href="https://tour.golang.org/">The Go Tour</a></li>
+  <li><a href="/intro-to-play-with-go-dev/">An introduction to play-with-go.dev guides</a></li>
+  <li><a href="/get-started-with-go/">Tutorial: Get started with Go</a></li>
+</ul>
+
+<p>This guide is running using:</p>
+
+<pre data-command-src="Z28gdmVyc2lvbgo="><code class="language-.term1">$ go version
+go version go1.15.3 linux/amd64
+</code></pre>
+
+<h3 id="create-a-module-that-others-can-use">Create a module that others can use</h3>
+
+<p>Start by creating a <a href="https://golang.org/doc/code.html#Organization">Go module</a>. In a module, you collect one or more
+related packages for a discrete and useful set of functions. For example, you might create a module with packages that
+have functions for doing financial analysis so that others writing financial applications can use your work.</p>
+
+<p>Go code is grouped into packages, and packages are grouped into modules. Your package’s module specifies the context Go
+needs to run the code, including the Go version the code is written for and the set of other modules it requires.</p>
+
+<p>As you add or improve functionality in your module, you publish new versions of the module. Developers writing code that
+calls functions in your module can import the module’s updated packages and test with the new version before putting it
+into production use.</p>
+
+<p>As with all play-with-go.dev guides, you start in your home directory:</p>
+
+<pre data-command-src="cHdkCg=="><code class="language-.term1">$ pwd
+/home/gopher
+</code></pre>
+
+<p>Create a <code class="highlighter-rouge">greetings</code> directory for your Go module source code. This is where you’ll write your module code:</p>
+
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL2dyZWV0aW5ncwpjZCAvaG9tZS9nb3BoZXIvZ3JlZXRpbmdzCg=="><code class="language-.term1">$ mkdir /home/gopher/greetings
+$ cd /home/gopher/greetings
+</code></pre>
+
+<p>Start your module using the <a href="https://golang.org/cmd/go/#hdr-Initialize_new_module_in_current_directory"><code class="highlighter-rouge">go mod init</code>
+command</a> to create a <code class="highlighter-rouge">go.mod</code> file.  In this
+guide you will publish your greetings module to <code class="highlighter-rouge">{{{.GREETINGS}}}</code>:</p>
+
+<pre data-command-src="Z28gbW9kIGluaXQge3t7LkdSRUVUSU5HU319fQo="><code class="language-.term1">$ go mod init {{{.GREETINGS}}}
+go: creating new go.mod: module {{{.GREETINGS}}}
+</code></pre>
+
+<p>The <code class="highlighter-rouge">go mod init</code> command creates a <code class="highlighter-rouge">go.mod</code> file that identifies your code as a module that might be used from
+other code.  The file you just created includes only the name of your module and the Go version your code supports:</p>
+
+<pre data-command-src="Y2F0IGdvLm1vZAo="><code class="language-.term1">$ cat go.mod
+module {{{.GREETINGS}}}
+
+go 1.15
+</code></pre>
+
+<p>As you add dependencies – meaning packages from other modules – the <code class="highlighter-rouge">go.mod</code> file will list the specific module
+versions to use.  This keeps builds reproducible and gives you direct control over which module versions to use.</p>
+
+<p>Now let’s create greetings.go:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2dyZWV0aW5ncw==" data-upload-src="Z3JlZXRpbmdzLmdv:cGFja2FnZSBncmVldGluZ3MKCmltcG9ydCAiZm10IgoKLy8gSGVsbG8gcmV0dXJucyBhIGdyZWV0aW5nIGZvciB0aGUgbmFtZWQgcGVyc29uLgpmdW5jIEhlbGxvKG5hbWUgc3RyaW5nKSBzdHJpbmcgewoJLy8gUmV0dXJuIGEgZ3JlZXRpbmcgdGhhdCBlbWJlZHMgdGhlIG5hbWUgaW4gYSBtZXNzYWdlLgoJbWVzc2FnZSA6PSBmbXQuU3ByaW50ZigiSGksICV2LiBXZWxjb21lISIsIG5hbWUpCglyZXR1cm4gbWVzc2FnZQp9Cg==" data-upload-term=".term1"><code class="language-go">package greetings
+
+import &#34;fmt&#34;
+
+// Hello returns a greeting for the named person.
+func Hello(name string) string {
+	// Return a greeting that embeds the name in a message.
+	message := fmt.Sprintf(&#34;Hi, %v. Welcome!&#34;, name)
+	return message
+}
+</code></pre>
+
+<p>This is the first code for your module. It returns a greeting to any caller that asks for one. You’ll write code that
+calls this function in the next step.</p>
+
+<p>In this code, you:</p>
+
+<ul>
+  <li>Declare a <code class="highlighter-rouge">greetings</code> package to collect related functions.</li>
+  <li>Implement a Hello function to return the greeting. This function takes a name parameter whose type is <code class="highlighter-rouge">string</code>, and
+returns a <code class="highlighter-rouge">string</code>. In Go, a function whose name starts with a capital letter can be called by a function not in the
+same package. This is known in Go as an <a href="https://tour.golang.org/basics/3">exported name</a>.</li>
+  <li>Declare a <code class="highlighter-rouge">message</code> variable to hold your greeting. In Go, the <code class="highlighter-rouge">:=</code> operator is a shortcut for declaring and
+initializing a variable in one line (Go uses the value on the right to determine the variable’s type). Let’s rewrite
+this the long way:</li>
+</ul>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2dyZWV0aW5ncw==" data-upload-src="Z3JlZXRpbmdzLmdv:cGFja2FnZSBncmVldGluZ3MKCmltcG9ydCAiZm10IgoKLy8gSGVsbG8gcmV0dXJucyBhIGdyZWV0aW5nIGZvciB0aGUgbmFtZWQgcGVyc29uLgpmdW5jIEhlbGxvKG5hbWUgc3RyaW5nKSBzdHJpbmcgewoJLy8gUmV0dXJuIGEgZ3JlZXRpbmcgdGhhdCBlbWJlZHMgdGhlIG5hbWUgaW4gYSBtZXNzYWdlLgoJdmFyIG1lc3NhZ2Ugc3RyaW5nCgltZXNzYWdlID0gZm10LlNwcmludGYoIkhpLCAldi4gV2VsY29tZSEiLCBuYW1lKQoJcmV0dXJuIG1lc3NhZ2UKfQo=" data-upload-term=".term1"><code class="language-go">package greetings
+
+import &#34;fmt&#34;
+
+// Hello returns a greeting for the named person.
+func Hello(name string) string {
+	// Return a greeting that embeds the name in a message.
+<b style="color:darkblue">	var message string</b>
+<b style="color:darkblue">	message = fmt.Sprintf(&#34;Hi, %v. Welcome!&#34;, name)</b>
+	return message
+}
+</code></pre>
+
+<ul>
+  <li>Use the <code class="highlighter-rouge">fmt</code> package’s <a href="https://pkg.go.dev/fmt#Sprintf"><code class="highlighter-rouge">Sprintf</code></a> function to create a greeting message. The first
+argument is a format string, and <code class="highlighter-rouge">Sprintf</code> substitutes the name parameter’s value for the <code class="highlighter-rouge">%v</code> format verb. Inserting
+the value of the name parameter completes the greeting text.</li>
+  <li>Return the formatted greeting text to the caller.</li>
+</ul>
+
+<p>For people to be able to use your module you need to publish it. You publish a module by pushing a commit to a version
+control system like <a href="https://github.com/">GitHub</a>. You will publish your module to <a href="https://{{{.GREETINGS}}}.git"><code class="highlighter-rouge">{{{.GREETINGS}}}</code></a>.</p>
+
+<p>Initialise a local  <code class="highlighter-rouge">git</code> repository for your <code class="highlighter-rouge">greetings</code> module:</p>
+
+<pre data-command-src="Z2l0IGluaXQKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8ve3t7LkdSRUVUSU5HU319fS5naXQK"><code class="language-.term1">$ git init
+Initialized empty Git repository in /home/gopher/greetings/.git/
+$ git remote add origin https://{{{.GREETINGS}}}.git
+</code></pre>
+
+<p>Add and commit the <code class="highlighter-rouge">greetings.go</code> file you created earlier:</p>
+
+<pre data-command-src="Z2l0IGFkZCBncmVldGluZ3MuZ28KZ2l0IGNvbW1pdCAtcSAtbSAnSW5pdGlhbCBjb21taXQnCg=="><code class="language-.term1">$ git add greetings.go
+$ git commit -q -m 'Initial commit'
+</code></pre>
+
+<p>Publish this commit by pushing it to the remote repository:</p>
+
+<pre data-command-src="Z2l0IHB1c2ggLXEgb3JpZ2luIG1haW4K"><code class="language-.term1">$ git push -q origin main
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<h3 id="call-your-code-from-another-module">Call your code from another module</h3>
+
+<p>You’ll now write code that you can execute as an application, which makes calls to the <code class="highlighter-rouge">Hello</code> function in the <code class="highlighter-rouge">greetings</code> module you published to <code class="highlighter-rouge">{{{.GREETINGS}}}</code>.</p>
+
+<p>Create the directory <code class="highlighter-rouge">/home/gopher/hello</code> for your Go module source code. This is where you’ll write your caller.</p>
+
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL2hlbGxvCmNkIC9ob21lL2dvcGhlci9oZWxsbwo="><code class="language-.term1">$ mkdir /home/gopher/hello
+$ cd /home/gopher/hello
+</code></pre>
+
+<p>Create a new module for this <code class="highlighter-rouge">hello</code> package using the <code class="highlighter-rouge">go mod init</code> command to create a <code class="highlighter-rouge">go.mod</code>
+file as you did before, but this time using the unique path for the <code class="highlighter-rouge">hello</code> module:</p>
+
+<pre data-command-src="Z28gbW9kIGluaXQge3t7LkhFTExPfX19Cg=="><code class="language-.term1">$ go mod init {{{.HELLO}}}
+go: creating new go.mod: module {{{.HELLO}}}
+</code></pre>
+
+<p>Declare a dependency on <code class="highlighter-rouge">{{{.GREETINGS}}}</code> using <a href="https://golang.org/ref/mod#go-get"><code class="highlighter-rouge">go get</code></a>:</p>
+
+<pre data-command-src="Z28gZ2V0IHt7ey5HUkVFVElOR1N9fX0K"><code class="language-.term1">$ go get {{{.GREETINGS}}}
+go: downloading {{{.GREETINGS}}} v0.0.0-20060102150405-abcedf12345
+go: {{{.GREETINGS}}} upgrade =&gt; v0.0.0-20060102150405-abcedf12345
+</code></pre>
+
+<p>Without any version specified, <code class="highlighter-rouge">go get</code> will retrieve the latest version of the <code class="highlighter-rouge">greetings</code> module. And
+because you didn’t publish a specific version, <code class="highlighter-rouge">go get</code> resolves a <a href="https://golang.org/ref/mod#pseudo-versions">pseudo
+version</a> from the commit you pushed, specifically:</p>
+
+<pre data-command-src="Z28gbGlzdCAtbSAtZiB7ey5WZXJzaW9ufX0ge3t7LkdSRUVUSU5HU319fQo="><code class="language-.term1">$ go list -m -f {{.Version}} {{{.GREETINGS}}}
+v0.0.0-20060102150405-abcedf12345
+</code></pre>
+
+<p>Create <code class="highlighter-rouge">hello.go</code> as follows:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2hlbGxv" data-upload-src="aGVsbG8uZ28=:cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKCgkie3t7LkdSRUVUSU5HU319fSIKKQoKZnVuYyBtYWluKCkgewoJLy8gR2V0IGEgZ3JlZXRpbmcgbWVzc2FnZSBhbmQgcHJpbnQgaXQuCgltZXNzYWdlIDo9IGdyZWV0aW5ncy5IZWxsbygiR2xhZHlzIikKCWZtdC5QcmludGxuKG1lc3NhZ2UpCn0K" data-upload-term=".term1"><code class="language-go">package main
+
+import (
+	&#34;fmt&#34;
+
+	&#34;{{{.GREETINGS}}}&#34;
+)
+
+func main() {
+	// Get a greeting message and print it.
+	message := greetings.Hello(&#34;Gladys&#34;)
+	fmt.Println(message)
+}
+</code></pre>
+
+<p>In this code, you:</p>
+
+<ul>
+  <li>Declare a <code class="highlighter-rouge">main</code> package. In Go, code executed as an application must go in a <code class="highlighter-rouge">main</code> package.</li>
+  <li>Import two packages: <code class="highlighter-rouge">{{{.GREETINGS}}}</code> and <code class="highlighter-rouge">fmt</code>. This gives your code access to functions in those packages.
+Importing <code class="highlighter-rouge">{{{.GREETINGS}}}</code> (the package contained in the module you created earlier) gives you access to the
+<code class="highlighter-rouge">Hello</code> function. You also import <code class="highlighter-rouge">fmt</code>, with functions for handling input and output text (such as printing text to the
+console).</li>
+  <li>Get a greeting by calling the <code class="highlighter-rouge">greetings</code> package’s <code class="highlighter-rouge">Hello</code> function.</li>
+</ul>
+
+<p>Build and run your program:</p>
+
+<pre data-command-src="Z28gYnVpbGQKLi9oZWxsbwo="><code class="language-.term1">$ go build
+$ ./hello
+Hi, Gladys. Welcome!
+</code></pre>
+
+<p>Congrats! You’ve written two functioning modules. Next you’ll add some error handling.</p>
+
+<h3 id="return-and-handle-an-error">Return and handle an error</h3>
+
+<p>Handling errors is an essential feature of solid code. In this section, you’ll add a bit of code to return an error from
+the <code class="highlighter-rouge">greetings</code> module, then handle it in the caller.</p>
+
+<p>Return to the <code class="highlighter-rouge">greetings</code> module directory:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2dyZWV0aW5ncwo="><code class="language-.term1">$ cd /home/gopher/greetings
+</code></pre>
+
+<p>There’s no sense sending a greeting back if you don’t know who to greet. Return an error to the caller if the name is
+empty. Update <code class="highlighter-rouge">greetings.go</code> as follows:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2dyZWV0aW5ncw==" data-upload-src="Z3JlZXRpbmdzLmdv:cGFja2FnZSBncmVldGluZ3MKCmltcG9ydCAoCgkiZXJyb3JzIgoJImZtdCIKKQoKLy8gSGVsbG8gcmV0dXJucyBhIGdyZWV0aW5nIGZvciB0aGUgbmFtZWQgcGVyc29uLgpmdW5jIEhlbGxvKG5hbWUgc3RyaW5nKSAoc3RyaW5nLCBlcnJvcikgewoJLy8gSWYgbm8gbmFtZSB3YXMgZ2l2ZW4sIHJldHVybiBhbiBlcnJvciB3aXRoIGEgbWVzc2FnZS4KCWlmIG5hbWUgPT0gIiIgewoJCXJldHVybiAiIiwgZXJyb3JzLk5ldygiZW1wdHkgbmFtZSIpCgl9CgoJLy8gSWYgYSBuYW1lIHdhcyByZWNlaXZlZCwgcmV0dXJuIGEgdmFsdWUgdGhhdCBlbWJlZHMgdGhlIG5hbWUKCS8vIGluIGEgZ3JlZXRpbmcgbWVzc2FnZS4KCW1lc3NhZ2UgOj0gZm10LlNwcmludGYoIkhpLCAldi4gV2VsY29tZSEiLCBuYW1lKQoJcmV0dXJuIG1lc3NhZ2UsIG5pbAp9Cg==" data-upload-term=".term1"><code class="language-go">package greetings
+
+<b style="color:darkblue">import (</b>
+<b style="color:darkblue">	&#34;errors&#34;</b>
+<b style="color:darkblue">	&#34;fmt&#34;</b>
+<b style="color:darkblue">)</b>
+
+// Hello returns a greeting for the named person.
+<b style="color:darkblue">func Hello(name string) (string, error) {</b>
+<b style="color:darkblue">	// If no name was given, return an error with a message.</b>
+<b style="color:darkblue">	if name == &#34;&#34; {</b>
+<b style="color:darkblue">		return &#34;&#34;, errors.New(&#34;empty name&#34;)</b>
+<b style="color:darkblue">	}</b>
+<b style="color:darkblue"></b>
+<b style="color:darkblue">	// If a name was received, return a value that embeds the name</b>
+<b style="color:darkblue">	// in a greeting message.</b>
+<b style="color:darkblue">	message := fmt.Sprintf(&#34;Hi, %v. Welcome!&#34;, name)</b>
+<b style="color:darkblue">	return message, nil</b>
+}
+</code></pre>
+
+<p>In this code, you:</p>
+
+<ul>
+  <li>Change the function so that it returns two values: a <code class="highlighter-rouge">string</code> and an <code class="highlighter-rouge">error</code>. Your caller will check the second value to
+see if an error occurred. (Any Go function can return multiple values.)</li>
+  <li>Import the Go standard library <code class="highlighter-rouge">errors</code> package so you can use its <code class="highlighter-rouge">errors.New</code> function.</li>
+  <li>Add an <code class="highlighter-rouge">if</code> statement to check for an invalid request (an empty string where the name should be) and return an error
+if the request is invalid. The <code class="highlighter-rouge">errors.New</code> function returns an error with your message inside.</li>
+  <li>Add <code class="highlighter-rouge">nil</code> (meaning no error) as a second value in the successful return. That way, the caller can see that the
+function succeeded.</li>
+</ul>
+
+<p>At this point your <code class="highlighter-rouge">hello</code> module is referring to a pseudo version that represents the previous commit you
+pushed. Therefore, you need to publish a new version of the <code class="highlighter-rouge">greetings</code> module.</p>
+
+<p>Add and commit the changes we made to <code class="highlighter-rouge">greetings.go</code>:</p>
+
+<pre data-command-src="Z2l0IGFkZCBncmVldGluZ3MuZ28KZ2l0IGNvbW1pdCAtcSAtbSAnQWRkZWQgZXJyb3IgaGFuZGxpbmcnCg=="><code class="language-.term1">$ git add greetings.go
+$ git commit -q -m 'Added error handling'
+</code></pre>
+
+<p>Note the id of the commit we just created:</p>
+
+<pre data-command-src="Z3JlZXRpbmdzX2Vycm9yX2NvbW1pdD0kKGdpdCByZXYtcGFyc2UgSEVBRCkK"><code class="language-.term1">$ greetings_error_commit=$(git rev-parse HEAD)
+</code></pre>
+
+<p>Republish the <code class="highlighter-rouge">greetings</code> module:</p>
+
+<pre data-command-src="Z2l0IHB1c2ggLXEgb3JpZ2luIG1haW4K"><code class="language-.term1">$ git push -q origin main
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<p>Return to the <code class="highlighter-rouge">hello</code> module directory to now use this new version:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2hlbGxvCg=="><code class="language-.term1">$ cd /home/gopher/hello
+</code></pre>
+
+<p>By default, <code class="highlighter-rouge">go get</code> uses <a href="https://proxy.golang.org/"><code class="highlighter-rouge">proxy.golang.org</code></a> to resolve and download modules. In order to
+improve the proxy’s caching and serving latencies, new versions may not show up right away. Therefore, to be sure you do
+not resolve a stale latest version, use the latest commit of the <code class="highlighter-rouge">greetings</code> module as an explicit version:</p>
+
+<pre data-command-src="Z28gZ2V0IHt7ey5HUkVFVElOR1N9fX1AJGdyZWV0aW5nc19lcnJvcl9jb21taXQK"><code class="language-.term1">$ go get {{{.GREETINGS}}}@$greetings_error_commit
+go: {{{.GREETINGS}}} v0.0.0-20060102150405-abcedf12345 =&gt; v0.0.0-20060102150405-abcedf12345
+go: downloading {{{.GREETINGS}}} v0.0.0-20060102150405-abcedf12345
+</code></pre>
+
+<p>In your hello.go, handle the error now returned by the <code class="highlighter-rouge">Hello</code> function, along with the non-error value:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2hlbGxv" data-upload-src="aGVsbG8uZ28=:cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKCSJsb2ciCgoJInt7ey5HUkVFVElOR1N9fX0iCikKCmZ1bmMgbWFpbigpIHsKCS8vIFNldCBwcm9wZXJ0aWVzIG9mIHRoZSBwcmVkZWZpbmVkIExvZ2dlciwgaW5jbHVkaW5nCgkvLyB0aGUgbG9nIGVudHJ5IHByZWZpeCBhbmQgYSBmbGFnIHRvIGRpc2FibGUgcHJpbnRpbmcKCS8vIHRoZSB0aW1lLCBzb3VyY2UgZmlsZSwgYW5kIGxpbmUgbnVtYmVyLgoJbG9nLlNldFByZWZpeCgiZ3JlZXRpbmdzOiAiKQoJbG9nLlNldEZsYWdzKDApCgoJLy8gUmVxdWVzdCBhIGdyZWV0aW5nIG1lc3NhZ2UuCgltZXNzYWdlLCBlcnIgOj0gZ3JlZXRpbmdzLkhlbGxvKCIiKQoJLy8gSWYgYW4gZXJyb3Igd2FzIHJldHVybmVkLCBwcmludCBpdCB0byB0aGUgY29uc29sZSBhbmQKCS8vIGV4aXQgdGhlIHByb2dyYW0uCglpZiBlcnIgIT0gbmlsIHsKCQlsb2cuRmF0YWwoZXJyKQoJfQoKCS8vIElmIG5vIGVycm9yIHdhcyByZXR1cm5lZCwgcHJpbnQgdGhlIHJldHVybmVkIG1lc3NhZ2UKCS8vIHRvIHRoZSBjb25zb2xlLgoJZm10LlByaW50bG4obWVzc2FnZSkKfQo=" data-upload-term=".term1"><code class="language-go">package main
+
+import (
+	&#34;fmt&#34;
+<b style="color:darkblue">	&#34;log&#34;</b>
+
+	&#34;{{{.GREETINGS}}}&#34;
+)
+
+func main() {
+<b style="color:darkblue">	// Set properties of the predefined Logger, including</b>
+<b style="color:darkblue">	// the log entry prefix and a flag to disable printing</b>
+<b style="color:darkblue">	// the time, source file, and line number.</b>
+<b style="color:darkblue">	log.SetPrefix(&#34;greetings: &#34;)</b>
+<b style="color:darkblue">	log.SetFlags(0)</b>
+<b style="color:darkblue"></b>
+<b style="color:darkblue">	// Request a greeting message.</b>
+<b style="color:darkblue">	message, err := greetings.Hello(&#34;&#34;)</b>
+<b style="color:darkblue">	// If an error was returned, print it to the console and</b>
+<b style="color:darkblue">	// exit the program.</b>
+<b style="color:darkblue">	if err != nil {</b>
+<b style="color:darkblue">		log.Fatal(err)</b>
+<b style="color:darkblue">	}</b>
+<b style="color:darkblue"></b>
+<b style="color:darkblue">	// If no error was returned, print the returned message</b>
+<b style="color:darkblue">	// to the console.</b>
+	fmt.Println(message)
+}
+</code></pre>
+
+<p>In this code, you:</p>
+
+<ul>
+  <li>Configure the <a href="https://golang.org/pkg/log/"><code class="highlighter-rouge">log</code> package</a> to print the command name (<code class="highlighter-rouge">"greetings: "</code>) at the start of its log messages, without a time stamp or source file information.</li>
+  <li>Assign both of the <code class="highlighter-rouge">Hello</code> return values, including the error, to variables.</li>
+  <li>Change the <code class="highlighter-rouge">Hello</code> argument from Gladys’s name to an empty string, so you can try out your error-handling code.</li>
+  <li>Look for a non-nil error value. There’s no sense continuing in this case.</li>
+  <li>Use the functions in the standard library’s <code class="highlighter-rouge">log</code> package to output error information. If you get an error, you use
+the log package’s <code class="highlighter-rouge">Fatal</code> function to print the error and stop the program.</li>
+</ul>
+
+<p>Run hello.go to confirm that the code works; now that you’re passing in an empty name, you’ll get an error:</p>
+
+<pre data-command-src="Z28gcnVuIGhlbGxvLmdvCg=="><code class="language-.term1">$ go run hello.go
+greetings: empty name
+exit status 1
+</code></pre>
+
+<p>That’s essentially how error handling in Go works: Return an error as a value so the caller can check for it. It’s
+pretty simple.</p>
+
+<h3 id="return-a-random-greeting">Return a random greeting</h3>
+
+<p>Now you’ll change your code so that instead of returning the same greeting every time, it returns one of several
+predefined greeting messages.</p>
+
+<p>To do this, you’ll use a Go slice. A <a href="https://blog.golang.org/slices-intro">slice</a> is like an array, except that it’s
+dynamically sized as you add and remove items. It’s one of the most useful types in Go. You’ll add a small slice to
+contain three greeting messages, then have your code return one of the messages randomly.</p>
+
+<p>Return to the <code class="highlighter-rouge">greetings</code> module:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2dyZWV0aW5ncwo="><code class="language-.term1">$ cd /home/gopher/greetings
+</code></pre>
+
+<p>Update <code class="highlighter-rouge">greetings.go</code> as follows:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2dyZWV0aW5ncw==" data-upload-src="Z3JlZXRpbmdzLmdv:cGFja2FnZSBncmVldGluZ3MKCmltcG9ydCAoCgkiZXJyb3JzIgoJImZtdCIKCSJtYXRoL3JhbmQiCikKCi8vIEhlbGxvIHJldHVybnMgYSBncmVldGluZyBmb3IgdGhlIG5hbWVkIHBlcnNvbi4KZnVuYyBIZWxsbyhuYW1lIHN0cmluZykgKHN0cmluZywgZXJyb3IpIHsKCS8vIElmIG5vIG5hbWUgd2FzIGdpdmVuLCByZXR1cm4gYW4gZXJyb3Igd2l0aCBhIG1lc3NhZ2UuCglpZiBuYW1lID09ICIiIHsKCQlyZXR1cm4gbmFtZSwgZXJyb3JzLk5ldygiZW1wdHkgbmFtZSIpCgl9CgkvLyBDcmVhdGUgYSBtZXNzYWdlIHVzaW5nIGEgcmFuZG9tIGZvcm1hdC4KCW1lc3NhZ2UgOj0gZm10LlNwcmludGYocmFuZG9tRm9ybWF0KCksIG5hbWUpCglyZXR1cm4gbWVzc2FnZSwgbmlsCn0KCi8vIGluaXQgc2V0cyBpbml0aWFsIHZhbHVlcyBmb3IgdmFyaWFibGVzIHVzZWQgaW4gdGhlIGZ1bmN0aW9uLgpmdW5jIGluaXQoKSB7CgkvLyBGb3IgdHJ1bHkgcmFuZG9tIGdyZWV0aW5ncywgaW1wb3J0ICJ0aW1lIiBhbmQgcmVwbGFjZSB0aGUgY2FsbAoJLy8gdG8gcmFuZC5TZWVkIHdpdGg6CgkvLwoJLy8gcmFuZC5TZWVkKHRpbWUuTm93KCkuVW5peE5hbm8oKSkKCS8vCgkvLyBDYWxsaW5nIHJhbmQuU2VlZCB3aXRoIGEgY29uc3RhbnQgdmFsdWUgbWVhbnMgdGhhdCB3ZSBhbHdheXMKCS8vIGdlbmVyYXRlIHRoZSBzYW1lIHBzZXVkby1yYW5kb20gc2VxdWVuY2UuCglyYW5kLlNlZWQoMSkKfQoKLy8gcmFuZG9tRm9ybWF0IHJldHVybnMgb25lIG9mIGEgc2V0IG9mIGdyZWV0aW5nIG1lc3NhZ2VzLiBUaGUgcmV0dXJuZWQKLy8gbWVzc2FnZSBpcyBzZWxlY3RlZCBhdCByYW5kb20uCmZ1bmMgcmFuZG9tRm9ybWF0KCkgc3RyaW5nIHsKCS8vIEEgc2xpY2Ugb2YgbWVzc2FnZSBmb3JtYXRzLgoJZm9ybWF0cyA6PSBbXXN0cmluZ3sKCQkiSGksICV2LiBXZWxjb21lISIsCgkJIkdyZWF0IHRvIHNlZSB5b3UsICV2ISIsCgkJIkhhaWwsICV2ISBXZWxsIG1ldCEiLAoJfQoKCS8vIFJldHVybiBvbmUgb2YgdGhlIG1lc3NhZ2UgZm9ybWF0cyBzZWxlY3RlZCBhdCByYW5kb20uCglyZXR1cm4gZm9ybWF0c1tyYW5kLkludG4obGVuKGZvcm1hdHMpKV0KfQo=" data-upload-term=".term1"><code class="language-go">package greetings
+
+<b style="color:darkblue">import (</b>
+<b style="color:darkblue">	&#34;errors&#34;</b>
+<b style="color:darkblue">	&#34;fmt&#34;</b>
+<b style="color:darkblue">	&#34;math/rand&#34;</b>
+<b style="color:darkblue">)</b>
+
+// Hello returns a greeting for the named person.
+<b style="color:darkblue">func Hello(name string) (string, error) {</b>
+<b style="color:darkblue">	// If no name was given, return an error with a message.</b>
+<b style="color:darkblue">	if name == &#34;&#34; {</b>
+<b style="color:darkblue">		return name, errors.New(&#34;empty name&#34;)</b>
+<b style="color:darkblue">	}</b>
+<b style="color:darkblue">	// Create a message using a random format.</b>
+<b style="color:darkblue">	message := fmt.Sprintf(randomFormat(), name)</b>
+<b style="color:darkblue">	return message, nil</b>
+}
+<b style="color:darkblue"></b>
+<b style="color:darkblue">// init sets initial values for variables used in the function.</b>
+<b style="color:darkblue">func init() {</b>
+<b style="color:darkblue">	// For truly random greetings, import &#34;time&#34; and replace the call</b>
+<b style="color:darkblue">	// to rand.Seed with:</b>
+<b style="color:darkblue">	//</b>
+<b style="color:darkblue">	// rand.Seed(time.Now().UnixNano())</b>
+<b style="color:darkblue">	//</b>
+<b style="color:darkblue">	// Calling rand.Seed with a constant value means that we always</b>
+<b style="color:darkblue">	// generate the same pseudo-random sequence.</b>
+<b style="color:darkblue">	rand.Seed(1)</b>
+<b style="color:darkblue">}</b>
+<b style="color:darkblue"></b>
+<b style="color:darkblue">// randomFormat returns one of a set of greeting messages. The returned</b>
+<b style="color:darkblue">// message is selected at random.</b>
+<b style="color:darkblue">func randomFormat() string {</b>
+<b style="color:darkblue">	// A slice of message formats.</b>
+<b style="color:darkblue">	formats := []string{</b>
+<b style="color:darkblue">		&#34;Hi, %v. Welcome!&#34;,</b>
+<b style="color:darkblue">		&#34;Great to see you, %v!&#34;,</b>
+<b style="color:darkblue">		&#34;Hail, %v! Well met!&#34;,</b>
+<b style="color:darkblue">	}</b>
+<b style="color:darkblue"></b>
+<b style="color:darkblue">	// Return one of the message formats selected at random.</b>
+<b style="color:darkblue">	return formats[rand.Intn(len(formats))]</b>
+<b style="color:darkblue">}</b>
+</code></pre>
+
+<p>In this code, you:</p>
+
+<ul>
+  <li>Add a <code class="highlighter-rouge">randomFormat</code> function that returns a randomly selected format for a greeting message. Note that <code class="highlighter-rouge">randomFormat</code>
+starts with a lowercase letter, making it accessible only to code in its own package (in other words, it’s not
+exported).</li>
+  <li>In <code class="highlighter-rouge">randomFormat</code>, declare a <code class="highlighter-rouge">formats</code> slice with three message formats. When declaring a slice, you omit its size in
+the brackets, like this: <code class="highlighter-rouge">[]string</code>. This tells Go that the array underlying a slice can be dynamically sized.</li>
+  <li>Use the <code class="highlighter-rouge">math/rand</code> package to generate a random number for selecting an item from the slice.</li>
+  <li>Add an <code class="highlighter-rouge">init</code> function to seed the rand package. Go executes <code class="highlighter-rouge">init</code> functions automatically at program startup, after
+global variables have been initialized.</li>
+  <li>In <code class="highlighter-rouge">Hello</code>, call the <code class="highlighter-rouge">randomFormat</code> function to get a format for the message you’ll return, then use the format and
+name value together to create the message.</li>
+  <li>Return the message (or an <code class="highlighter-rouge">error</code>) as you did before.</li>
+</ul>
+
+<p>Note that you are seeding the <code class="highlighter-rouge">math/rand</code> package with a constant seed. This means the code will always generate the same
+pseudo-random sequence.</p>
+
+<p>You now need to re-publish the updated <code class="highlighter-rouge">greetings</code> module so that we can use it in our <code class="highlighter-rouge">hello</code>
+module.</p>
+
+<p>Add and commit the changes you just made:</p>
+
+<pre data-command-src="Z2l0IGFkZCBncmVldGluZ3MuZ28KZ2l0IGNvbW1pdCAtcSAtbSAnQWRkZWQgcmFuZG9tIGZvcm1hdCcK"><code class="language-.term1">$ git add greetings.go
+$ git commit -q -m 'Added random format'
+</code></pre>
+
+<p>Note the id of the commit we just created:</p>
+
+<pre data-command-src="Z3JlZXRpbmdzX3JhbmRvbV9jb21taXQ9JChnaXQgcmV2LXBhcnNlIEhFQUQpCg=="><code class="language-.term1">$ greetings_random_commit=$(git rev-parse HEAD)
+</code></pre>
+
+<p>Republish the <code class="highlighter-rouge">greetings</code> module:</p>
+
+<pre data-command-src="Z2l0IHB1c2ggLXEgb3JpZ2luIG1haW4K"><code class="language-.term1">$ git push -q origin main
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<p>Return to the <code class="highlighter-rouge">hello</code> module directory and use this new version:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2hlbGxvCmdvIGdldCB7e3suR1JFRVRJTkdTfX19QCRncmVldGluZ3NfcmFuZG9tX2NvbW1pdAo="><code class="language-.term1">$ cd /home/gopher/hello
+$ go get {{{.GREETINGS}}}@$greetings_random_commit
+go: {{{.GREETINGS}}} v0.0.0-20060102150405-abcedf12345 =&gt; v0.0.0-20060102150405-abcedf12345
+go: downloading {{{.GREETINGS}}} v0.0.0-20060102150405-abcedf12345
+</code></pre>
+
+<p>Re-add Gladys’s name as an argument to the <code class="highlighter-rouge">Hello</code> function call in <code class="highlighter-rouge">hello.go</code>:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2hlbGxv" data-upload-src="aGVsbG8uZ28=:cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKCSJsb2ciCgoJInt7ey5HUkVFVElOR1N9fX0iCikKCmZ1bmMgbWFpbigpIHsKCS8vIFNldCBwcm9wZXJ0aWVzIG9mIHRoZSBwcmVkZWZpbmVkIExvZ2dlciwgaW5jbHVkaW5nCgkvLyB0aGUgbG9nIGVudHJ5IHByZWZpeCBhbmQgYSBmbGFnIHRvIGRpc2FibGUgcHJpbnRpbmcKCS8vIHRoZSB0aW1lLCBzb3VyY2UgZmlsZSwgYW5kIGxpbmUgbnVtYmVyLgoJbG9nLlNldFByZWZpeCgiZ3JlZXRpbmdzOiAiKQoJbG9nLlNldEZsYWdzKDApCgoJLy8gUmVxdWVzdCBhIGdyZWV0aW5nIG1lc3NhZ2UuCgltZXNzYWdlLCBlcnIgOj0gZ3JlZXRpbmdzLkhlbGxvKCJHbGFkeXMiKQoJLy8gSWYgYW4gZXJyb3Igd2FzIHJldHVybmVkLCBwcmludCBpdCB0byB0aGUgY29uc29sZSBhbmQKCS8vIGV4aXQgdGhlIHByb2dyYW0uCglpZiBlcnIgIT0gbmlsIHsKCQlsb2cuRmF0YWwoZXJyKQoJfQoKCS8vIElmIG5vIGVycm9yIHdhcyByZXR1cm5lZCwgcHJpbnQgdGhlIHJldHVybmVkIG1lc3NhZ2UKCS8vIHRvIHRoZSBjb25zb2xlLgoJZm10LlByaW50bG4obWVzc2FnZSkKfQo=" data-upload-term=".term1"><code class="language-go">package main
+
+import (
+	&#34;fmt&#34;
+	&#34;log&#34;
+
+	&#34;{{{.GREETINGS}}}&#34;
+)
+
+func main() {
+	// Set properties of the predefined Logger, including
+	// the log entry prefix and a flag to disable printing
+	// the time, source file, and line number.
+	log.SetPrefix(&#34;greetings: &#34;)
+	log.SetFlags(0)
+
+	// Request a greeting message.
+<b style="color:darkblue">	message, err := greetings.Hello(&#34;Gladys&#34;)</b>
+	// If an error was returned, print it to the console and
+	// exit the program.
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// If no error was returned, print the returned message
+	// to the console.
+	fmt.Println(message)
+}
+</code></pre>
+
+<p>Run <code class="highlighter-rouge">hello.go</code> to confirm the code works. Notice that because of the constant seed, running the program
+always gives the same greeting format. We will come back to that shortly:</p>
+
+<pre data-command-src="Z28gcnVuIGhlbGxvLmdvCmdvIHJ1biBoZWxsby5nbwo="><code class="language-.term1">$ go run hello.go
+Hail, Gladys! Well met!
+$ go run hello.go
+Hail, Gladys! Well met!
+</code></pre>
+
+<p>That’s an introduction to a Go slice. To get even more use out of this type, you’ll use a slice to greet multiple
+people, where we will start to see some “real” pseudo-random greetings!</p>
+
+<h3 id="return-greetings-for-multiple-people">Return greetings for multiple people</h3>
+
+<p>In the last changes you’ll make to the <code class="highlighter-rouge">greetings</code> module code, you’ll add support for getting greetings for
+multiple people in one request. In other words, you’ll handle a multiple-value input and pair values with a
+multiple-value output.</p>
+
+<p>Change back to the <code class="highlighter-rouge">greetings</code> module:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2dyZWV0aW5ncwo="><code class="language-.term1">$ cd /home/gopher/greetings
+</code></pre>
+
+<p>To do this, you’ll need to pass a set of names to a function that can return a greeting for each of them. Changing the
+<code class="highlighter-rouge">Hello</code> function’s parameter from a single name to a set of names would change the function signature. Given that you
+have already published the greetings module, other users might already have written code calling <code class="highlighter-rouge">Hello</code>, that change
+would break their programs.  In this situation, a better choice is to give new functionality a new name.</p>
+
+<p>Add a new function <code class="highlighter-rouge">Hellos</code> that takes a set of names. For the sake of simplicity, have the new function call the
+existing one. Keeping both functions in the package leaves the original for existing callers (or future callers who only
+need one greeting) and adds a new one for callers that want the expanded functionality:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2dyZWV0aW5ncw==" data-upload-src="Z3JlZXRpbmdzLmdv:cGFja2FnZSBncmVldGluZ3MKCmltcG9ydCAoCgkiZXJyb3JzIgoJImZtdCIKCSJtYXRoL3JhbmQiCikKCi8vIEhlbGxvIHJldHVybnMgYSBncmVldGluZyBmb3IgdGhlIG5hbWVkIHBlcnNvbi4KZnVuYyBIZWxsbyhuYW1lIHN0cmluZykgKHN0cmluZywgZXJyb3IpIHsKCS8vIElmIG5vIG5hbWUgd2FzIGdpdmVuLCByZXR1cm4gYW4gZXJyb3Igd2l0aCBhIG1lc3NhZ2UuCglpZiBuYW1lID09ICIiIHsKCQlyZXR1cm4gbmFtZSwgZXJyb3JzLk5ldygiZW1wdHkgbmFtZSIpCgl9CgkvLyBDcmVhdGUgYSBtZXNzYWdlIHVzaW5nIGEgcmFuZG9tIGZvcm1hdC4KCW1lc3NhZ2UgOj0gZm10LlNwcmludGYocmFuZG9tRm9ybWF0KCksIG5hbWUpCglyZXR1cm4gbWVzc2FnZSwgbmlsCn0KCi8vIEhlbGxvcyByZXR1cm5zIGEgbWFwIHRoYXQgYXNzb2NpYXRlcyBlYWNoIG9mIHRoZSBuYW1lZCBwZW9wbGUKLy8gd2l0aCBhIGdyZWV0aW5nIG1lc3NhZ2UuCmZ1bmMgSGVsbG9zKG5hbWVzIFtdc3RyaW5nKSAobWFwW3N0cmluZ11zdHJpbmcsIGVycm9yKSB7CgkvLyBBIG1hcCB0byBhc3NvY2lhdGUgbmFtZXMgd2l0aCBtZXNzYWdlcy4KCW1lc3NhZ2VzIDo9IG1ha2UobWFwW3N0cmluZ11zdHJpbmcpCgkvLyBMb29wIHRocm91Z2ggdGhlIHJlY2VpdmVkIHNsaWNlIG9mIG5hbWVzLCBjYWxsaW5nCgkvLyB0aGUgSGVsbG8gZnVuY3Rpb24gdG8gZ2V0IGEgbWVzc2FnZSBmb3IgZWFjaCBuYW1lLgoJZm9yIF8sIG5hbWUgOj0gcmFuZ2UgbmFtZXMgewoJCW1lc3NhZ2UsIGVyciA6PSBIZWxsbyhuYW1lKQoJCWlmIGVyciAhPSBuaWwgewoJCQlyZXR1cm4gbmlsLCBlcnIKCQl9CgkJLy8gSW4gdGhlIG1hcCwgYXNzb2NpYXRlIHRoZSByZXRyaWV2ZWQgbWVzc2FnZSB3aXRoCgkJLy8gdGhlIG5hbWUuCgkJbWVzc2FnZXNbbmFtZV0gPSBtZXNzYWdlCgl9CglyZXR1cm4gbWVzc2FnZXMsIG5pbAp9CgovLyBpbml0IHNldHMgaW5pdGlhbCB2YWx1ZXMgZm9yIHZhcmlhYmxlcyB1c2VkIGluIHRoZSBmdW5jdGlvbi4KZnVuYyBpbml0KCkgewoJLy8gRm9yIHRydWx5IHJhbmRvbSBncmVldGluZ3MsIGltcG9ydCAidGltZSIgYW5kIHJlcGxhY2UgdGhlIGNhbGwKCS8vIHRvIHJhbmQuU2VlZCB3aXRoOgoJLy8KCS8vIHJhbmQuU2VlZCh0aW1lLk5vdygpLlVuaXhOYW5vKCkpCgkvLwoJLy8gQ2FsbGluZyByYW5kLlNlZWQgd2l0aCBhIGNvbnN0YW50IHZhbHVlIG1lYW5zIHRoYXQgd2UgYWx3YXlzCgkvLyBnZW5lcmF0ZSB0aGUgc2FtZSBwc2V1ZG8tcmFuZG9tIHNlcXVlbmNlLgoJcmFuZC5TZWVkKDEpCn0KCi8vIHJhbmRvbUZvcm1hdCByZXR1cm5zIG9uZSBvZiBhIHNldCBvZiBncmVldGluZyBtZXNzYWdlcy4gVGhlIHJldHVybmVkCi8vIG1lc3NhZ2UgaXMgc2VsZWN0ZWQgYXQgcmFuZG9tLgpmdW5jIHJhbmRvbUZvcm1hdCgpIHN0cmluZyB7CgkvLyBBIHNsaWNlIG9mIG1lc3NhZ2UgZm9ybWF0cy4KCWZvcm1hdHMgOj0gW11zdHJpbmd7CgkJIkhpLCAldi4gV2VsY29tZSEiLAoJCSJHcmVhdCB0byBzZWUgeW91LCAldiEiLAoJCSJIYWlsLCAldiEgV2VsbCBtZXQhIiwKCX0KCgkvLyBSZXR1cm4gb25lIG9mIHRoZSBtZXNzYWdlIGZvcm1hdHMgc2VsZWN0ZWQgYXQgcmFuZG9tLgoJcmV0dXJuIGZvcm1hdHNbcmFuZC5JbnRuKGxlbihmb3JtYXRzKSldCn0K" data-upload-term=".term1"><code class="language-go">package greetings
+
+import (
+	&#34;errors&#34;
+	&#34;fmt&#34;
+	&#34;math/rand&#34;
+)
+
+// Hello returns a greeting for the named person.
+func Hello(name string) (string, error) {
+	// If no name was given, return an error with a message.
+	if name == &#34;&#34; {
+		return name, errors.New(&#34;empty name&#34;)
+	}
+	// Create a message using a random format.
+	message := fmt.Sprintf(randomFormat(), name)
+	return message, nil
+}
+
+<b style="color:darkblue">// Hellos returns a map that associates each of the named people</b>
+<b style="color:darkblue">// with a greeting message.</b>
+<b style="color:darkblue">func Hellos(names []string) (map[string]string, error) {</b>
+<b style="color:darkblue">	// A map to associate names with messages.</b>
+<b style="color:darkblue">	messages := make(map[string]string)</b>
+<b style="color:darkblue">	// Loop through the received slice of names, calling</b>
+<b style="color:darkblue">	// the Hello function to get a message for each name.</b>
+<b style="color:darkblue">	for _, name := range names {</b>
+<b style="color:darkblue">		message, err := Hello(name)</b>
+<b style="color:darkblue">		if err != nil {</b>
+<b style="color:darkblue">			return nil, err</b>
+<b style="color:darkblue">		}</b>
+<b style="color:darkblue">		// In the map, associate the retrieved message with</b>
+<b style="color:darkblue">		// the name.</b>
+<b style="color:darkblue">		messages[name] = message</b>
+<b style="color:darkblue">	}</b>
+<b style="color:darkblue">	return messages, nil</b>
+<b style="color:darkblue">}</b>
+<b style="color:darkblue"></b>
+// init sets initial values for variables used in the function.
+func init() {
+	// For truly random greetings, import &#34;time&#34; and replace the call
+	// to rand.Seed with:
+	//
+	// rand.Seed(time.Now().UnixNano())
+	//
+	// Calling rand.Seed with a constant value means that we always
+	// generate the same pseudo-random sequence.
+	rand.Seed(1)
+}
+
+// randomFormat returns one of a set of greeting messages. The returned
+// message is selected at random.
+func randomFormat() string {
+	// A slice of message formats.
+	formats := []string{
+		&#34;Hi, %v. Welcome!&#34;,
+		&#34;Great to see you, %v!&#34;,
+		&#34;Hail, %v! Well met!&#34;,
+	}
+
+	// Return one of the message formats selected at random.
+	return formats[rand.Intn(len(formats))]
+}
+</code></pre>
+
+<p>In this code, you:</p>
+
+<ul>
+  <li>Add a <code class="highlighter-rouge">Hellos</code> function whose parameter is a slice of names rather than a single name. Also, you change one of its
+return types from a <code class="highlighter-rouge">string</code> to a <code class="highlighter-rouge">map</code> so you can return names mapped to greeting messages.</li>
+  <li>Have the new <code class="highlighter-rouge">Hellos</code> function call the existing <code class="highlighter-rouge">Hello</code> function. This leaves both functions in place.</li>
+  <li>Create a <code class="highlighter-rouge">messages</code> <a href="https://blog.golang.org/map">map</a> to associate each of the received names (as a key) with a
+generated message (as a value). In Go, you initialize a map with the following syntax:
+<code class="highlighter-rouge">make(map[key-type]value-type</code>).  You have the <code class="highlighter-rouge">Hello</code> function return this map to the caller.</li>
+  <li>Loop through the names your function received, checking that each has a non-empty value, then associate a message with
+each. In this <code class="highlighter-rouge">for</code> loop, <code class="highlighter-rouge">range</code> returns two values: the index of the current item in the loop and a copy of the
+item’s value. You don’t need the index, so you use the Go <a href="https://golang.org/doc/effective_go.html#blank">blank identifier (an
+underscore)</a> to ignore it.</li>
+</ul>
+
+<p>Instead of republishing the <code class="highlighter-rouge">greetings</code> module, let’s add a <a href="https://golang.org/ref/mod#go-mod-file-replace"><code class="highlighter-rouge">replace</code>
+directive</a> in our <code class="highlighter-rouge">hello</code> module that tells the <code class="highlighter-rouge">go</code> command
+to use a local directory instead of a published module.</p>
+
+<p>First return to the <code class="highlighter-rouge">hello</code> module:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2hlbGxvCg=="><code class="language-.term1">$ cd /home/gopher/hello
+</code></pre>
+
+<p>Now add a <code class="highlighter-rouge">replace</code> directive using <code class="highlighter-rouge">go mod edit</code>:</p>
+
+<pre data-command-src="Z28gbW9kIGVkaXQgLXJlcGxhY2Uge3t7LkdSRUVUSU5HU319fT0vaG9tZS9nb3BoZXIvZ3JlZXRpbmdzCg=="><code class="language-.term1">$ go mod edit -replace {{{.GREETINGS}}}=/home/gopher/greetings
+</code></pre>
+
+<p>We can see the result in the <code class="highlighter-rouge">hello</code> module <code class="highlighter-rouge">go.mod</code> file:</p>
+
+<pre data-command-src="Y2F0IGdvLm1vZAo="><code class="language-.term1">$ cat go.mod
+module {{{.HELLO}}}
+
+go 1.15
+
+require {{{.GREETINGS}}} v0.0.0-20060102150405-abcedf12345
+
+replace {{{.GREETINGS}}} =&gt; /home/gopher/greetings
+</code></pre>
+
+<p>In your <code class="highlighter-rouge">hello.go</code> calling code, pass a slice of names, then print the contents of the names/messages map you
+get back:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2hlbGxv" data-upload-src="aGVsbG8uZ28=:cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKCSJsb2ciCgoJInt7ey5HUkVFVElOR1N9fX0iCikKCmZ1bmMgbWFpbigpIHsKCS8vIFNldCBwcm9wZXJ0aWVzIG9mIHRoZSBwcmVkZWZpbmVkIExvZ2dlciwgaW5jbHVkaW5nCgkvLyB0aGUgbG9nIGVudHJ5IHByZWZpeCBhbmQgYSBmbGFnIHRvIGRpc2FibGUgcHJpbnRpbmcKCS8vIHRoZSB0aW1lLCBzb3VyY2UgZmlsZSwgYW5kIGxpbmUgbnVtYmVyLgoJbG9nLlNldFByZWZpeCgiZ3JlZXRpbmdzOiAiKQoJbG9nLlNldEZsYWdzKDApCgoJLy8gQSBzbGljZSBvZiBuYW1lcy4KCW5hbWVzIDo9IFtdc3RyaW5neyJHbGFkeXMiLCAiU2FtYW50aGEiLCAiRGFycmluIn0KCgkvLyBSZXF1ZXN0IGdyZWV0aW5nIG1lc3NhZ2VzIGZvciB0aGUgbmFtZXMuCgltZXNzYWdlcywgZXJyIDo9IGdyZWV0aW5ncy5IZWxsb3MobmFtZXMpCglpZiBlcnIgIT0gbmlsIHsKCQlsb2cuRmF0YWwoZXJyKQoJfQoJLy8gSWYgbm8gZXJyb3Igd2FzIHJldHVybmVkLCBwcmludCB0aGUgcmV0dXJuZWQgbWFwIG9mCgkvLyBtZXNzYWdlcyB0byB0aGUgY29uc29sZS4KCWZtdC5QcmludGxuKG1lc3NhZ2VzKQp9Cg==" data-upload-term=".term1"><code class="language-go">package main
+
+import (
+	&#34;fmt&#34;
+	&#34;log&#34;
+
+	&#34;{{{.GREETINGS}}}&#34;
+)
+
+func main() {
+	// Set properties of the predefined Logger, including
+	// the log entry prefix and a flag to disable printing
+	// the time, source file, and line number.
+	log.SetPrefix(&#34;greetings: &#34;)
+	log.SetFlags(0)
+
+<b style="color:darkblue">	// A slice of names.</b>
+<b style="color:darkblue">	names := []string{&#34;Gladys&#34;, &#34;Samantha&#34;, &#34;Darrin&#34;}</b>
+<b style="color:darkblue"></b>
+<b style="color:darkblue">	// Request greeting messages for the names.</b>
+<b style="color:darkblue">	messages, err := greetings.Hellos(names)</b>
+	if err != nil {
+		log.Fatal(err)
+	}
+<b style="color:darkblue">	// If no error was returned, print the returned map of</b>
+<b style="color:darkblue">	// messages to the console.</b>
+<b style="color:darkblue">	fmt.Println(messages)</b>
+}
+</code></pre>
+
+<p>With these changes, you:</p>
+
+<ul>
+  <li>Create a <code class="highlighter-rouge">names</code> variable as a slice type holding three names.</li>
+  <li>Pass the <code class="highlighter-rouge">names</code> variable as the argument to the <code class="highlighter-rouge">Hellos</code> function.</li>
+</ul>
+
+<p>Run <code class="highlighter-rouge">hello.go</code> to confirm that the code works, the output should be a string representation of the map
+associating names with messages:</p>
+
+<pre data-command-src="Z28gcnVuIGhlbGxvLmdvCg=="><code class="language-.term1">$ go run hello.go
+map[Darrin:Hail, Darrin! Well met! Gladys:Hail, Gladys! Well met! Samantha:Hi, Samantha. Welcome!]
+</code></pre>
+
+<p>This section introduced maps for representing name/value pairs. It also introduced the idea of preserving backward
+compatibility by implementing a new function for new or changed functionality in a module. In the next section, you’ll
+use built-in features to create a unit test for your code.</p>
+
+<h3 id="add-a-test">Add a test</h3>
+
+<p>Now that you’ve gotten your code to a stable place (nicely done, by the way), add a test. Testing your code during
+development can expose bugs that find their way in as you make changes. In this topic, you add a test for the <code class="highlighter-rouge">Hello</code>
+function.</p>
+
+<p>Go’s built-in support for unit testing makes it easier to test as you go. Specifically, using naming conventions, Go’s
+<code class="highlighter-rouge">testing</code> package, and the <code class="highlighter-rouge">go test</code> command, you can quickly write and execute tests. You will create this test in the
+<code class="highlighter-rouge">greetings</code> module.</p>
+
+<p>Return to the <code class="highlighter-rouge">greetings</code> module:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2dyZWV0aW5ncwo="><code class="language-.term1">$ cd /home/gopher/greetings
+</code></pre>
+
+<p>Create a file called <code class="highlighter-rouge">greetings_test.go</code>:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2dyZWV0aW5ncw==" data-upload-src="Z3JlZXRpbmdzX3Rlc3QuZ28=:cGFja2FnZSBncmVldGluZ3MKCmltcG9ydCAoCgkicmVnZXhwIgoJInRlc3RpbmciCikKCi8vIFRlc3RIZWxsb05hbWUgY2FsbHMgZ3JlZXRpbmdzLkhlbGxvIHdpdGggYSBuYW1lLCBjaGVja2luZwovLyBmb3IgYSB2YWxpZCByZXR1cm4gdmFsdWUuCmZ1bmMgVGVzdEhlbGxvTmFtZSh0ICp0ZXN0aW5nLlQpIHsKCW5hbWUgOj0gIkdsYWR5cyIKCXdhbnQgOj0gcmVnZXhwLk11c3RDb21waWxlKGBcYmAgKyBuYW1lICsgYFxiYCkKCW1zZywgZXJyIDo9IEhlbGxvKG5hbWUpCglpZiAhd2FudC5NYXRjaFN0cmluZyhtc2cpIHx8IGVyciAhPSBuaWwgewoJCXQuRmF0YWxmKGBIZWxsbygiR2xhZHlzIikgPSAlcSwgJXYsIHdhbnQgbWF0Y2ggZm9yICUjcSwgPG5pbD5gLCBtc2csIGVyciwgd2FudCkKCX0KfQoKLy8gVGVzdEhlbGxvRW1wdHkgY2FsbHMgZ3JlZXRpbmdzLkhlbGxvIHdpdGggYW4gZW1wdHkgc3RyaW5nLAovLyBjaGVja2luZyBmb3IgYW4gZXJyb3IuCmZ1bmMgVGVzdEhlbGxvRW1wdHkodCAqdGVzdGluZy5UKSB7Cgltc2csIGVyciA6PSBIZWxsbygiIikKCWlmIG1zZyAhPSAiIiB8fCBlcnIgPT0gbmlsIHsKCQl0LkZhdGFsZihgSGVsbG8oIiIpID0gJXEsICV2LCB3YW50ICIiLCBlcnJvcmAsIG1zZywgZXJyKQoJfQp9Cg==" data-upload-term=".term1"><code class="language-go">package greetings
+
+import (
+	&#34;regexp&#34;
+	&#34;testing&#34;
+)
+
+// TestHelloName calls greetings.Hello with a name, checking
+// for a valid return value.
+func TestHelloName(t *testing.T) {
+	name := &#34;Gladys&#34;
+	want := regexp.MustCompile(`\b` + name + `\b`)
+	msg, err := Hello(name)
+	if !want.MatchString(msg) || err != nil {
+		t.Fatalf(`Hello(&#34;Gladys&#34;) = %q, %v, want match for %#q, &lt;nil&gt;`, msg, err, want)
+	}
+}
+
+// TestHelloEmpty calls greetings.Hello with an empty string,
+// checking for an error.
+func TestHelloEmpty(t *testing.T) {
+	msg, err := Hello(&#34;&#34;)
+	if msg != &#34;&#34; || err == nil {
+		t.Fatalf(`Hello(&#34;&#34;) = %q, %v, want &#34;&#34;, error`, msg, err)
+	}
+}
+</code></pre>
+
+<p>If this code, you:</p>
+
+<ul>
+  <li>Implement test functions in the same package as the code you’re testing.</li>
+  <li>Create two test functions to test the <code class="highlighter-rouge">greetings.Hello</code> function. Test function names have the form
+<code class="highlighter-rouge">TestName</code>, where <code class="highlighter-rouge">Name</code> is specific to the test. Also, test functions take a pointer to the <a href="https://golang.org/pkg/testing/"><code class="highlighter-rouge">testing</code>
+package’s</a> <code class="highlighter-rouge">testing.T</code> as a parameter. You use this parameter’s methods for reporting
+and logging from your test.</li>
+  <li>Implement <code class="highlighter-rouge">TestHelloName</code>. <code class="highlighter-rouge">TestHelloName</code> calls the <code class="highlighter-rouge">Hello</code> function, passing a <code class="highlighter-rouge">name</code> value with which the function
+should be able to return a valid response message. If the call returns an error or an unexpected response message (one
+that doesn’t include the name you passed in), you use the t parameter’s <a href="https://golang.org/pkg/testing/#T.Fatalf"><code class="highlighter-rouge">Fatalf</code>
+method</a> to print a message to the console and end execution.</li>
+  <li>Implement <code class="highlighter-rouge">TestHelloEmpty</code>. <code class="highlighter-rouge">TestHelloEmpty</code> calls the <code class="highlighter-rouge">Hello</code> function with an empty string. This test is designed to
+confirm that your error handling works. If the call returns a non-empty string or no error, you use the t parameter’s
+<code class="highlighter-rouge">Fatalf</code> method to print a message to the console and end execution.</li>
+</ul>
+
+<p>At the command line in the greetings directory, run the <code class="highlighter-rouge">go test</code> command to execute the test. The
+<code class="highlighter-rouge">go test</code> command executes test functions (whose names begin with <code class="highlighter-rouge">Test</code>) in test files (whose names end with
+<code class="highlighter-rouge">_test.go</code>). You can add the <code class="highlighter-rouge">-v</code> flag to get verbose output that lists all of the tests and their results.</p>
+
+<p>The tests should pass:</p>
+
+<pre data-command-src="Z28gdGVzdApnbyB0ZXN0IC12Cg=="><code class="language-.term1">$ go test
+PASS
+ok  	{{{.GREETINGS}}}	0.042s
+$ go test -v
+=== RUN   TestHelloName
+--- PASS: TestHelloName (0.042s)
+=== RUN   TestHelloEmpty
+--- PASS: TestHelloEmpty (0.042s)
+PASS
+ok  	{{{.GREETINGS}}}	0.042s
+</code></pre>
+
+<p>You will now break the <code class="highlighter-rouge">greetings.Hello</code> function to view a failing test. The <code class="highlighter-rouge">TestHelloName</code> test function
+checks the return value for the name you specified as a <code class="highlighter-rouge">Hello</code> function parameter. To view a failing test result, change
+the <code class="highlighter-rouge">greetings.Hello</code> function so that it no longer includes the name:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2dyZWV0aW5ncw==" data-upload-src="Z3JlZXRpbmdzLmdv:cGFja2FnZSBncmVldGluZ3MKCmltcG9ydCAoCgkiZXJyb3JzIgoJImZtdCIKCSJtYXRoL3JhbmQiCikKCi8vIEhlbGxvIHJldHVybnMgYSBncmVldGluZyBmb3IgdGhlIG5hbWVkIHBlcnNvbi4KZnVuYyBIZWxsbyhuYW1lIHN0cmluZykgKHN0cmluZywgZXJyb3IpIHsKCS8vIElmIG5vIG5hbWUgd2FzIGdpdmVuLCByZXR1cm4gYW4gZXJyb3Igd2l0aCBhIG1lc3NhZ2UuCglpZiBuYW1lID09ICIiIHsKCQlyZXR1cm4gbmFtZSwgZXJyb3JzLk5ldygiZW1wdHkgbmFtZSIpCgl9CgkvLyBDcmVhdGUgYSBtZXNzYWdlIHVzaW5nIGEgcmFuZG9tIGZvcm1hdC4KCS8vIG1lc3NhZ2UgOj0gZm10LlNwcmludGYocmFuZG9tRm9ybWF0KCksIG5hbWUpCgltZXNzYWdlIDo9IGZtdC5TcHJpbnQocmFuZG9tRm9ybWF0KCkpCglyZXR1cm4gbWVzc2FnZSwgbmlsCn0KCi8vIEhlbGxvcyByZXR1cm5zIGEgbWFwIHRoYXQgYXNzb2NpYXRlcyBlYWNoIG9mIHRoZSBuYW1lZCBwZW9wbGUKLy8gd2l0aCBhIGdyZWV0aW5nIG1lc3NhZ2UuCmZ1bmMgSGVsbG9zKG5hbWVzIFtdc3RyaW5nKSAobWFwW3N0cmluZ11zdHJpbmcsIGVycm9yKSB7CgkvLyBBIG1hcCB0byBhc3NvY2lhdGUgbmFtZXMgd2l0aCBtZXNzYWdlcy4KCW1lc3NhZ2VzIDo9IG1ha2UobWFwW3N0cmluZ11zdHJpbmcpCgkvLyBMb29wIHRocm91Z2ggdGhlIHJlY2VpdmVkIHNsaWNlIG9mIG5hbWVzLCBjYWxsaW5nCgkvLyB0aGUgSGVsbG8gZnVuY3Rpb24gdG8gZ2V0IGEgbWVzc2FnZSBmb3IgZWFjaCBuYW1lLgoJZm9yIF8sIG5hbWUgOj0gcmFuZ2UgbmFtZXMgewoJCW1lc3NhZ2UsIGVyciA6PSBIZWxsbyhuYW1lKQoJCWlmIGVyciAhPSBuaWwgewoJCQlyZXR1cm4gbmlsLCBlcnIKCQl9CgkJLy8gSW4gdGhlIG1hcCwgYXNzb2NpYXRlIHRoZSByZXRyaWV2ZWQgbWVzc2FnZSB3aXRoCgkJLy8gdGhlIG5hbWUuCgkJbWVzc2FnZXNbbmFtZV0gPSBtZXNzYWdlCgl9CglyZXR1cm4gbWVzc2FnZXMsIG5pbAp9CgovLyBpbml0IHNldHMgaW5pdGlhbCB2YWx1ZXMgZm9yIHZhcmlhYmxlcyB1c2VkIGluIHRoZSBmdW5jdGlvbi4KZnVuYyBpbml0KCkgewoJLy8gRm9yIHRydWx5IHJhbmRvbSBncmVldGluZ3MsIGltcG9ydCAidGltZSIgYW5kIHJlcGxhY2UgdGhlIGNhbGwKCS8vIHRvIHJhbmQuU2VlZCB3aXRoOgoJLy8KCS8vIHJhbmQuU2VlZCh0aW1lLk5vdygpLlVuaXhOYW5vKCkpCgkvLwoJLy8gQ2FsbGluZyByYW5kLlNlZWQgd2l0aCBhIGNvbnN0YW50IHZhbHVlIG1lYW5zIHRoYXQgd2UgYWx3YXlzCgkvLyBnZW5lcmF0ZSB0aGUgc2FtZSBwc2V1ZG8tcmFuZG9tIHNlcXVlbmNlLgoJcmFuZC5TZWVkKDEpCn0KCi8vIHJhbmRvbUZvcm1hdCByZXR1cm5zIG9uZSBvZiBhIHNldCBvZiBncmVldGluZyBtZXNzYWdlcy4gVGhlIHJldHVybmVkCi8vIG1lc3NhZ2UgaXMgc2VsZWN0ZWQgYXQgcmFuZG9tLgpmdW5jIHJhbmRvbUZvcm1hdCgpIHN0cmluZyB7CgkvLyBBIHNsaWNlIG9mIG1lc3NhZ2UgZm9ybWF0cy4KCWZvcm1hdHMgOj0gW11zdHJpbmd7CgkJIkhpLCAldi4gV2VsY29tZSEiLAoJCSJHcmVhdCB0byBzZWUgeW91LCAldiEiLAoJCSJIYWlsLCAldiEgV2VsbCBtZXQhIiwKCX0KCgkvLyBSZXR1cm4gb25lIG9mIHRoZSBtZXNzYWdlIGZvcm1hdHMgc2VsZWN0ZWQgYXQgcmFuZG9tLgoJcmV0dXJuIGZvcm1hdHNbcmFuZC5JbnRuKGxlbihmb3JtYXRzKSldCn0K" data-upload-term=".term1"><code class="language-go">package greetings
+
+import (
+	&#34;errors&#34;
+	&#34;fmt&#34;
+	&#34;math/rand&#34;
+)
+
+// Hello returns a greeting for the named person.
+func Hello(name string) (string, error) {
+	// If no name was given, return an error with a message.
+	if name == &#34;&#34; {
+		return name, errors.New(&#34;empty name&#34;)
+	}
+	// Create a message using a random format.
+<b style="color:darkblue">	// message := fmt.Sprintf(randomFormat(), name)</b>
+<b style="color:darkblue">	message := fmt.Sprint(randomFormat())</b>
+	return message, nil
+}
+
+// Hellos returns a map that associates each of the named people
+// with a greeting message.
+func Hellos(names []string) (map[string]string, error) {
+	// A map to associate names with messages.
+	messages := make(map[string]string)
+	// Loop through the received slice of names, calling
+	// the Hello function to get a message for each name.
+	for _, name := range names {
+		message, err := Hello(name)
+		if err != nil {
+			return nil, err
+		}
+		// In the map, associate the retrieved message with
+		// the name.
+		messages[name] = message
+	}
+	return messages, nil
+}
+
+// init sets initial values for variables used in the function.
+func init() {
+	// For truly random greetings, import &#34;time&#34; and replace the call
+	// to rand.Seed with:
+	//
+	// rand.Seed(time.Now().UnixNano())
+	//
+	// Calling rand.Seed with a constant value means that we always
+	// generate the same pseudo-random sequence.
+	rand.Seed(1)
+}
+
+// randomFormat returns one of a set of greeting messages. The returned
+// message is selected at random.
+func randomFormat() string {
+	// A slice of message formats.
+	formats := []string{
+		&#34;Hi, %v. Welcome!&#34;,
+		&#34;Great to see you, %v!&#34;,
+		&#34;Hail, %v! Well met!&#34;,
+	}
+
+	// Return one of the message formats selected at random.
+	return formats[rand.Intn(len(formats))]
+}
+</code></pre>
+
+<p>Note that the highlighted lines change the value that the function returns, as if the <code class="highlighter-rouge">name</code> argument had been
+accidentally removed.</p>
+
+<p>At the command line in the greetings directory, run <code class="highlighter-rouge">go test</code> to execute the test. This time, run go test
+without the <code class="highlighter-rouge">-v</code> flag. The output will include results for only the tests that failed, which can be useful when you have
+a lot of tests. The <code class="highlighter-rouge">TestHelloName</code> test should fail – <code class="highlighter-rouge">TestHelloEmpty</code> still passes:</p>
+
+<pre data-command-src="Z28gdGVzdAo="><code class="language-.term1">$ go test
+--- FAIL: TestHelloName (0.042s)
+    greetings_test.go:15: Hello("Gladys") = "Hail, %v! Well met!", &lt;nil&gt;, want match for `\bGladys\b`, &lt;nil&gt;
+FAIL
+exit status 1
+FAIL	{{{.GREETINGS}}}	0.042s
+</code></pre>
+
+<p>Let’s restore <code class="highlighter-rouge">greetings.Hello</code> to a working state</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2dyZWV0aW5ncw==" data-upload-src="Z3JlZXRpbmdzLmdv:cGFja2FnZSBncmVldGluZ3MKCmltcG9ydCAoCgkiZXJyb3JzIgoJImZtdCIKCSJtYXRoL3JhbmQiCikKCi8vIEhlbGxvIHJldHVybnMgYSBncmVldGluZyBmb3IgdGhlIG5hbWVkIHBlcnNvbi4KZnVuYyBIZWxsbyhuYW1lIHN0cmluZykgKHN0cmluZywgZXJyb3IpIHsKCS8vIElmIG5vIG5hbWUgd2FzIGdpdmVuLCByZXR1cm4gYW4gZXJyb3Igd2l0aCBhIG1lc3NhZ2UuCglpZiBuYW1lID09ICIiIHsKCQlyZXR1cm4gbmFtZSwgZXJyb3JzLk5ldygiZW1wdHkgbmFtZSIpCgl9CgkvLyBDcmVhdGUgYSBtZXNzYWdlIHVzaW5nIGEgcmFuZG9tIGZvcm1hdC4KCW1lc3NhZ2UgOj0gZm10LlNwcmludGYocmFuZG9tRm9ybWF0KCksIG5hbWUpCglyZXR1cm4gbWVzc2FnZSwgbmlsCn0KCi8vIEhlbGxvcyByZXR1cm5zIGEgbWFwIHRoYXQgYXNzb2NpYXRlcyBlYWNoIG9mIHRoZSBuYW1lZCBwZW9wbGUKLy8gd2l0aCBhIGdyZWV0aW5nIG1lc3NhZ2UuCmZ1bmMgSGVsbG9zKG5hbWVzIFtdc3RyaW5nKSAobWFwW3N0cmluZ11zdHJpbmcsIGVycm9yKSB7CgkvLyBBIG1hcCB0byBhc3NvY2lhdGUgbmFtZXMgd2l0aCBtZXNzYWdlcy4KCW1lc3NhZ2VzIDo9IG1ha2UobWFwW3N0cmluZ11zdHJpbmcpCgkvLyBMb29wIHRocm91Z2ggdGhlIHJlY2VpdmVkIHNsaWNlIG9mIG5hbWVzLCBjYWxsaW5nCgkvLyB0aGUgSGVsbG8gZnVuY3Rpb24gdG8gZ2V0IGEgbWVzc2FnZSBmb3IgZWFjaCBuYW1lLgoJZm9yIF8sIG5hbWUgOj0gcmFuZ2UgbmFtZXMgewoJCW1lc3NhZ2UsIGVyciA6PSBIZWxsbyhuYW1lKQoJCWlmIGVyciAhPSBuaWwgewoJCQlyZXR1cm4gbmlsLCBlcnIKCQl9CgkJLy8gSW4gdGhlIG1hcCwgYXNzb2NpYXRlIHRoZSByZXRyaWV2ZWQgbWVzc2FnZSB3aXRoCgkJLy8gdGhlIG5hbWUuCgkJbWVzc2FnZXNbbmFtZV0gPSBtZXNzYWdlCgl9CglyZXR1cm4gbWVzc2FnZXMsIG5pbAp9CgovLyBpbml0IHNldHMgaW5pdGlhbCB2YWx1ZXMgZm9yIHZhcmlhYmxlcyB1c2VkIGluIHRoZSBmdW5jdGlvbi4KZnVuYyBpbml0KCkgewoJLy8gRm9yIHRydWx5IHJhbmRvbSBncmVldGluZ3MsIGltcG9ydCAidGltZSIgYW5kIHJlcGxhY2UgdGhlIGNhbGwKCS8vIHRvIHJhbmQuU2VlZCB3aXRoOgoJLy8KCS8vIHJhbmQuU2VlZCh0aW1lLk5vdygpLlVuaXhOYW5vKCkpCgkvLwoJLy8gQ2FsbGluZyByYW5kLlNlZWQgd2l0aCBhIGNvbnN0YW50IHZhbHVlIG1lYW5zIHRoYXQgd2UgYWx3YXlzCgkvLyBnZW5lcmF0ZSB0aGUgc2FtZSBwc2V1ZG8tcmFuZG9tIHNlcXVlbmNlLgoJcmFuZC5TZWVkKDEpCn0KCi8vIHJhbmRvbUZvcm1hdCByZXR1cm5zIG9uZSBvZiBhIHNldCBvZiBncmVldGluZyBtZXNzYWdlcy4gVGhlIHJldHVybmVkCi8vIG1lc3NhZ2UgaXMgc2VsZWN0ZWQgYXQgcmFuZG9tLgpmdW5jIHJhbmRvbUZvcm1hdCgpIHN0cmluZyB7CgkvLyBBIHNsaWNlIG9mIG1lc3NhZ2UgZm9ybWF0cy4KCWZvcm1hdHMgOj0gW11zdHJpbmd7CgkJIkhpLCAldi4gV2VsY29tZSEiLAoJCSJHcmVhdCB0byBzZWUgeW91LCAldiEiLAoJCSJIYWlsLCAldiEgV2VsbCBtZXQhIiwKCX0KCgkvLyBSZXR1cm4gb25lIG9mIHRoZSBtZXNzYWdlIGZvcm1hdHMgc2VsZWN0ZWQgYXQgcmFuZG9tLgoJcmV0dXJuIGZvcm1hdHNbcmFuZC5JbnRuKGxlbihmb3JtYXRzKSldCn0K" data-upload-term=".term1"><code class="language-go">package greetings
+
+import (
+	&#34;errors&#34;
+	&#34;fmt&#34;
+	&#34;math/rand&#34;
+)
+
+// Hello returns a greeting for the named person.
+func Hello(name string) (string, error) {
+	// If no name was given, return an error with a message.
+	if name == &#34;&#34; {
+		return name, errors.New(&#34;empty name&#34;)
+	}
+	// Create a message using a random format.
+<b style="color:darkblue">	message := fmt.Sprintf(randomFormat(), name)</b>
+	return message, nil
+}
+
+// Hellos returns a map that associates each of the named people
+// with a greeting message.
+func Hellos(names []string) (map[string]string, error) {
+	// A map to associate names with messages.
+	messages := make(map[string]string)
+	// Loop through the received slice of names, calling
+	// the Hello function to get a message for each name.
+	for _, name := range names {
+		message, err := Hello(name)
+		if err != nil {
+			return nil, err
+		}
+		// In the map, associate the retrieved message with
+		// the name.
+		messages[name] = message
+	}
+	return messages, nil
+}
+
+// init sets initial values for variables used in the function.
+func init() {
+	// For truly random greetings, import &#34;time&#34; and replace the call
+	// to rand.Seed with:
+	//
+	// rand.Seed(time.Now().UnixNano())
+	//
+	// Calling rand.Seed with a constant value means that we always
+	// generate the same pseudo-random sequence.
+	rand.Seed(1)
+}
+
+// randomFormat returns one of a set of greeting messages. The returned
+// message is selected at random.
+func randomFormat() string {
+	// A slice of message formats.
+	formats := []string{
+		&#34;Hi, %v. Welcome!&#34;,
+		&#34;Great to see you, %v!&#34;,
+		&#34;Hail, %v! Well met!&#34;,
+	}
+
+	// Return one of the message formats selected at random.
+	return formats[rand.Intn(len(formats))]
+}
+</code></pre>
+
+<p>And re-run <code class="highlighter-rouge">go test</code> to verify our change:</p>
+
+<pre data-command-src="Z28gdGVzdAo="><code class="language-.term1">$ go test
+PASS
+ok  	{{{.GREETINGS}}}	0.042s
+</code></pre>
+
+<p>This section introduced Go’s built-in support for unit testing. In the next section, you’ll see how to compile and
+install your code to run it locally.</p>
+
+<h3 id="compile-and-install-the-application">Compile and install the application</h3>
+
+<p>In the last section, you’ll learn a new <code class="highlighter-rouge">go</code> command. While the <code class="highlighter-rouge">go run</code> command is a useful shortcut for compiling and
+running a single-file program, it doesn’t generate a binary executable you can easily run again. If you want one of
+those, a good choice is to run the <code class="highlighter-rouge">go install</code> command, which compiles your code and installs the resulting binary
+executable where you can run it.</p>
+
+<p>Change to the directory that contains the <code class="highlighter-rouge">hello</code> module:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2hlbGxvCg=="><code class="language-.term1">$ cd /home/gopher/hello
+</code></pre>
+
+<p>Discover the Go install path, where the <code class="highlighter-rouge">go</code> command will install the current package:</p>
+
+<pre data-command-src="Z28gbGlzdCAtZiAne3suVGFyZ2V0fX0nCg=="><code class="language-.term1">$ go list -f '{{.Target}}'
+/home/gopher/go/bin/hello
+</code></pre>
+
+<p>Add the Go install directory to your system’s shell path (this is generally a one-off step, you won’t need to do this
+for other programs). That way, you’ll be able to run your program’s executable without specifying where the executable
+is:</p>
+
+<pre data-command-src="Z29pbnN0YWxsZGlyPSIkKGRpcm5hbWUgIiQoZ28gbGlzdCAtZiAne3suVGFyZ2V0fX0nKSIpIgpleHBvcnQgUEFUSD0iJGdvaW5zdGFsbGRpcjokUEFUSCIK"><code class="language-.term1">$ goinstalldir="$(dirname "$(go list -f '{{.Target}}')")"
+$ export PATH="$goinstalldir:$PATH"
+</code></pre>
+
+<p>Once you’ve updated the shell path, run the <code class="highlighter-rouge">go install</code> command to compile and install the package:</p>
+
+<pre data-command-src="Z28gaW5zdGFsbAo="><code class="language-.term1">$ go install
+</code></pre>
+
+<p>Run your application by simply typing its name:</p>
+
+<pre data-command-src="aGVsbG8K"><code class="language-.term1">$ hello
+map[Darrin:Hail, Darrin! Well met! Gladys:Hail, Gladys! Well met! Samantha:Hi, Samantha. Welcome!]
+</code></pre>
+
+<p>That wraps up this Go tutorial!
+<script>let pageGuide="2020-10-19-go-fundamentals"; let pageLanguage="en"; let pageScenario="go115";</script></p>
+
+            </div>
+        </article>
+    </div>
+
+
+    <div class="panel-right">
+        <div class="panel-nav">
+            <i class="expand-button fa fa-expand pull-right"></i>
+            <ul class="nav nav-tabs">
+            
+                <li class="nav-item">
+                    <a class="nav-link active" id="term1-tab" data-toggle="tab" href="#term1" role="tab" aria-controls="term1" aria-selected="true" >T.1</a>
+                </li>
+            
+            </ul>
+        </div>
+        <div class="twrapper">
+            <div class="splitter"></div>
+            <div class="tab-content" id="myTabContent">
+                
+                <div class="tab-pane show term1 active" id="term1" role="tabpanel" aria-labelledby="term1-tab"></div>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var imageName = "";
+    (function() {
+        var font3 = document.createElement('link');
+        font3.type = 'text/css';
+        font3.rel = 'stylesheet';
+        font3.href = '/css/syntax-highlighting.css';
+        var q = document.getElementsByTagName('link')[0];
+        q.parentNode.insertBefore(font3, q);
+    })();
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+<script src="https://rawgit.com/RickStrahl/jquery-resizable/master/dist/jquery-resizable.min.js"></script>
+<script src="https://unpkg.com/pwd-sdk@0.0.7/dist/pwd.min.js"></script>
+<script src="/js/post-layout.js"></script>
+<script src="/js/progress-bar.js"></script>
+<script src="/js/menu.js"></script>
+<script src="/js/feedback-footer.js"></script>
+<script src="/js/dark-mode.js"></script>
+<script src="/js/exit-warning.js"></script>
+<script src="/js/import-file.js"></script>
+<div
+  class="modal fade"
+  id="congratz-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img src="/images/success.png" />
+        <h2 class="post-title">
+          Congratulations!
+        </h2>
+        <p class="congratz-text">
+          Great work! you are getting closer and closer to archieving your
+          goals. Go foward!
+        </p>
+        <div class="congratz-footer">
+          <button type="button" class="text-btn" data-dismiss="modal">
+            CLOSE
+          </button>
+          <div class="share">
+            <p class="share-text">Share your archievements</p>
+            <a
+              href="http://twitter.com/share?url=URL_TO_PAGE&text=TITLE_TO_SHARE&via=TWITTER_USERNAME"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u=http://labs.docker.com"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-facebook-official" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    
+    <div class="feedback-footer">
+  <div
+    class="feedback-footer-item 
+    feedback-footer-item-neutral"
+  >
+    <i class="fa fa-spinner" aria-hidden="true"></i>
+    <span class="feedback-footer-item-label"> </span>
+  </div>
+  <div
+    class="feedback-footer-item 
+    feedback-footer-item-negative"
+  >
+    <i class="fa fa-times" aria-hidden="true"></i>
+    <span class="feedback-footer-item-label"> </span>
+  </div>
+  <div
+    class="feedback-footer-item 
+    feedback-footer-item-positive"
+  >
+    <i class="fa fa-check-square" aria-hidden="true"></i>
+    <span class="feedback-footer-item-label"> </span>
+  </div>
+</div>
+
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dropzone@5.5.1/dist/dropzone.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  
+    <!-- Welcome -->
+<div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="tab-content" id="welcomeContent">
+          <div class="tab-pane fade show active" id="welcome" role="tabpanel" aria-labelledby="welcome-tab">
+            <img src="/images/welcome.png"/>
+            <h2>Welcome to Go Labs.</h2>
+            <p>First time here? Take a short tour through Labs platform and learn how to use the new features.</p>
+          </div>
+          <div class="tab-pane fade" id="index" role="tabpanel" aria-labelledby="index-tab">
+            <img src="/images/index.png"/>
+            <h2>Course index.</h2>
+            <p>You will find the Lab’s content index on the menu. Also, look for the option "help" in the menu if you experience any problem, want to send us feedback or just need advice from your peers.</p>
+          </div>
+          <div class="tab-pane fade" id="dark" role="tabpanel" aria-labelledby="dark-tab">
+            <img src="/images/dark.png"/>
+            <h2>Dark mode and text size.</h2>
+            <p>On the upper right corner, you will find the dark mode switch and the option to change the font size. Also, you will see the icon to import files from your local computer.</p>
+          </div>
+          <div class="tab-pane fade" id="progress" role="tabpanel" aria-labelledby="progress-tab">
+            <img src="/images/progress.png"/>
+            <h2>Lab progress.</h2>
+            <p>You will see you Lab’s progress on a green bar, located on the top left side of your window.</p>
+          </div>
+          <div class="tab-pane fade" id="terminal" role="tabpanel" aria-labelledby="terminal-tab">
+            <img src="/images/terminal.png"/>
+            <h2>Full screen terminal.</h2>
+            <p>You'll be able to maximize your terminal by clicking on the icon you have on the upper right side.</p>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <button type="button" data-dismiss="modal"  class="btn btn-link">Skip</button>
+            </div>
+            <div class="col-sm my-auto">
+              <ul class="nav pagination justify-content-center" id="myTab" role="tablist">
+                <li class="page-item">
+                  <a class="page-link active" id="welcome-tab" data-toggle="tab" href="#welcome" role="tab" aria-controls="welcome" aria-selected="true"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="index-tab" data-toggle="tab" href="#index" role="tab" aria-controls="index" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="dark-tab" data-toggle="tab" href="#dark" role="tab" aria-controls="dark" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="progress-tab" data-toggle="tab" href="#progress" role="tab" aria-controls="progress" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="terminal-tab" data-toggle="tab" href="#terminal" role="tab" aria-controls="terminal" aria-selected="false"></a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm">
+              <button type="button" id="welcomeNext" class="btn btn-primary float-right">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  if (localStorage.getItem("skipTutorial") === null) {
+    ga('send', 'event', 'Welcome', 'skip-wizard');
+    $('#welcomeModal').modal();
+  }
+  $('#welcomeModal').on('hidden.bs.modal', function (e) {
+    ga('send', 'event', 'Welcome', 'skip-wizard');
+    localStorage.setItem("skipTutorial", true);
+  })
+  $('#welcomeNext').click(function() {
+    let next = $('.page-item .page-link.active').parent().next().find('a');
+    if (next.length) {
+      next.click();
+    } else {
+      $('#welcomeModal').modal('hide');
+    }
+  });
+</script>
+
+
+  
+
+
+  <!-- Google Analytics Tracking code -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-89019737-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+  </body>
+
+  <!--<script>-->
+    <!--var siteUrl = "https://play-with-go.dev"-->
+    <!--if ((window.location.protocol + '//' + window.location.hostname) == siteUrl) {-->
+    <!--!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";-->
+    <!--analytics.load("GvscnIMX05fG8s2MEZY7PkSV4BTsFvOU");-->
+    <!--analytics.page();-->
+    <!--}}();-->
+    <!--}-->
+    <!---->
+    <!--</script>-->
+    <!-- Twitter universal website tag code -->
+
+
+</html>
