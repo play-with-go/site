@@ -9,13 +9,13 @@ layout: compress
 <html>
 
   <head>
-<title>play-with-go.dev</title>
+<title>Developer tools as module dependencies</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="play-with-go.dev" />
+<meta name="twitter:title" content="Developer tools as module dependencies" />
 <meta name="twitter:description" content="Learn Go through interactive online guides on play-with-go.dev" />
 <meta name="twitter:image" content="https://blog.golang.org/gopher/gopher.png" />
 
@@ -146,57 +146,463 @@ layout: compress
 </div>
 
     
-    <div class="container">
-  <div class="row">
-    <div class="col-md-8">
-      <article class="post">
+    
+<div class="progress-bar"></div>
+<div class="panel-container">
 
-        <header class="post-header">
-          <h1 class="post-title"></h1>
-        </header>
 
-        <div class="post-content">
-          <div class="tags-expo">
-  
-  <div class="tags-expo-section">
-    
-    <ul class="tags-expo-posts">
-      
-      <li>
-        <a class="post-title" href="/basic-go-modules-example_go115_en/">A simple Go modules guide</a>
-      </li>
-      
-    </ul>
-    
-    <ul class="tags-expo-posts">
-      
-      <li>
-        <a class="post-title" href="/tools-as-dependencies_go115_en/">Developer tools as module dependencies</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/go-fundamentals_go115_en/">Tutorial: Go fundamentals</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/get-started-with-go_go115_en/">Tutorial: Get started with Go</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/intro-to-play-with-go-dev_go115_en/">An introduction to play-with-go.dev guides</a>
-      </li>
-      
-    </ul>
-    
-  </div>
+    <div class="panel-left">
+        
+        <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">Developer tools as module dependencies</h1>
+            </header>
+            <div class="post-content" itemprop="articleBody">
+                <p>Go modules support developer tools (commands) as dependencies. For example, your project might require a tool to help
+with code generation, or to lint/vet your code for correctness. Adding developer tool dependencies ensures that all
+develpoers use the same version of each tool.</p>
+
+<p>This guide shows you how to manage developer tool dependencies with a Go module, specifically the code generator<a href="https://pkg.go.dev/golang.org/x/tools/cmd/stringer">
+<code class="highlighter-rouge">stringer</code></a>.</p>
+
+<p>You will:</p>
+
+<ul>
+  <li>create a module that contains a <code class="highlighter-rouge">main</code> package (your “project” for this guide)</li>
+  <li>add the <code class="highlighter-rouge">stringer</code> tool as a dependency</li>
+  <li>use <code class="highlighter-rouge">stringer</code> via a <code class="highlighter-rouge">go:generate</code> directive</li>
+</ul>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<p>You should already have completed:</p>
+
+<ul>
+  <li>The <a href="/go-fundamentals_go115_en">Go fundamentals Tutorial</a></li>
+</ul>
+
+<p>This guide is running using:</p>
+
+<pre data-command-src="Z28gdmVyc2lvbgo="><code class="language-.term1">$ go version
+go version go1.15.3 linux/amd64
+</code></pre>
+
+<h3 id="why-stringer">Why <code class="highlighter-rouge">stringer</code>?</h3>
+
+<p>Let’s motivate the use of <code class="highlighter-rouge">stringer</code> by getting started on your project. Your project will be a simple command line
+application that gives advice on what painkillers to take for certain ailments. So let’s name your module accordingly:</p>
+
+<pre data-command-src="bWtkaXIgcGFpbmtpbGxlcgpjZCBwYWlua2lsbGVyCmdvIG1vZCBpbml0IHBhaW5raWxsZXIK"><code class="language-.term1">$ mkdir painkiller
+$ cd painkiller
+$ go mod init painkiller
+go: creating new go.mod: module painkiller
+</code></pre>
+
+<p>Start with a basic version of your application. Given that you are writing a command line application, you need to
+declare a <code class="highlighter-rouge">main</code> package; do so in a file named <code class="highlighter-rouge">painkiller.go</code>:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3BhaW5raWxsZXI=" data-upload-src="cGFpbmtpbGxlci5nbw==:cGFja2FnZSBtYWluCgppbXBvcnQgImZtdCIKCnR5cGUgUGlsbCBpbnQKCmNvbnN0ICgKCVBsYWNlYm8gUGlsbCA9IGlvdGEKCUlidXByb2ZlbgopCgpmdW5jIG1haW4oKSB7CglmbXQuUHJpbnRmKCJGb3IgaGVhZGFjaGVzLCB0YWtlICV2XG4iLCBJYnVwcm9mZW4pCn0K" data-upload-term=".term1"><code class="language-go">package main
+
+import &#34;fmt&#34;
+
+type Pill int
+
+const (
+	Placebo Pill = iota
+	Ibuprofen
+)
+
+func main() {
+	fmt.Printf(&#34;For headaches, take %v\n&#34;, Ibuprofen)
+}
+</code></pre>
+
+<p>This first version of your app provides some basic advice on what to take for headaches. Using integer types provides a
+nice convenient way to define a sequence of constant values. Here you define the type <code class="highlighter-rouge">Pill</code>.</p>
+
+<p>Run the program to see its output:</p>
+
+<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
+For headaches, take 1
+</code></pre>
+
+<p>Hmm, that’s not particularly user friendly. The integer value of your constant is meaningless to your user.</p>
+
+<p>You can improve this by making the <code class="highlighter-rouge">Pill</code> type implement the
+<a href="https://pkg.go.dev/fmt#Stringer"><code class="highlighter-rouge">fmt.Stringer</code></a> interface:</p>
+
+<pre><code>type Stringer interface {
+	String() string
+}
+</code></pre>
+
+<p>The <code class="highlighter-rouge">String()</code> method defines the “native” format for a
+value.</p>
+
+<p>Update your example to define a <code class="highlighter-rouge">String()</code> method on <code class="highlighter-rouge">Pill</code>:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3BhaW5raWxsZXI=" data-upload-src="cGFpbmtpbGxlci5nbw==:cGFja2FnZSBtYWluCgppbXBvcnQgImZtdCIKCnR5cGUgUGlsbCBpbnQKCmZ1bmMgKHAgUGlsbCkgU3RyaW5nKCkgc3RyaW5nIHsKCXN3aXRjaCBwIHsKCWNhc2UgUGxhY2VibzoKCQlyZXR1cm4gIlBsYWNlYm8iCgljYXNlIElidXByb2ZlbjoKCQlyZXR1cm4gIklidXByb2ZlbiIKCWRlZmF1bHQ6CgkJcGFuaWMoZm10LkVycm9yZigidW5rbm93biBQaWxsIHZhbHVlICV2IiwgcCkpCgl9Cn0KCmNvbnN0ICgKCVBsYWNlYm8gUGlsbCA9IGlvdGEKCUlidXByb2ZlbgopCgpmdW5jIG1haW4oKSB7CglmbXQuUHJpbnRmKCJGb3IgaGVhZGFjaGVzLCB0YWtlICV2XG4iLCBJYnVwcm9mZW4pCn0K" data-upload-term=".term1"><code class="language-go">package main
+
+import &#34;fmt&#34;
+
+type Pill int
+
+<b style="color:darkblue">func (p Pill) String() string {</b>
+<b style="color:darkblue">	switch p {</b>
+<b style="color:darkblue">	case Placebo:</b>
+<b style="color:darkblue">		return &#34;Placebo&#34;</b>
+<b style="color:darkblue">	case Ibuprofen:</b>
+<b style="color:darkblue">		return &#34;Ibuprofen&#34;</b>
+<b style="color:darkblue">	default:</b>
+<b style="color:darkblue">		panic(fmt.Errorf(&#34;unknown Pill value %v&#34;, p))</b>
+<b style="color:darkblue">	}</b>
+<b style="color:darkblue">}</b>
+<b style="color:darkblue"></b>
+const (
+	Placebo Pill = iota
+	Ibuprofen
+)
+
+func main() {
+	fmt.Printf(&#34;For headaches, take %v\n&#34;, Ibuprofen)
+}
+</code></pre>
+
+<p>Run the program to see the new output:</p>
+
+<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
+For headaches, take Ibuprofen
+</code></pre>
+
+<p>That’s better. But as you can see there is a lot of repetition in your <code class="highlighter-rouge">String()</code> method. Adding more constants will
+mean more manual, robotic effort… not to mention being error prone. Can we do better? Enter <code class="highlighter-rouge">stringer</code>.</p>
+
+<p><code class="highlighter-rouge">stringer</code> is a tool to automate the creation of methods that satisfy the
+<a href="https://pkg.go.dev/fmt#Stringer"><code class="highlighter-rouge">fmt.Stringer</code></a> interface. Given the name of an (signed or unsigned) integer type <code class="highlighter-rouge">T</code>
+that has constants defined, <code class="highlighter-rouge">stringer</code> will create a new self-contained Go source file implementing:</p>
+
+<pre><code>func (t T) String() string
+</code></pre>
+
+<p>This sounds much better than maintaining a definition by hand, so let’s add <code class="highlighter-rouge">stringer</code> as a dependency.</p>
+
+<p>But before you do, remove the hand-written <code class="highlighter-rouge">String()</code> method:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3BhaW5raWxsZXI=" data-upload-src="cGFpbmtpbGxlci5nbw==:cGFja2FnZSBtYWluCgppbXBvcnQgImZtdCIKCnR5cGUgUGlsbCBpbnQKCmNvbnN0ICgKCVBsYWNlYm8gUGlsbCA9IGlvdGEKCUlidXByb2ZlbgopCgpmdW5jIG1haW4oKSB7CglmbXQuUHJpbnRmKCJGb3IgaGVhZGFjaGVzLCB0YWtlICV2XG4iLCBJYnVwcm9mZW4pCn0K" data-upload-term=".term1"><code class="language-go">package main
+
+import &#34;fmt&#34;
+
+type Pill int
+
+const (
+	Placebo Pill = iota
+	Ibuprofen
+)
+
+func main() {
+	fmt.Printf(&#34;For headaches, take %v\n&#34;, Ibuprofen)
+}
+</code></pre>
+
+<h3 id="adding-tool-dependencies">Adding tool dependencies</h3>
+
+<p>Go modules establishes a convention for tool dependencies. You simply import the command as you would any other package,
+but do so in a special file that is ignored by any of the <code class="highlighter-rouge">go</code> build commands. Again, by convention, these imports are
+declared in a file called <code class="highlighter-rouge">tools.go</code> at the root of your module:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3BhaW5raWxsZXI=" data-upload-src="dG9vbHMuZ28=:Ly8gK2J1aWxkIHRvb2xzCgpwYWNrYWdlIHRvb2xzCgppbXBvcnQgKAoJXyAiZ29sYW5nLm9yZy94L3Rvb2xzL2NtZC9zdHJpbmdlciIKKQo=" data-upload-term=".term1"><code class="language-go">// +build tools
+
+package tools
+
+import (
+	_ &#34;golang.org/x/tools/cmd/stringer&#34;
+)
+</code></pre>
+
+<p>In this code you:</p>
+
+<ul>
+  <li>Declare a <a href="https://pkg.go.dev/go/build#hdr-Build_Constraints">build constraint</a> on the first line of
+<code class="highlighter-rouge">tools.go</code>. This tells the <code class="highlighter-rouge">go</code> command to only consider this file when the <code class="highlighter-rouge">tools</code>
+build tag is provided. By convention, <code class="highlighter-rouge">tools</code> is used as the constraint name.</li>
+  <li>Declare that <code class="highlighter-rouge">tools.go</code> belongs to the <code class="highlighter-rouge">tools</code> package. Because this file is going to
+be ignored by <code class="highlighter-rouge">go</code> build commands, it actually doesn’t matter what package it belongs to. But again, by convention,
+it is generally considered good practice to use <code class="highlighter-rouge">tools</code> as the package name.</li>
+  <li>Import <code class="highlighter-rouge">golang.org/x/tools/cmd/stringer</code>, which declares a dependency relation between your <code class="highlighter-rouge">main</code> package and <code class="highlighter-rouge">stringer</code>.
+But hang on a minute: isn’t <code class="highlighter-rouge">stringer</code> a command, and therefore a <code class="highlighter-rouge">main</code> package itself? How does this work? Again,
+because this file is going to be ignore by <code class="highlighter-rouge">go</code> build commands the fact that you are importing a <code class="highlighter-rouge">main</code> package doesn’t
+actually matter. You are only importing <code class="highlighter-rouge">golang.org/x/tools/cmd/stringer</code> to declare the dependency on that package. And because
+you don’t use the imported <code class="highlighter-rouge">golang.org/x/tools/cmd/stringer</code> package, the blank identifier <code class="highlighter-rouge">_</code> is used to signal the import
+exists solely for its side effects, in this case the declaration of the dependency.</li>
+</ul>
+
+<p>With the package dependency declared, you can now add a dependency on the module that contains
+<code class="highlighter-rouge">golang.org/x/tools/cmd/stringer</code>. Use <code class="highlighter-rouge">go get</code> to add a dependency:</p>
+
+<pre data-command-src="Z28gZ2V0IGdvbGFuZy5vcmcveC90b29scy9jbWQvc3RyaW5nZXJAdjAuMC4wLTIwMjAxMTA1MjIwMzEwLTc4YjE1ODU4NTM2MAo="><code class="language-.term1">$ go get golang.org/x/tools/cmd/stringer@v0.0.0-20201105220310-78b158585360
+go: downloading golang.org/x/tools v0.0.0-20201105220310-78b158585360
+go: found golang.org/x/tools/cmd/stringer in golang.org/x/tools v0.0.0-20201105220310-78b158585360
+go: downloading golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
+go: downloading golang.org/x/mod v0.3.0
+</code></pre>
+
+<p>You can see your new dependency in the project’s <code class="highlighter-rouge">go.mod</code> file:</p>
+
+<pre data-command-src="Y2F0IGdvLm1vZAo="><code class="language-.term1">$ cat go.mod
+module painkiller
+
+go 1.15
+
+require golang.org/x/tools v0.0.0-20201105220310-78b158585360 // indirect
+</code></pre>
+
+<p>This guide uses a specific version of <code class="highlighter-rouge">stringer</code> so as to remain reproducible. In a real-world project you would almost
+certainly omit the version to get the latest version, or explicitly use the special version <code class="highlighter-rouge">@latest</code>. Alternatively,
+you could simply run <code class="highlighter-rouge">go mod tidy</code> instead of <code class="highlighter-rouge">go get</code>:</p>
+
+<pre data-command-src="Z28gbW9kIHRpZHkK"><code class="language-.term1">$ go mod tidy
+</code></pre>
+
+<p>Run <code class="highlighter-rouge">stringer</code> to see how it should be invoked:</p>
+
+<pre data-command-src="Z28gcnVuIGdvbGFuZy5vcmcveC90b29scy9jbWQvc3RyaW5nZXIgLWhlbHAK"><code class="language-.term1">$ go run golang.org/x/tools/cmd/stringer -help
+Usage of stringer:
+	stringer [flags] -type T [directory]
+	stringer [flags] -type T files... # Must be a single package
+For more information, see:
+	https://pkg.go.dev/golang.org/x/tools/cmd/stringer
+Flags:
+  -linecomment
+    	use line comment text as printed text when present
+  -output string
+    	output file name; default srcdir/&lt;type&gt;_string.go
+  -tags string
+    	comma-separated list of build tags to apply
+  -trimprefix prefix
+    	trim the prefix from the generated constant names
+  -type string
+    	comma-separated list of type names; must be set
+</code></pre>
+
+<p>As you can see, <code class="highlighter-rouge">Pill</code> must be passed as an argument to the <code class="highlighter-rouge">-type</code> flag:</p>
+
+<pre data-command-src="Z28gcnVuIGdvbGFuZy5vcmcveC90b29scy9jbWQvc3RyaW5nZXIgLXR5cGUgUGlsbAo="><code class="language-.term1">$ go run golang.org/x/tools/cmd/stringer -type Pill
+</code></pre>
+
+<p>Listing the directory contents reveals what <code class="highlighter-rouge">stringer</code> has generated for us:</p>
+
+<pre data-command-src="bHMK"><code class="language-.term1">$ ls
+go.mod	go.sum	painkiller.go  pill_string.go  tools.go
+</code></pre>
+
+<p>Examine the contents of the <code class="highlighter-rouge">stringer</code>-generated file:</p>
+
+<pre data-command-src="Y2F0IHBpbGxfc3RyaW5nLmdvCg=="><code class="language-.term1">$ cat pill_string.go
+// Code generated by "stringer -type Pill"; DO NOT EDIT.
+
+package main
+
+import "strconv"
+
+func _() {
+	// An "invalid array index" compiler error signifies that the constant values have changed.
+	// Re-run the stringer command to generate them again.
+	var x [1]struct{}
+	_ = x[Placebo-0]
+	_ = x[Ibuprofen-1]
+}
+
+const _Pill_name = "PlaceboIbuprofen"
+
+var _Pill_index = [...]uint8{0, 7, 16}
+
+func (i Pill) String() string {
+	if i &lt; 0 || i &gt;= Pill(len(_Pill_index)-1) {
+		return "Pill(" + strconv.FormatInt(int64(i), 10) + ")"
+	}
+	return _Pill_name[_Pill_index[i]:_Pill_index[i+1]]
+}
+</code></pre>
+
+<p>Notice the first line of this generated file is a comment warning you against editing it by hand: this “header” is a
+<a href="https://golang.org/cmd/go/#hdr-Generate_Go_files_by_processing_source">standard convention</a> of generated files.</p>
+
+<p>Run your program to verify it behaves as expected:</p>
+
+<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
+For headaches, take Ibuprofen
+</code></pre>
+
+<p>Success!</p>
+
+<h3 id="using-stringer-via-a-gogenerate-directive">Using <code class="highlighter-rouge">stringer</code> via a <code class="highlighter-rouge">go:generate</code> directive</h3>
+
+<p>It is not fair or realistic to expect your fellow developers to remember the command for re-running
+<code class="highlighter-rouge">stringer</code>. A more scalable approach is to declare a
+<a href="https://golang.org/cmd/go/#hdr-Generate_Go_files_by_processing_source"><code class="highlighter-rouge">go:generate</code></a> directive for each code
+generation step needed for your project:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3BhaW5raWxsZXI=" data-upload-src="cGFpbmtpbGxlci5nbw==:cGFja2FnZSBtYWluCgppbXBvcnQgImZtdCIKCi8vZ286Z2VuZXJhdGUgZ28gcnVuIGdvbGFuZy5vcmcveC90b29scy9jbWQvc3RyaW5nZXIgLXR5cGU9UGlsbAoKdHlwZSBQaWxsIGludAoKY29uc3QgKAoJUGxhY2VibyBQaWxsID0gaW90YQoJSWJ1cHJvZmVuCikKCmZ1bmMgbWFpbigpIHsKCWZtdC5QcmludGYoIkZvciBoZWFkYWNoZXMsIHRha2UgJXZcbiIsIElidXByb2ZlbikKfQo=" data-upload-term=".term1"><code class="language-go">package main
+
+import &#34;fmt&#34;
+
+<b style="color:darkblue">//go:generate go run golang.org/x/tools/cmd/stringer -type=Pill</b>
+<b style="color:darkblue"></b>
+type Pill int
+
+const (
+	Placebo Pill = iota
+	Ibuprofen
+)
+
+func main() {
+	fmt.Printf(&#34;For headaches, take %v\n&#34;, Ibuprofen)
+}
+</code></pre>
+
+<p>Now you can re-run all code generation steps (there is currently only one, but still) for current package by running:</p>
+
+<pre data-command-src="Z28gZ2VuZXJhdGUgLgo="><code class="language-.term1">$ go generate .
+</code></pre>
+
+<p>Try this out by extending your program to give another piece of advice:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3BhaW5raWxsZXI=" data-upload-src="cGFpbmtpbGxlci5nbw==:cGFja2FnZSBtYWluCgppbXBvcnQgImZtdCIKCi8vZ286Z2VuZXJhdGUgZ28gcnVuIGdvbGFuZy5vcmcveC90b29scy9jbWQvc3RyaW5nZXIgLXR5cGU9UGlsbAoKdHlwZSBQaWxsIGludAoKY29uc3QgKAoJUGxhY2VibyBQaWxsID0gaW90YQoJSWJ1cHJvZmVuCglQYXJhY2V0YW1vbAopCgpmdW5jIG1haW4oKSB7CglmbXQuUHJpbnRmKCJGb3IgaGVhZGFjaGVzLCB0YWtlICV2XG4iLCBJYnVwcm9mZW4pCglmbXQuUHJpbnRmKCJGb3IgYSBmZXZlciwgdGFrZSAldlxuIiwgUGFyYWNldGFtb2wpCn0K" data-upload-term=".term1"><code class="language-go">package main
+
+import &#34;fmt&#34;
+
+//go:generate go run golang.org/x/tools/cmd/stringer -type=Pill
+
+type Pill int
+
+const (
+	Placebo Pill = iota
+	Ibuprofen
+<b style="color:darkblue">	Paracetamol</b>
+)
+
+func main() {
+	fmt.Printf(&#34;For headaches, take %v\n&#34;, Ibuprofen)
+<b style="color:darkblue">	fmt.Printf(&#34;For a fever, take %v\n&#34;, Paracetamol)</b>
+}
+</code></pre>
+
+<p>Re-run your code generation steps:</p>
+
+<pre data-command-src="Z28gZ2VuZXJhdGUgLgo="><code class="language-.term1">$ go generate .
+</code></pre>
+
+<p>Finally, check your program’s output:</p>
+
+<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
+For headaches, take Ibuprofen
+For a fever, take Paracetamol
+</code></pre>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>That’s it! This guide has shown you how to add tool dependencies to a module, with a focus on the <code class="highlighter-rouge">stringer</code>
+code generation tool and its use via <code class="highlighter-rouge">go generate</code>.</p>
+
+<script>let pageGuide="2020-11-05-tools-as-dependencies"; let pageLanguage="en"; let pageScenario="go115";</script>
+
+
+            </div>
+        </article>
+    </div>
+
+
+    <div class="panel-right">
+        <div class="panel-nav">
+            <i class="expand-button fa fa-expand pull-right"></i>
+            <ul class="nav nav-tabs">
+            
+                <li class="nav-item">
+                    <a class="nav-link active" id="term1-tab" data-toggle="tab" href="#term1" role="tab" aria-controls="term1" aria-selected="true" >T.1</a>
+                </li>
+            
+            </ul>
+        </div>
+        <div class="twrapper">
+            <div class="splitter"></div>
+            <div class="tab-content" id="myTabContent">
+                
+                <div class="tab-pane show term1 active" id="term1" role="tabpanel" aria-labelledby="term1-tab"></div>
+                
+            </div>
+        </div>
+    </div>
+
 </div>
 
+<script>
+    var imageName = "";
+    (function() {
+        var font3 = document.createElement('link');
+        font3.type = 'text/css';
+        font3.rel = 'stylesheet';
+        font3.href = '/css/syntax-highlighting.css';
+        var q = document.getElementsByTagName('link')[0];
+        q.parentNode.insertBefore(font3, q);
+    })();
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+<script src="https://rawgit.com/RickStrahl/jquery-resizable/master/dist/jquery-resizable.min.js"></script>
+<script src="https://unpkg.com/pwd-sdk@0.0.7/dist/pwd.min.js"></script>
+<script src="/js/post-layout.js"></script>
+<script src="/js/progress-bar.js"></script>
+<script src="/js/menu.js"></script>
+<script src="/js/feedback-footer.js"></script>
+<script src="/js/dark-mode.js"></script>
+<script src="/js/exit-warning.js"></script>
+<script src="/js/import-file.js"></script>
+<div
+  class="modal fade"
+  id="congratz-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img src="/images/success.png" />
+        <h2 class="post-title">
+          Congratulations!
+        </h2>
+        <p class="congratz-text">
+          Great work! you are getting closer and closer to archieving your
+          goals. Go foward!
+        </p>
+        <div class="congratz-footer">
+          <button type="button" class="text-btn" data-dismiss="modal">
+            CLOSE
+          </button>
+          <div class="share">
+            <p class="share-text">Share your archievements</p>
+            <a
+              href="http://twitter.com/share?url=URL_TO_PAGE&text=TITLE_TO_SHARE&via=TWITTER_USERNAME"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u=http://labs.docker.com"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-facebook-official" aria-hidden="true"></i>
+            </a>
+          </div>
         </div>
-
-      </article>
+      </div>
     </div>
   </div>
 </div>
+
 
     
     <div class="feedback-footer">
@@ -231,6 +637,93 @@ layout: compress
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
   
+    <!-- Welcome -->
+<div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="tab-content" id="welcomeContent">
+          <div class="tab-pane fade show active" id="welcome" role="tabpanel" aria-labelledby="welcome-tab">
+            <img src="/images/welcome.png"/>
+            <h2>Welcome to Go Labs.</h2>
+            <p>First time here? Take a short tour through Labs platform and learn how to use the new features.</p>
+          </div>
+          <div class="tab-pane fade" id="index" role="tabpanel" aria-labelledby="index-tab">
+            <img src="/images/index.png"/>
+            <h2>Course index.</h2>
+            <p>You will find the Lab’s content index on the menu. Also, look for the option "help" in the menu if you experience any problem, want to send us feedback or just need advice from your peers.</p>
+          </div>
+          <div class="tab-pane fade" id="dark" role="tabpanel" aria-labelledby="dark-tab">
+            <img src="/images/dark.png"/>
+            <h2>Dark mode and text size.</h2>
+            <p>On the upper right corner, you will find the dark mode switch and the option to change the font size. Also, you will see the icon to import files from your local computer.</p>
+          </div>
+          <div class="tab-pane fade" id="progress" role="tabpanel" aria-labelledby="progress-tab">
+            <img src="/images/progress.png"/>
+            <h2>Lab progress.</h2>
+            <p>You will see you Lab’s progress on a green bar, located on the top left side of your window.</p>
+          </div>
+          <div class="tab-pane fade" id="terminal" role="tabpanel" aria-labelledby="terminal-tab">
+            <img src="/images/terminal.png"/>
+            <h2>Full screen terminal.</h2>
+            <p>You'll be able to maximize your terminal by clicking on the icon you have on the upper right side.</p>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <button type="button" data-dismiss="modal"  class="btn btn-link">Skip</button>
+            </div>
+            <div class="col-sm my-auto">
+              <ul class="nav pagination justify-content-center" id="myTab" role="tablist">
+                <li class="page-item">
+                  <a class="page-link active" id="welcome-tab" data-toggle="tab" href="#welcome" role="tab" aria-controls="welcome" aria-selected="true"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="index-tab" data-toggle="tab" href="#index" role="tab" aria-controls="index" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="dark-tab" data-toggle="tab" href="#dark" role="tab" aria-controls="dark" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="progress-tab" data-toggle="tab" href="#progress" role="tab" aria-controls="progress" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="terminal-tab" data-toggle="tab" href="#terminal" role="tab" aria-controls="terminal" aria-selected="false"></a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm">
+              <button type="button" id="welcomeNext" class="btn btn-primary float-right">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  if (localStorage.getItem("skipTutorial") === null) {
+    ga('send', 'event', 'Welcome', 'skip-wizard');
+    $('#welcomeModal').modal();
+  }
+  $('#welcomeModal').on('hidden.bs.modal', function (e) {
+    ga('send', 'event', 'Welcome', 'skip-wizard');
+    localStorage.setItem("skipTutorial", true);
+  })
+  $('#welcomeNext').click(function() {
+    let next = $('.page-item .page-link.active').parent().next().find('a');
+    if (next.length) {
+      next.click();
+    } else {
+      $('#welcomeModal').modal('hide');
+    }
+  });
+</script>
+
+
+  
 
 
   <!-- Google Analytics Tracking code -->
@@ -257,25 +750,6 @@ layout: compress
     <!--}}();-->
     <!--}-->
     <!---->
-    
-    <!--try {-->
-      <!--pwd.getUserInfo(function(pwduser){-->
-              <!--user = pwduser;-->
-              <!--if(user !== undefined){-->
-                  <!--analytics.identify(user.provider_user_id,{"email":user.email});-->
-              <!--}-->
-              <!--else {-->
-
-                  <!--analytics.identify();-->
-              <!--}-->
-          <!--});-->
-    <!--}-->
-    <!--catch (error) {-->
-      <!--analytics.identify();-->
-      <!--}-->
-    
-     
-      <!---->
     <!--</script>-->
     <!-- Twitter universal website tag code -->
 
