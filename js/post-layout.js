@@ -19,7 +19,10 @@ var siteUrl = "https://play-with-go.dev";
 var fontChanged = false;
 var pwd = new PWD();
 
-pwd.on("unauthorized", function(){
+pwd.on("instanceNew", function(instance) {
+  instance.terms[0].write(`$ \r\n`);
+});
+pwd.on("unauthorized", function() {
   login();
 });
 
