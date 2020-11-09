@@ -1,0 +1,886 @@
+<!-- Remove the comments to compress html
+
+---
+layout: compress
+--- 
+
+-->
+<!DOCTYPE html>
+<html>
+
+  <head>
+<title>Retracting Module Versions</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Retracting Module Versions" />
+<meta name="twitter:description" content="Learn Go through interactive online guides on play-with-go.dev" />
+<meta name="twitter:image" content="https://blog.golang.org/gopher/gopher.png" />
+
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+<link href="https://fonts.googleapis.com/css2?family=Roboto&family=Source+Code+Pro:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Work+Sans:wght@400;500&display=swap" rel="stylesheet">
+
+
+<style>
+          
+          :root{--docker-color: #00ADD8;--btn-color: #5DC9E2;--navbar-color: #00A29C ;--term-color: #000;--expand-color: #021b29;--titles-color: #33444c;--font-color: #577482;--pre-bgcolor: #e8f5f8;--suc-bgcolor: #e8f8ef;--pre-color: #00758D;--page-bgcolor: #fafafa;--terminal-text-color: #fafafa;--card-bgcolor: #f3f3f3;--disabled-bgcolor: #CDCDCD;--right-color: #06e2a0;--wrong-color: #CE3262;--drawer-bgcolor: ;--aqua: #0decd1;--feedbak-footer: #26343B;--quote-color: #71a6bf;--modal-bg-color: #FFFFFF}:root .dark-mode{--navbar-color: #26343B;--titles-color: #BFD2DB;--docker-color: #00ADD8;--page-bgcolor: #061F2F;--font-color: #C0C8CD;--expand-color: #C0C8CD;--pre-bgcolor: #0A121B;--pre-color: #B3E1DF;--drawer-bgcolor: #072336;--terminal-text-color: #fafafa;--card-bgcolor: #0A121B;--disabled-bgcolor: #26343B;--modal-bg-color: #26343B}@font-face{font-family:"Geomanist";src:url("../fonts/hinted-Geomanist-Book.ttf")}html,body{height:100%;background-color:var(--page-bgcolor);text-rendering:geometricPrecision}img{max-width:100%}.mt50{margin-top:50px}.mt20{margin-top:20px}.mt10{margin-top:10px}.mb10{margin-bottom:10px}body{display:flex;flex-direction:column}.navbar{border-radius:0px;margin-bottom:0px;padding:12px 24px 12px 24px;background-color:var(--navbar-color);border-color:var(--navbar-color)}.navbar-brand{font-weight:900;padding:0;margin:0;font-size:1em}.navbar-header{line-height:1}.post-meta{color:#828282}div.post-content{max-width:1200px}.panel{border:none;box-shadow:0px 0px 1px #828282}.panel:hover{box-shadow:0px 0px 6px #828282}.post-img img{width:100%}.announce{margin-top:10px;margin-bottom:60px;text-align:center}.pack{display:-webkit-inline-flex;display:-ms-inline-flexbox;display:inline-flex;flex-wrap:wrap;-webkit-flex-wrap:wrap}.banner{display:block;margin:auto}.terminal{font-size:14px;font-weight:400;font-style:normal;font-stretch:normal;line-height:20px;letter-spacing:0.7px;color:var(--terminal-text-color) !important}.terminal .xterm-viewport{background-color:var(--term-color) !important}.xterm-color-9{color:#e65555 !important}.xterm-color-10{color:#0decd1 !important}.xterm-color-12{color:#c90fc8 !important}.content{padding:0 24px;overflow-y:auto}.content{padding:0 24px}.panel-singular{margin:0 auto;max-width:1200}.splitter{flex:0 0 auto;width:18px;background:url(../images/resizer.png) center center no-repeat var(--term-color);min-height:200px;cursor:col-resize}@media (max-width: 768px){.panel-right{display:none;flex:1 1 auto}}.getting-started ul{list-style-type:none;font-size:36px}.card{float:none}code[class*="."]{cursor:pointer}pre:not(.highlight){color:var(--pre-color);background-color:var(--pre-bgcolor);cursor:pointer;font-size:14px;border-radius:4px;padding:16px 8px 16px 8px;display:block;word-break:normal !important;word-wrap:break-word}.resize-warning{background-color:var(--term-color);color:white;text-align:center}.nav-container{display:flex;height:50px;flex:1 1 auto}.nav-left{flex:0 0 50%}.nav-right{flex:0 0 50%}.panel-nav{height:42px;flex:0 0 auto;margin-top:8px;margin-bottom:0px !important}.twrapper{flex:1 1 auto;display:flex;background-color:var(--term-color);height:calc(100% - 50px)}.nav-tabs{border-bottom:none;height:100%}.nav .nav-item .nav-link{padding:11px 24px 11px 24px;border:none}.nav .nav-item .active{background-color:var(--term-color);color:white}.page-item{margin:0px 3px}.page-link{padding:3px;border-radius:50% 50% !important}.page-link.active{background-color:#0decd1}#welcomeContent .tab-pane{padding-top:0px;padding-bottom:8px}i.fa-expand{margin-top:8px;margin-right:16px;color:var(--expand-color);font-size:24px;cursor:pointer}.tab-content,.tab-pane{width:100%;height:100%}.tab-content h2,.tab-pane h2{font-family:'Work Sans', sans-serif;font-size:32px;font-weight:normal;font-style:normal;font-stretch:normal;line-height:1.25;letter-spacing:0.2px;color:--var(--titles-color)}.tab-content p,.tab-pane p{font-family:'Roboto', sans-serif;font-size:16px;font-weight:400;font-style:normal;font-stretch:normal;line-height:1.5;letter-spacing:0.2px;color:var(--font-color)}.tab-content>.tab-pane{padding-top:2px}h1,h2,h3,h4{font-family:'Work Sans', sans-serif;letter-spacing:0.5px;font-weight:500}h1,h2,h3{color:var(--titles-color);margin:56px 0px 8px 0px}h2{font-size:26px;font-weight:normal;font-style:normal;font-stretch:normal;line-height:normal}h3{font-size:20px;font-weight:normal;font-style:normal;font-stretch:normal;line-height:normal}h4{font-size:20px;font-style:normal;font-stretch:normal;line-height:normal;color:var(--docker-color);margin-bottom:0px}p{font-family:'Work Sans', sans-serif;font-size:16px;font-weight:normal;font-style:normal;font-stretch:normal;line-height:1.5;letter-spacing:normal;color:var(--font-color)}blockquote{display:block;margin-block-start:24px;margin-block-end:24px;margin-inline-start:24px;margin-inline-end:24px;border-left:2px solid var(--quote-color)}blockquote>p{font-weight:600;font-size:16px;padding:8px 0;line-height:1.7;font-style:italic;margin-inline-start:16px;color:var(--quote-color)}.post-title{font-size:32px;font-style:normal;font-stretch:normal;line-height:1.25;letter-spacing:0.2px;margin:32px 0px 8px 0px}.post-subtitle{font-weight:600;letter-spacing:0.2px}.menu-button,.expand-button{font-size:24px !important}.fa.pull-left{margin-right:16px !important}.nav .nav-item{font-size:14px;letter-spacing:0.2px}.panel-container .panel-left .panel-nav{padding:11px 0 0 24px !important}.highlight{padding:10px 8px 1px 8px;cursor:pointer;margin-bottom:16px;color:var(--titles-color);border-radius:4px}li{font-size:15px;color:var(--font-color)}.np-container{max-width:568px;margin:0 auto}.np-container .np-logo{margin:72px auto 0 auto;width:234px;height:48px}.np-container .np-logo .logo{width:234px;height:48px;object-fit:contain}.np-container .np-headline{display:inline-block;margin-top:32px;margin-bottom:0;width:100%;height:40px;font-family:'Work Sans', sans-serif;font-size:32px;font-weight:normal;font-style:normal;font-stretch:normal;line-height:1.25;letter-spacing:0.2px;text-align:center;color:var(--titles-color)}.np-container .np-subheader{margin-top:16px;margin-bottom:0;width:100%;height:48px;font-family:'Work Sans', sans-serif;font-size:16px;font-weight:600;font-style:normal;font-stretch:normal;line-height:1.5;letter-spacing:0.2px;text-align:center;color:rgba(2,27,41,0.7)}.np-container .np-login{margin-top:32px;text-align:center}.np-container .np-login .np-login-btn{width:112px;height:40px;background-color:var(--docker-color);margin:0 50px;text-transform:uppercase;font-family:'Work Sans', sans-serif;font-size:13.7px;font-weight:600;font-style:normal;font-stretch:normal;line-height:1.17;letter-spacing:1.3px;text-align:center;color:#ffffff}@media (max-width: 600px){.np-headline{font-size:24px}.np-subheader{font-size:12px}}.btn{font-family:'Roboto', sans-serif}.btn-primary{background-color:var(--btn-color);border:transparent;padding:8px 24px}.btn-primary:hover{background-color:#FDDD00}.btn-secondary{color:var(--pre-color);background-color:transparent;border:transparent;padding:8px 24px}.btn-secondary:hover{color:#FDDD00;background-color:transparent}.btn-header{color:#fff;background-color:transparent;border:transparent;padding:8px 24px}.btn-header:hover{color:#FDDD00;background-color:transparent}.modal-body{padding:32px}.modal-body h2{font-size:26px;margin-top:32px}.modal-body .hr{margin-top:32px !important;margin-bottom:32px !important;padding:16px 0px}.modal-content{border:0px;background-color:var(--modal-bg-color)}.modal-body .container{padding:16px 0px 0px 0px}.modal-title{padding-bottom:16px}#helpMessage{margin-bottom:24px !important;margin-top:0px !important}@media (min-width: 576px){.modal-dialog{max-width:600px}}.modal-backdrop{background-color:var(--term-color)}.highlighter-rouge{margin-bottom:16px}.highlighter-rouge .highlight{color:var(--docker-color);background-color:var(--page-bgcolor);font-size:12px;border-radius:4px;padding:8px 8px 8px 8px;display:block;word-break:normal !important;word-wrap:break-word;line-height:20px;margin-bottom:0px}.highlighter-rouge>.highlight{border:solid;border-color:var(--docker-color);border-width:1px}.btn-toggle.btn-text{margin:0 2.1rem;padding:0;position:relative;border:none;height:2.5rem;width:0px}.btn-toggle.btn-text:focus,.btn-toggle.btn-text:focus.active,.btn-toggle.btn-text.focus,.btn-toggle.btn-text.focus.active{box-shadow:none !important;outline:none}.btn-toggle.btn-text:before,.btn-toggle.btn-text:after{line-height:1.75rem;width:2.1rem;text-align:center;font-weight:400;font-size:1rem;letter-spacing:0px;position:absolute;bottom:0;transition:opacity 0.25s}.btn-toggle.btn-text:before{content:"t";left:-1.68rem}.btn-toggle.btn-text:after{content:"T";right:-2.1rem;opacity:0.5}.btn-toggle.btn-text.active{transition:background-color 0.25s}.btn-toggle.btn-text.active>.handle{left:2.8125rem;transition:left 0.25s}.btn-toggle.btn-text.active:before{opacity:0.5}.btn-toggle.btn-text.active:after{opacity:1}.btn-toggle.btn-mode{margin:0 2.5rem;padding:0;position:relative;border:none;height:2.5rem;width:0px;margin-left:45px !important}.btn-toggle.btn-mode:focus,.btn-toggle.btn-mode:focus.active,.btn-toggle.btn-mode.focus,.btn-toggle.btn-mode.focus.active{box-shadow:none !important;outline:none}.btn-toggle.btn-mode:before,.btn-toggle.btn-mode:after{line-height:1.75rem;width:2.5rem;text-align:center;font-weight:400;font-size:1rem;letter-spacing:0px;position:absolute;bottom:0;transition:opacity 0.25s}.btn-toggle.btn-mode:before{content:"";left:-2rem}.btn-toggle.btn-mode:after{content:"";right:-2.5rem;opacity:0.5}.btn-toggle.btn-mode.active{transition:background-color 0.25s}.btn-toggle.btn-mode.active>.handle{left:2.8125rem;transition:left 0.25s}.btn-toggle.btn-mode.active:before{opacity:0.5}.btn-toggle.btn-mode.active:after{opacity:1}.btn.btn-lg.btn-link{padding:0rem 0rem;font-size:1rem;line-height:1}.btn-link{color:#00758D}.btn-toggle.btn-mode,.btn-toggle.btn-text{height:1.7rem;margin:0 3.7rem}.menu-panel{flex:0 0 250px !important;background-color:var(--drawer-bgcolor) !important}.menu-title{color:var(--titles-color) !important;font-size:18px !important}a{color:var(--docker-color) !important}.panel-container{display:flex;flex-direction:row;height:calc(100% - 57px);flex:1 1 auto}.menu-panel{display:none;flex:0 0 224px;background-color:#fff}.panel-left{display:flex;flex-direction:column;height:100%;width:50%;min-width:30%}.panel-right{display:flex;flex-direction:column;flex:1;min-width:40%}.menu-title{margin:0;padding:24px 16px 0;color:var(--btn-color)}.toc-menu-container{padding:24px 16px 31px;border-bottom:solid 1px var(--page-bgcolor)}.toc-menu-container .section-nav{list-style:none;padding:0}.toc-menu-container .toc-entry{font-size:16px;font-family:"Open Sans";padding-left:40px;position:relative;padding-left:24px !important}.toc-menu-container .toc-entry a{color:var(--titles-color);text-decoration:none}.dark-mode .toc-menu-container .toc-entry a{color:var(--font-color) !important}.toc-menu-container .toc-entry:not(:first-child){margin:16px 0 0}.toc-menu-container .toc-entry:before{content:"\f0da";font:normal normal normal 14px/1 FontAwesome;position:absolute;left:10px;color:var(--docker-color);font-size:16px;top:5px}.menu-extra-options{padding:34px 16px 0}.menu-extra-options-option{font-size:16px;font-family:"Open Sans";text-decoration:none;display:block;color:var(--titles-color);cursor:pointer}.menu-extra-options-option:not(:first-child){margin-top:16px}.menu-extra-options-option .fa{font-size:20px;margin-right:18px}#helpMessage{margin-bottom:40px;margin-top:32px}#sendHelp:disabled{background-color:rgba(0,0,0,0.87);opacity:0.12}.congratz-footer{display:flex;justify-content:space-between}.share{display:flex;align-items:center}.share-text{margin:0}.share-link{font-size:24px;margin:0 5px}.quiz,.quiz+*{display:none}.new-quiz{margin-top:16px;margin-bottom:40px}.new-quiz-title{color:var(--titles-color);font-size:24px;line-height:1.6}.question-card{padding:24px;background-color:var(--card-bgcolor);border-radius:4px;margin-top:16px}.question-number{font-size:14px;color:var(--font-color);font-weight:normal;letter-spacing:0.5px;line-height:1.5;font-family:"Open Sans", sans-serif}.question-title{color:var(--titles-color);font-weight:normal;line-height:24px;font-size:18px;margin-top:8px;letter-spacing:0.3px}.question-answers{margin-top:24px;list-style:none;padding:0}.question-answers-item{margin-top:16px}.show-answers .question-answers-item[data-is-correct="true"] .question-answers-item-fieldset{color:var(--right-color)}.show-answers .question-answers-item[data-is-correct="true"] .question-answers-item-fieldset .question-answers-input:checked{display:none}.show-answers .question-answers-item[data-is-correct="true"] .question-answers-item-fieldset .question-answers-input:checked+:before{color:var(--right-color);content:"\f00c";display:inline-block;width:20px;font:normal normal normal 16px/1 FontAwesome}.show-answers .question-answers-item[data-is-correct="false"] .question-answers-item-fieldset .question-answers-input:checked{display:none}.show-answers .question-answers-item[data-is-correct="false"] .question-answers-item-fieldset .question-answers-input:checked+.question-answers-text{color:var(--wrong-color)}.show-answers .question-answers-item[data-is-correct="false"] .question-answers-item-fieldset .question-answers-input:checked+:before{display:inline-block;width:20px;color:var(--wrong-color);content:"\f00d";font:normal normal normal 16px/1 FontAwesome}.question-answers-item-fieldset{margin:0;font-size:16px;font-family:"Open Sans", sans-serif;color:var(--titles-color);letter-spacing:0.2px;display:flex;align-items:center}.question-answers-input{margin-right:10px}.quiz-footer{margin-top:16px;display:flex;justify-content:space-between}.submit-btn,.text-btn{padding:12px 16px;font-family:"Open Sans", sans-serif;text-align:center;border:none;border-radius:3px;background-color:var(--btn-color);color:white}.submit-btn:disabled,.text-btn:disabled{color:var(--font-color);background-color:var(--disabled-bgcolor)}.text-btn{background-color:transparent;color:var(--btn-color)}.post-tag{display:inline-block;background:rgba(0,117,141,0.15);padding:0 .5rem;margin-right:.5rem;border-radius:4px;color:#00758D;font-family:"Open Sans",serif;font-size:90%}.post-tag:before{content:"\f02b";font-family:FontAwesome;padding-right:.5em}.post-tag:hover{text-decoration:none;background:#00758D;color:#fff}small .post-tag{background:#eee;color:#000}small .post-tag:before{content:none}small .post-tag:hover{text-decoration:none;background:#000;color:#fff;cursor:default}.tags-expo :target:before{content:"";display:block;height:72px;margin:-72px 0 0}@media (min-width: 38em){.tags-expo .tags-expo-list{font-size:2.9rem}.tags-expo .tags-expo-list .post-tag{margin:.2em .3em}}.tags-expo .tags-expo-section{font-family:"Open Sans",serif}.tags-expo .tags-expo-section ul{list-style-type:circle;list-style-position:inside;padding:0}.tags-expo .tags-expo-section ul li{padding:0 1rem}.tags-expo .tags-expo-section ul li:hover{list-style-type:disc}.tags-expo .tags-expo-section a{font-size:20px}.tags-expo .tags-expo-section .post-date{display:inline-block;font-size:80%;color:#000;margin:0;padding:0}.progress-bar{height:4px;background-color:var(--aqua);transition:all 0.2s;width:0px;position:relative}.progress-bar[data-progress]:after{content:attr(data-progress) "%";font-family:"Geomanist";font-size:14px;padding:5px 8px 3px;vertical-align:middle;color:var(--navbar-color);border-radius:5px;background-color:white;position:absolute;right:-10px;top:8px;box-shadow:0 3px 5px -1px rgba(0,0,0,0.2),0 1px 18px 0 rgba(0,0,0,0.12),0 6px 10px 0 rgba(13,156,236,0.14)}.welcome-title{margin-top:100px}.welcome-par{margin-bottom:30px}.btn-welcome{text-emphasis-color:var(--navbar-color);background-color:#ffffff}.dark-mode .feedback-modal-content{background-color:var(--disabled-bgcolor)}.feedback-title{font-family:Geomanist;font-size:24px;color:var(--titles-color)}.feedback-text,.feedback-modal-footer-text,.feedback-textarea{font-family:"Open Sans";line-height:1.5;letter-spacing:0.15px;font-size:16px;font-weight:400;margin:0;color:var(--font-color)}.feedback-text{margin-bottom:24px}.close-button,.send-button{font-family:"Open Sans";font-size:13.7px;font-weight:600}.feedback-textarea{border:solid 1px rgba(0,0,0,0.32)}.feedback-modal-footer{background-color:#f5f5f5;padding:32px}.dark-mode .feedback-modal-footer{background-color:rgba(0,0,0,0.2)}.feedback-modal-footer-title{font-family:Geomanist;font-size:20px;color:var(--titles-color)}.feedback-footer-item{position:fixed;bottom:16px;left:16px;right:16px;padding:12px;color:white;box-shadow:0 3px 5px -1px rgba(0,0,0,0.2),0 1px 18px 0 rgba(0,0,0,0.12),0 6px 10px 0 rgba(0,0,0,0.14);border-radius:4px}.feedback-footer-item-neutral{background-color:var(--feedbak-footer)}.feedback-footer-item-negative{background-color:var(--wrong-color)}.feedback-footer-item-positive{background-color:var(--right-color)}.feedback-footer-item:not([selected]){display:none}.feedback-footer-item-label{font-family:"Open Sans", sans-serif;font-size:14px;margin-left:8px;letter-spacing:0.3px}
+
+</style>
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+
+<link rel="alternate" type="application/rss+xml" title="play-with-go.dev" href="https://play-with-go.dev/feed.xml">
+<link rel="stylesheet" href="/css/quiz.css">
+<link rel="stylesheet" href="https://unpkg.com/pwd-sdk@0.0.2/dist/styles.css">
+</head>
+
+
+  <body>
+
+    <header class="site-header">
+  <nav class="navbar navbar-expand-lg justify-content-between">
+      <!-- Brand and toggle get grouped for better mobile display -->
+
+        <a class="navbar-brand" href="/">
+          <svg width="145px" height="26px" viewBox="0 0 145 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <!-- Generator: Sketch 60.1 (88133) - https://sketch.com -->
+            <title>Logo</title>
+            <desc>Created with Sketch.</desc>
+            <g id="Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="GoLogo-01">
+                    <g id="Group" fill="#FFFFFF">
+                        <path d="M5.89,7.94 C5.75,7.94 5.72,7.87 5.79,7.77 L6.5,6.86 C6.57,6.76 6.74,6.69 6.87,6.69 L18.92,6.69 C19.06,6.69 19.09,6.79 19.02,6.89 L18.45,7.77 C18.38,7.87 18.21,7.97 18.11,7.97 L5.89,7.94 Z" id="Path"></path>
+                        <path d="M0.79,11.04 C0.65,11.04 0.62,10.97 0.69,10.87 L1.4,9.96 C1.47,9.86 1.64,9.79 1.77,9.79 L17.17,9.79 C17.31,9.79 17.37,9.89 17.34,9.99 L17.07,10.8 C17.04,10.94 16.9,11 16.77,11 L0.79,11.04 Z" id="Path"></path>
+                        <path d="M8.96,14.15 C8.82,14.15 8.79,14.05 8.86,13.95 L9.33,13.11 C9.4,13.01 9.53,12.91 9.67,12.91 L16.42,12.91 C16.56,12.91 16.62,13.01 16.62,13.15 L16.55,13.96 C16.55,14.1 16.41,14.2 16.31,14.2 L8.96,14.15 Z" id="Path"></path>
+                        <g transform="translate(19.000000, 0.000000)">
+                            <path d="M25.01,7.33 C22.88,7.87 21.43,8.28 19.34,8.82 C18.83,8.96 18.8,8.99 18.36,8.48 C17.85,7.91 17.48,7.53 16.77,7.2 C14.64,6.15 12.58,6.46 10.66,7.71 C8.36,9.2 7.18,11.39 7.22,14.12 C7.25,16.82 9.11,19.05 11.78,19.42 C14.08,19.72 16,18.91 17.52,17.19 C17.82,16.82 18.09,16.41 18.43,15.94 C17.21,15.94 15.7,15.94 11.91,15.94 C11.2,15.94 11.03,15.5 11.27,14.93 C11.71,13.88 12.52,12.13 12.99,11.25 C13.09,11.05 13.33,10.71 13.83,10.71 L26.12,10.71 C26.05,11.62 26.05,12.53 25.92,13.44 C25.55,15.87 24.64,18.1 23.15,20.06 C20.72,23.27 17.55,25.26 13.53,25.8 C10.22,26.24 7.15,25.6 4.45,23.57 C1.95,21.68 0.53,19.18 0.16,16.08 C-0.28,12.4 0.8,9.09 3.03,6.19 C5.43,3.05 8.6,1.06 12.48,0.35 C15.65,-0.22 18.69,0.15 21.43,2 C23.22,3.18 24.5,4.8 25.35,6.76 C25.55,7.06 25.41,7.23 25.01,7.33 Z" id="Path"></path>
+                            <path d="M36.18,26 C33.11,25.93 30.31,25.05 27.94,23.03 C25.95,21.31 24.7,19.11 24.29,16.51 C23.68,12.69 24.73,9.32 27.02,6.31 C29.48,3.07 32.46,1.38 36.47,0.67 C39.91,0.06 43.15,0.4 46.09,2.39 C48.76,4.21 50.41,6.68 50.85,9.92 C51.42,14.48 50.11,18.19 46.97,21.37 C44.74,23.63 42.01,25.05 38.87,25.69 C37.97,25.86 37.06,25.9 36.18,26 Z M44.22,12.36 C44.19,11.92 44.19,11.58 44.12,11.25 C43.51,7.9 40.44,6.01 37.23,6.76 C34.09,7.47 32.06,9.46 31.32,12.63 C30.71,15.26 32,17.93 34.43,19.01 C36.29,19.82 38.14,19.72 39.93,18.81 C42.6,17.42 44.05,15.26 44.22,12.36 L44.22,12.36 Z" id="Shape" fill-rule="nonzero"></path>
+                        </g>
+                    </g>
+                    <rect id="Rectangle" x="0" y="0" width="145" height="26"></rect>
+                </g>
+            </g>
+        </svg>
+        </a>
+      <div class="btn-group"> 
+        <button type="button" class="btn btn-lg btn-secondary btn-toggle btn-mode fa dark-mode" data-toggle="button">
+        </button>
+
+        <button type="button" id="help" class="btn btn-lg btn-link" style="color: white;">
+          Help &nbsp <span class="btn-label"><i class="fa fa-question-circle"></i></span>
+        </button>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <!--<div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">-->
+      <!--<ul class="nav navbar-nav navbar-right">-->
+      <!--<li><a href="/about/">About</a></li>-->
+      <!--</ul>-->
+      <!--</div>[> /.navbar-collapse <]-->
+  </nav>
+</header>
+
+<!-- Help -->
+<div
+  class="modal fade"
+  id="helpModal"
+  tabindex="-2"
+  role="dialog"
+  aria-labelledby="helpModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content feedback-modal-content">
+      <div class="modal-body feedback-modal-body">
+        <div class="row">
+        <div class="col-sm">
+          <h5 class="feedback-title">
+          Report an Issue.
+          </h5>
+        </div>
+        <div class="col-sm">
+          <button
+            type="button"
+            data-dismiss="modal"
+            class="btn btn-secondary float-right close-button"
+          >
+            CLOSE
+          </button>
+        </div>
+      </div>
+        <p class="feedback-text">
+          ¿Having technical problems or want to give feedback on the experience?
+          Send us you message and we will get back to you as soon as possible.
+        </p>
+        <div class="row">
+          
+          <div class="col-sm">
+            <a href="https://github.com/play-with-go/play-with-go/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BHELP%5D+-+" target="_blank">
+              <button
+                type="button"
+                class="btn btn-primary float-left send-button"
+              >
+                Report issue in GitHub
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="feedback-modal-footer">
+        <h6 class="feedback-modal-footer-title">Other questions or comments?</h6>
+        <p class="feedback-modal-footer-text">
+          Find us in the
+          <a href="https://gophers.slack.com/archives/C01C1KKRMAP" target="_blank">
+            play-with-go channel
+          </a>
+           at the Gopher's community slack.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    
+<div class="progress-bar"></div>
+<div class="panel-container">
+
+
+    <div class="panel-left">
+        
+        <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">Retracting Module Versions</h1>
+            </header>
+            <div class="post-content" itemprop="articleBody">
+                <p><em>Note: this is a preview of a <code class="highlighter-rouge">cmd/go</code> feature that is due to land in Go 1.16</em></p>
+
+<p>Module authors need a way to indicate that published module versions should not be used. There are a number of reasons
+this may be needed:</p>
+
+<ul>
+  <li>A severe security vulnerability has been identified.</li>
+  <li>A severe incompatibility or bug was discovered.</li>
+  <li>The version was published accidentally or prematurely.</li>
+</ul>
+
+<p>Authors can’t simply delete version tags, since they remain available on module proxies. If an author were able to
+delete a version from all proxies, it would break downstream users that depend on that version.</p>
+
+<p>Authors also can’t change versions after they’ve published. <code class="highlighter-rouge">go.sum</code> files and the checksum database verify that published
+versions never change.</p>
+
+<p>Instead, authors should be able to <em>retract</em> module versions. A retracted module version is a version with an explicit
+declaration from the module author that it should not be used. (The word retract is borrowed from academic literature: a
+retracted research paper is still available, but it has problems and should not be the basis of future work).</p>
+
+<p>Retracted versions should remain available in module proxies and origin repositories. Builds that depend on retracted
+versions should continue to work. However, users should be notified when they depend on a retracted version (either
+directly or indirectly). It should also be difficult to unintentionally upgrade to a retracted version.</p>
+
+<p>This guide walks you through how to use module retractions. In the guide you will create two packages:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">{{{.PROVERB}}}</code> (part of a module at the same path) that provides various different wise proverbs. You will
+publish a number of versions of this module.</li>
+  <li><code class="highlighter-rouge">gopher</code>, a simple <code class="highlighter-rouge">main</code> package that uses <code class="highlighter-rouge">{{{.PROVERB}}}</code>. You will not publish this module; it
+will be local-only.</li>
+</ul>
+
+<p>This guide is running using:</p>
+
+<pre data-command-src="Z28gdmVyc2lvbgo="><code class="language-.term1">$ go version
+go version devel +3ef8562c9c Thu Nov 5 02:48:05 2020 +0000 linux/amd64
+</code></pre>
+
+<h3 id="the-proverb-package">The <code class="highlighter-rouge">proverb</code> package</h3>
+
+<p>Start by initialising your <code class="highlighter-rouge">proverb</code> module:</p>
+
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL3Byb3ZlcmIKY2QgL2hvbWUvZ29waGVyL3Byb3ZlcmIKZ2l0IGluaXQgLXEKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8ve3t7LlBST1ZFUkJ9fX0uZ2l0CmdvIG1vZCBpbml0IHt7ey5QUk9WRVJCfX19Cg=="><code class="language-.term1">$ mkdir /home/gopher/proverb
+$ cd /home/gopher/proverb
+$ git init -q
+$ git remote add origin https://{{{.PROVERB}}}.git
+$ go mod init {{{.PROVERB}}}
+go: creating new go.mod: module {{{.PROVERB}}}
+</code></pre>
+
+<p>Create an initial version with a <code class="highlighter-rouge">Go</code> function that returns a Go proverb in the file <code class="highlighter-rouge">proverb.go</code>:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="cHJvdmVyYi5nbw==:cGFja2FnZSBwcm92ZXJiCgovLyBHbyByZXR1cm5zIGEgR28gcHJvdmVyYgpmdW5jIEdvKCkgc3RyaW5nIHsKCXJldHVybiAiRG9uJ3QgY29tbXVuaWNhdGUgYnkgc2hhcmluZyBtZW1vcnksIHNoYXJkIG1lbW9yeSBieSBjb21tdW5pY2F0aW5nLiIKfQo=" data-upload-term=".term1"><code class="language-go">package proverb
+
+// Go returns a Go proverb
+func Go() string {
+	return &#34;Don&#39;t communicate by sharing memory, shard memory by communicating.&#34;
+}
+</code></pre>
+
+<p>Commit and push this initial version:</p>
+
+<pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJJbml0aWFsIGNvbW1pdCIKZ2l0IHB1c2ggLXEgb3JpZ2luIG1haW4K"><code class="language-.term1">$ git add -A
+$ git commit -q -m "Initial commit"
+$ git push -q origin main
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<p>It’s early days for the <code class="highlighter-rouge">proverb</code> module, so you decide to tag it with a <code class="highlighter-rouge">v0</code> semantic version, indicating it
+is not yet stable:</p>
+
+<pre data-command-src="Z2l0IHRhZyB2MC4xLjAKZ2l0IHB1c2ggLXEgb3JpZ2luIHYwLjEuMAo="><code class="language-.term1">$ git tag v0.1.0
+$ git push -q origin v0.1.0
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<p>With the first version of the <code class="highlighter-rouge">proverb</code> module published, it’s time to create a first cut of your
+<code class="highlighter-rouge">gopher</code> package</p>
+
+<h3 id="the-gopher-package">The <code class="highlighter-rouge">gopher</code> package</h3>
+
+<p>You are not going to publish the <code class="highlighter-rouge">gopher</code> package, so the setup is simpler:</p>
+
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL2dvcGhlcgpjZCAvaG9tZS9nb3BoZXIvZ29waGVyCmdvIG1vZCBpbml0IGdvcGhlcgo="><code class="language-.term1">$ mkdir /home/gopher/gopher
+$ cd /home/gopher/gopher
+$ go mod init gopher
+go: creating new go.mod: module gopher
+</code></pre>
+
+<p>Notice how you skipped the <code class="highlighter-rouge">git</code> steps, and also how the module path is simply <code class="highlighter-rouge">gopher</code>. As this module
+will be local-only, you can use any path you like.</p>
+
+<p>Create an initial version of the <code class="highlighter-rouge">main</code> function in <code class="highlighter-rouge">gopher.go</code>:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2dvcGhlcg==" data-upload-src="Z29waGVyLmdv:cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKCgkie3t7LlBST1ZFUkJ9fX0iCikKCmZ1bmMgbWFpbigpIHsKCWZtdC5QcmludGxuKHByb3ZlcmIuR28oKSkKfQo=" data-upload-term=".term1"><code class="language-go">package main
+
+import (
+	&#34;fmt&#34;
+
+	&#34;{{{.PROVERB}}}&#34;
+)
+
+func main() {
+	fmt.Println(proverb.Go())
+}
+</code></pre>
+
+<p>In this code you:</p>
+
+<ul>
+  <li>Import the <code class="highlighter-rouge">{{{.PROVERB}}}</code> package. This declares the dependency on this package.</li>
+  <li>Use the <a href="https://pkg.go.dev/fmt#Println"><code class="highlighter-rouge">fmt.Println</code></a> to print the proverb returned by <code class="highlighter-rouge">proverb.Go()</code>
+function.</li>
+</ul>
+
+<p>Add a dependency on the <code class="highlighter-rouge">{{{.PROVERB}}}</code> module:</p>
+
+<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QHYwLjEuMAo="><code class="language-.term1">$ go get {{{.PROVERB}}}@v0.1.0
+go: downloading {{{.PROVERB}}} v0.1.0
+</code></pre>
+
+<p>Run to make sure everything works:</p>
+
+<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
+Don't communicate by sharing memory, shard memory by communicating.
+</code></pre>
+
+<p>Looks great!</p>
+
+<h3 id="a-better-initial-version">A “better” initial version</h3>
+
+<p>After much debate with some friends, you decide that there is a better Go proverb to use in the initial version of your
+<code class="highlighter-rouge">proverb</code> module.</p>
+
+<p>Change back to the <code class="highlighter-rouge">proverb</code> module:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL3Byb3ZlcmIK"><code class="language-.term1">$ cd /home/gopher/proverb
+</code></pre>
+
+<p>Update <code class="highlighter-rouge">proverb.go</code> as follows:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="cHJvdmVyYi5nbw==:cGFja2FnZSBwcm92ZXJiCgovLyBHbyByZXR1cm5zIGEgR28gcHJvdmVyYgpmdW5jIEdvKCkgc3RyaW5nIHsKCXJldHVybiAiQ29uY3VycmVuY3kgaXMgcGFyYWxsZWxpc20uIgp9Cg==" data-upload-term=".term1"><code class="language-go">package proverb
+
+// Go returns a Go proverb
+func Go() string {
+<b style="color:darkblue">	return &#34;Concurrency is parallelism.&#34;</b>
+}
+</code></pre>
+
+<p>Commit and push this updated version:</p>
+
+<pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJTd2l0Y2ggR28gcHJvdmVyYiB0byBzb21ldGhpbmcgbW9yZSBmYW1vdXMiCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluCg=="><code class="language-.term1">$ git add -A
+$ git commit -q -m "Switch Go proverb to something more famous"
+$ git push -q origin main
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<p>Given there might be further changes to the <code class="highlighter-rouge">proverb</code> module before you mark it as <code class="highlighter-rouge">v1</code> stable, you decide to
+publish <code class="highlighter-rouge">v0.2.0</code> to be on the safe side:</p>
+
+<pre data-command-src="Z2l0IHRhZyB2MC4yLjAKZ2l0IHB1c2ggLXEgb3JpZ2luIHYwLjIuMAo="><code class="language-.term1">$ git tag v0.2.0
+$ git push -q origin v0.2.0
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<p>With the second version of the <code class="highlighter-rouge">proverb</code> module now published, return to your <code class="highlighter-rouge">gopher</code> module and
+try this out:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2dvcGhlcgpnbyBnZXQge3t7LlBST1ZFUkJ9fX1AdjAuMi4wCmdvIHJ1biAuCg=="><code class="language-.term1">$ cd /home/gopher/gopher
+$ go get {{{.PROVERB}}}@v0.2.0
+go: downloading {{{.PROVERB}}} v0.2.0
+$ go run .
+Concurrency is parallelism.
+</code></pre>
+
+<p>Oops! That doesn’t look right. Looks like we made a mistake with the changes in <code class="highlighter-rouge">v0.2.0</code>. You can
+surely publish a new version of the <code class="highlighter-rouge">proverb</code> module to correct the mistake, but can you be sure nobody will
+ever depend on this broken version?</p>
+
+<p>Module retraction to the rescue.</p>
+
+<h3 id="retracting-module-versions">Retracting module versions</h3>
+
+<p>A module author can retract a version of a module by adding a <code class="highlighter-rouge">retract</code> directive to the <code class="highlighter-rouge">go.mod</code> file. The <code class="highlighter-rouge">retract</code>
+directive simply lists retracted versions.</p>
+
+<p>To retract <code class="highlighter-rouge">v0.2.0</code> of the <code class="highlighter-rouge">proverb</code> module, you will publish <code class="highlighter-rouge">v0.3.0</code>.
+This new version will also fix the bug we found in <code class="highlighter-rouge">v0.2.0</code>.</p>
+
+<p>Return to the <code class="highlighter-rouge">proverb</code> module:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL3Byb3ZlcmIK"><code class="language-.term1">$ cd /home/gopher/proverb
+</code></pre>
+
+<p>Rather than making the change to your <code class="highlighter-rouge">go.mod</code> file by hand, you can instead use
+<code class="highlighter-rouge">go mod edit</code> as follows:</p>
+
+<pre data-command-src="Z28gbW9kIGVkaXQgLXJldHJhY3Q9djAuMi4wCg=="><code class="language-.term1">$ go mod edit -retract=v0.2.0
+</code></pre>
+
+<p>Inspect the <code class="highlighter-rouge">go.mod</code> to see the result:</p>
+
+<pre data-command-src="Y2F0IGdvLm1vZAo="><code class="language-.term1">$ cat go.mod
+module {{{.PROVERB}}}
+
+go 1.16
+
+retract v0.2.0
+</code></pre>
+
+<p>As is best practice, add a comment to the <code class="highlighter-rouge">retract</code> directive documenting why the retraction was
+necessary:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="Z28ubW9k:bW9kdWxlIHt7ey5QUk9WRVJCfX19CgpnbyAxLjE2CgpyZXRyYWN0IHYwLjIuMCAvLyBHbyBwcm92ZXJiIHdhcyB0b3RhbGx5IHdyb25nCg==" data-upload-term=".term1"><code class="language-mod">module {{{.PROVERB}}}
+
+go 1.16
+
+retract v0.2.0 // Go proverb was totally wrong
+</code></pre>
+
+<p>Fix the bug in <code class="highlighter-rouge">proverb.go</code>:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="cHJvdmVyYi5nbw==:cGFja2FnZSBwcm92ZXJiCgovLyBHbyByZXR1cm5zIGEgR28gcHJvdmVyYgpmdW5jIEdvKCkgc3RyaW5nIHsKCXJldHVybiAiQ29uY3VycmVuY3kgaXMgbm90IHBhcmFsbGVsaXNtLiIKfQo=" data-upload-term=".term1"><code class="language-go">package proverb
+
+// Go returns a Go proverb
+func Go() string {
+<b style="color:darkblue">	return &#34;Concurrency is not parallelism.&#34;</b>
+}
+</code></pre>
+
+<p>Commit, push and tag <code class="highlighter-rouge">v0.3.0</code>:</p>
+
+<pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJGaXggc2V2ZXJlIGVycm9yIGluIEdvIHByb3ZlcmIiCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluCmdpdCB0YWcgdjAuMy4wCmdpdCBwdXNoIC1xIG9yaWdpbiB2MC4zLjAK"><code class="language-.term1">$ git add -A
+$ git commit -q -m "Fix severe error in Go proverb"
+$ git push -q origin main
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+$ git tag v0.3.0
+$ git push -q origin v0.3.0
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<p>Return to your <code class="highlighter-rouge">gopher</code> module to use this new version:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2dvcGhlcgpnbyBnZXQge3t7LlBST1ZFUkJ9fX1AdjAuMy4wCg=="><code class="language-.term1">$ cd /home/gopher/gopher
+$ go get {{{.PROVERB}}}@v0.3.0
+go: downloading {{{.PROVERB}}} v0.3.0
+</code></pre>
+
+<p>This step also ensures that <a href="https://proxy.golang.org/">proxy.golang.org</a> is now aware of <code class="highlighter-rouge">v0.3.0</code>.
+Manually “pulling” a version of a module into the proxy using <code class="highlighter-rouge">go get</code> in this way means you (or indeed
+others) do not have to rely or wait on the proxy automatically checking for later versions of a module.</p>
+
+<p>Verify this new version fixes things:</p>
+
+<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
+Concurrency is not parallelism.
+</code></pre>
+
+<p>That’s better.</p>
+
+<p>So what exactly has happened to <code class="highlighter-rouge">v0.2.0</code>? Remember, you can’t simply delete a version of the
+<code class="highlighter-rouge">proverb</code> module, since it remains available on module proxies.  Let’s use <code class="highlighter-rouge">go list</code> to dig a
+bit deeper.</p>
+
+<p>List the non-retracted, “usable” versions of the <code class="highlighter-rouge">{{{.PROVERB}}}</code> module known to the proxy:</p>
+
+<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMge3t7LlBST1ZFUkJ9fX0K"><code class="language-.term1">$ go list -m -versions {{{.PROVERB}}}
+{{{.PROVERB}}} v0.1.0 v0.3.0
+</code></pre>
+
+<p><em>Note: there may be some delay whilst proxy.golang.org updates to reflect the new version information. Hence you might
+need to re-try this command to see the <code class="highlighter-rouge">v0.3.0</code> version listed in the output, as above.</em></p>
+
+<p>Notice that the newly published <code class="highlighter-rouge">v0.3.0</code> is in this list, but <code class="highlighter-rouge">v0.2.0</code> is not.</p>
+
+<p>List <em>all</em> versions versions (including any that are retracted):</p>
+
+<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMgLXJldHJhY3RlZCB7e3suUFJPVkVSQn19fQo="><code class="language-.term1">$ go list -m -versions -retracted {{{.PROVERB}}}
+{{{.PROVERB}}} v0.1.0 v0.2.0 v0.3.0
+</code></pre>
+
+<p>Ah, there is our mischievous <code class="highlighter-rouge">v0.2.0</code>.</p>
+
+<p>So what would happen if you were to rely on the now retracted <code class="highlighter-rouge">v0.2.0</code>?</p>
+
+<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QHYwLjIuMAo="><code class="language-.term1">$ go get {{{.PROVERB}}}@v0.2.0
+go: warning: {{{.PROVERB}}}@v0.2.0 is retracted: Go proverb was totally wrong
+go: run 'go get {{{.PROVERB}}}@latest' to switch to the latest unretracted version
+</code></pre>
+
+<p>A helpful message is printed, warning that you are now depending on a retracted version. Notice that this error message
+includes the text from the comment you added to the <code class="highlighter-rouge">retract</code> directive.</p>
+
+<p>But does the code run?</p>
+
+<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
+Concurrency is parallelism.
+</code></pre>
+
+<p>Interesting: your code continues to “work” as before.</p>
+
+<p>So how do you tell if you are relying on retracted versions of a module? For this, you again turn to
+<code class="highlighter-rouge">go list</code>:</p>
+
+<pre data-command-src="Z28gbGlzdCAtbSAtdSBhbGwK"><code class="language-.term1">$ go list -m -u all
+gopher
+{{{.PROVERB}}} v0.2.0 (retracted) [v0.3.0]
+</code></pre>
+
+<p>Let’s follow the advice of the warning message, and return to the latest un-retracted version:</p>
+
+<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QGxhdGVzdAo="><code class="language-.term1">$ go get {{{.PROVERB}}}@latest
+go: {{{.PROVERB}}} latest =&gt; v0.3.0
+</code></pre>
+
+<h3 id="another-type-of-proverb">Another type of proverb</h3>
+
+<p>After consulting a wise friend, you decide that your <code class="highlighter-rouge">proverb</code> module needs to be a bit more rounded with
+its advice, and that one more change is therefore required before you declare it stable at <code class="highlighter-rouge">v1</code>. Returning to the
+<code class="highlighter-rouge">proverb</code> module:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL3Byb3ZlcmIK"><code class="language-.term1">$ cd /home/gopher/proverb
+</code></pre>
+
+<p>Update <code class="highlighter-rouge">proverb.go</code> as follows:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="cHJvdmVyYi5nbw==:cGFja2FnZSBwcm92ZXJiCgovLyBHbyByZXR1cm5zIGEgR28gcHJvdmVyYgpmdW5jIEdvKCkgc3RyaW5nIHsKCXJldHVybiAiQ29uY3VycmVuY3kgaXMgbm90IHBhcmFsbGVsaXNtLiIKfQoKLy8gTGlmZSByZXR1cm5zIGEgcHJvdmVyYiB1c2VmdWwgZm9yIGRheS10by1kYXkgbGl2aW5nCmZ1bmMgTGlmZSgpIHN0cmluZyB7CglyZXR1cm4gIkEgYmlyZCBpbiB0aGUgaGFuZCBpcyB3b3J0aCB0d28gaW4gdGhlIGJ1c2guIgp9Cg==" data-upload-term=".term1"><code class="language-go">package proverb
+
+// Go returns a Go proverb
+func Go() string {
+	return &#34;Concurrency is not parallelism.&#34;
+}
+<b style="color:darkblue"></b>
+<b style="color:darkblue">// Life returns a proverb useful for day-to-day living</b>
+<b style="color:darkblue">func Life() string {</b>
+<b style="color:darkblue">	return &#34;A bird in the hand is worth two in the bush.&#34;</b>
+<b style="color:darkblue">}</b>
+</code></pre>
+
+<p>Commit and push this updated version:</p>
+
+<pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJBZGQgTGlmZSgpIHByb3ZlcmIiCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluCg=="><code class="language-.term1">$ git add -A
+$ git commit -q -m "Add Life() proverb"
+$ git push -q origin main
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<p>To be safe, you decide to publish <code class="highlighter-rouge">v0.4.0</code> before committing to a <code class="highlighter-rouge">v1</code> stable version:</p>
+
+<pre data-command-src="Z2l0IHRhZyB2MS4wLjAKZ2l0IHB1c2ggLXEgb3JpZ2luIHYxLjAuMAo="><code class="language-.term1">$ git tag v1.0.0
+$ git push -q origin v1.0.0
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<p>Oh no! You accidentally tagged and pushed <code class="highlighter-rouge">v1.0.0</code> instead of <code class="highlighter-rouge">v0.4.0</code>. Users of
+your module might mistakenly think the <code class="highlighter-rouge">proverb</code> API is stable and that there will not therefore be any
+breaking changes. But you’re not ready to make that sort of commitment!</p>
+
+<p>Let’s retract <code class="highlighter-rouge">v1.0.0</code> of the <code class="highlighter-rouge">proverb</code> module, but first publish with the correct version,
+<code class="highlighter-rouge">v0.4.0</code>:</p>
+
+<pre data-command-src="Z2l0IHRhZyB2MC40LjAKZ2l0IHB1c2ggLXEgb3JpZ2luIHYwLjQuMAo="><code class="language-.term1">$ git tag v0.4.0
+$ git push -q origin v0.4.0
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<p>To retract <code class="highlighter-rouge">v1.0.0</code> you will need to publish <code class="highlighter-rouge">v1.0.1</code>. But that means you will <em>also</em>
+need to retract version <code class="highlighter-rouge">v1.0.1</code>. You do so using a <a href="https://en.wikipedia.org/wiki/Interval_(mathematics)">closed
+range</a>. Make this change by hand by editing the
+<code class="highlighter-rouge">proverb</code> <code class="highlighter-rouge">go.mod</code> file, commenting the <code class="highlighter-rouge">retract</code> directive as is best practice:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="Z28ubW9k:bW9kdWxlIHt7ey5QUk9WRVJCfX19CgpnbyAxLjE2CgpyZXRyYWN0ICgKCXYwLjIuMCAvLyBHbyBwcm92ZXJiIHdhcyB0b3RhbGx5IHdyb25nCglbdjEuMC4wLCB2MS4wLjFdIC8vIHB1Ymxpc2hlZCB2MSB0b28gZWFybHkKKQo=" data-upload-term=".term1"><code class="language-mod">module {{{.PROVERB}}}
+
+go 1.16
+
+<b style="color:darkblue">retract (</b>
+<b style="color:darkblue">	v0.2.0 // Go proverb was totally wrong</b>
+<b style="color:darkblue">	[v1.0.0, v1.0.1] // published v1 too early</b>
+<b style="color:darkblue">)</b>
+</code></pre>
+
+<p>Commit, tag, push and publish <code class="highlighter-rouge">v1.0.1</code>:</p>
+
+<pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJSZXRyYWN0IFt2MS4wLjAsIHYxLjAuMV0iCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluCmdpdCB0YWcgdjEuMC4xCmdpdCBwdXNoIC1xIG9yaWdpbiB2MS4wLjEK"><code class="language-.term1">$ git add -A
+$ git commit -q -m "Retract [v1.0.0, v1.0.1]"
+$ git push -q origin main
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+$ git tag v1.0.1
+$ git push -q origin v1.0.1
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<p>Return to the <code class="highlighter-rouge">gopher</code> module to experiment with the newly retracted versions:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2dvcGhlcgo="><code class="language-.term1">$ cd /home/gopher/gopher
+</code></pre>
+
+<p>Ensure proxy.golang.org is aware of the new versions of <code class="highlighter-rouge">proverb</code> you just published. <code class="highlighter-rouge">go get</code>
+<code class="highlighter-rouge">v0.4.0</code> last to leave that version as the current dependency (you will test it later).</p>
+
+<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QHYxLjAuMApnbyBnZXQge3t7LlBST1ZFUkJ9fX1AdjEuMC4xCmdvIGdldCB7e3suUFJPVkVSQn19fUB2MC40LjAK"><code class="language-.term1">$ go get {{{.PROVERB}}}@v1.0.0
+go: downloading {{{.PROVERB}}} v1.0.0
+go: warning: {{{.PROVERB}}}@v1.0.0 is retracted: published v1 too early
+go: run 'go get {{{.PROVERB}}}@latest' to switch to the latest unretracted version
+$ go get {{{.PROVERB}}}@v1.0.1
+go: downloading {{{.PROVERB}}} v1.0.1
+go: warning: {{{.PROVERB}}}@v1.0.1 is retracted: published v1 too early
+go: run 'go get {{{.PROVERB}}}@latest' to switch to the latest unretracted version
+$ go get {{{.PROVERB}}}@v0.4.0
+go: downloading {{{.PROVERB}}} v0.4.0
+</code></pre>
+
+<p><em>Note: you might not see the warning about either <code class="highlighter-rouge">v1.0.0</code> or <code class="highlighter-rouge">v1.0.1</code> being
+retracted versions. proxy.golang.org automatically updates periodically; depending on how lucky you are, an automatic
+update may have occurred in the time since you published <code class="highlighter-rouge">v1.0.1</code> in which case you will see the
+warning message, or it may not.</em></p>
+
+<p>List all versions of the <code class="highlighter-rouge">{{{.PROVERB}}}</code> known to the proxy, including the retracted ones:</p>
+
+<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMgLXJldHJhY3RlZCB7e3suUFJPVkVSQn19fQo="><code class="language-.term1">$ go list -m -versions -retracted {{{.PROVERB}}}
+{{{.PROVERB}}} v0.1.0 v0.2.0 v0.3.0 v0.4.0 v1.0.0 v1.0.1
+</code></pre>
+
+<p><em>Note: there may be some delay whilst proxy.golang.org updates to reflect the new version information. Hence you might
+need to re-try this command to see versions <code class="highlighter-rouge">v0.4.0</code>, <code class="highlighter-rouge">v1.0.0</code> and
+<code class="highlighter-rouge">v1.0.1</code> listed in the output, as above.</em></p>
+
+<p>List the non-retracted versions of the <code class="highlighter-rouge">{{{.PROVERB}}}</code> known to the proxy:</p>
+
+<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMge3t7LlBST1ZFUkJ9fX0K"><code class="language-.term1">$ go list -m -versions {{{.PROVERB}}}
+{{{.PROVERB}}} v0.1.0 v0.3.0 v0.4.0
+</code></pre>
+
+<p>This shows that <code class="highlighter-rouge">v0.4.0</code> is the latest version of the <code class="highlighter-rouge">proverb</code> module, as expected.</p>
+
+<p>Update <code class="highlighter-rouge">gopher.go</code> to use the new proverb:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2dvcGhlcg==" data-upload-src="Z29waGVyLmdv:cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKCgkie3t7LlBST1ZFUkJ9fX0iCikKCmZ1bmMgbWFpbigpIHsKCWZtdC5QcmludGYoIkdvIHByb3ZlcmI6ICV2XG4iLCBwcm92ZXJiLkdvKCkpCglmbXQuUHJpbnRmKCJMaWZlIGFkdmljZTogJXZcbiIsIHByb3ZlcmIuTGlmZSgpKQp9Cg==" data-upload-term=".term1"><code class="language-go">package main
+
+import (
+	&#34;fmt&#34;
+
+	&#34;{{{.PROVERB}}}&#34;
+)
+
+func main() {
+<b style="color:darkblue">	fmt.Printf(&#34;Go proverb: %v\n&#34;, proverb.Go())</b>
+<b style="color:darkblue">	fmt.Printf(&#34;Life advice: %v\n&#34;, proverb.Life())</b>
+}
+</code></pre>
+
+<p>Finally, run <code class="highlighter-rouge">gopher</code> to verify everything works:</p>
+
+<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
+Go proverb: Concurrency is not parallelism.
+Life advice: A bird in the hand is worth two in the bush.
+</code></pre>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>That’s it! This guide has introduced module retraction, demonstrating how to retract a simple bad version, as well as
+retracting an accidental <code class="highlighter-rouge">v1</code>. For more information on module retraction, see <a href="https://golang.org/ref/mod">the modules
+reference</a>.
+<script>let pageGuide="2020-11-08-retracting-module-versions"; let pageLanguage="en"; let pageScenario="go116";</script></p>
+
+            </div>
+        </article>
+    </div>
+
+
+    <div class="panel-right">
+        <div class="panel-nav">
+            <i class="expand-button fa fa-expand pull-right"></i>
+            <ul class="nav nav-tabs">
+            
+                <li class="nav-item">
+                    <a class="nav-link active" id="term1-tab" data-toggle="tab" href="#term1" role="tab" aria-controls="term1" aria-selected="true" >T.1</a>
+                </li>
+            
+            </ul>
+        </div>
+        <div class="twrapper">
+            <div class="splitter"></div>
+            <div class="tab-content" id="myTabContent">
+                
+                <div class="tab-pane show term1 active" id="term1" role="tabpanel" aria-labelledby="term1-tab"></div>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var imageName = "";
+    (function() {
+        var font3 = document.createElement('link');
+        font3.type = 'text/css';
+        font3.rel = 'stylesheet';
+        font3.href = '/css/syntax-highlighting.css';
+        var q = document.getElementsByTagName('link')[0];
+        q.parentNode.insertBefore(font3, q);
+    })();
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+<script src="https://rawgit.com/RickStrahl/jquery-resizable/master/dist/jquery-resizable.min.js"></script>
+<script src="https://unpkg.com/pwd-sdk@0.0.7/dist/pwd.min.js"></script>
+<script src="/js/post-layout.js"></script>
+<script src="/js/progress-bar.js"></script>
+<script src="/js/menu.js"></script>
+<script src="/js/feedback-footer.js"></script>
+<script src="/js/dark-mode.js"></script>
+<script src="/js/exit-warning.js"></script>
+<script src="/js/import-file.js"></script>
+<div
+  class="modal fade"
+  id="congratz-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img src="/images/success.png" />
+        <h2 class="post-title">
+          Congratulations!
+        </h2>
+        <p class="congratz-text">
+          Great work! you are getting closer and closer to archieving your
+          goals. Go foward!
+        </p>
+        <div class="congratz-footer">
+          <button type="button" class="text-btn" data-dismiss="modal">
+            CLOSE
+          </button>
+          <div class="share">
+            <p class="share-text">Share your archievements</p>
+            <a
+              href="http://twitter.com/share?url=URL_TO_PAGE&text=TITLE_TO_SHARE&via=TWITTER_USERNAME"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u=http://labs.docker.com"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-facebook-official" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    
+    <div class="feedback-footer">
+  <div
+    class="feedback-footer-item 
+    feedback-footer-item-neutral"
+  >
+    <i class="fa fa-spinner" aria-hidden="true"></i>
+    <span class="feedback-footer-item-label"> </span>
+  </div>
+  <div
+    class="feedback-footer-item 
+    feedback-footer-item-negative"
+  >
+    <i class="fa fa-times" aria-hidden="true"></i>
+    <span class="feedback-footer-item-label"> </span>
+  </div>
+  <div
+    class="feedback-footer-item 
+    feedback-footer-item-positive"
+  >
+    <i class="fa fa-check-square" aria-hidden="true"></i>
+    <span class="feedback-footer-item-label"> </span>
+  </div>
+</div>
+
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dropzone@5.5.1/dist/dropzone.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  
+    <!-- Welcome -->
+<div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="tab-content" id="welcomeContent">
+          <div class="tab-pane fade show active" id="welcome" role="tabpanel" aria-labelledby="welcome-tab">
+            <img src="/images/welcome.png"/>
+            <h2>Welcome to Go Labs.</h2>
+            <p>First time here? Take a short tour through Labs platform and learn how to use the new features.</p>
+          </div>
+          <div class="tab-pane fade" id="index" role="tabpanel" aria-labelledby="index-tab">
+            <img src="/images/index.png"/>
+            <h2>Course index.</h2>
+            <p>You will find the Lab’s content index on the menu. Also, look for the option "help" in the menu if you experience any problem, want to send us feedback or just need advice from your peers.</p>
+          </div>
+          <div class="tab-pane fade" id="dark" role="tabpanel" aria-labelledby="dark-tab">
+            <img src="/images/dark.png"/>
+            <h2>Dark mode and text size.</h2>
+            <p>On the upper right corner, you will find the dark mode switch and the option to change the font size. Also, you will see the icon to import files from your local computer.</p>
+          </div>
+          <div class="tab-pane fade" id="progress" role="tabpanel" aria-labelledby="progress-tab">
+            <img src="/images/progress.png"/>
+            <h2>Lab progress.</h2>
+            <p>You will see you Lab’s progress on a green bar, located on the top left side of your window.</p>
+          </div>
+          <div class="tab-pane fade" id="terminal" role="tabpanel" aria-labelledby="terminal-tab">
+            <img src="/images/terminal.png"/>
+            <h2>Full screen terminal.</h2>
+            <p>You'll be able to maximize your terminal by clicking on the icon you have on the upper right side.</p>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <button type="button" data-dismiss="modal"  class="btn btn-link">Skip</button>
+            </div>
+            <div class="col-sm my-auto">
+              <ul class="nav pagination justify-content-center" id="myTab" role="tablist">
+                <li class="page-item">
+                  <a class="page-link active" id="welcome-tab" data-toggle="tab" href="#welcome" role="tab" aria-controls="welcome" aria-selected="true"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="index-tab" data-toggle="tab" href="#index" role="tab" aria-controls="index" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="dark-tab" data-toggle="tab" href="#dark" role="tab" aria-controls="dark" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="progress-tab" data-toggle="tab" href="#progress" role="tab" aria-controls="progress" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="terminal-tab" data-toggle="tab" href="#terminal" role="tab" aria-controls="terminal" aria-selected="false"></a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm">
+              <button type="button" id="welcomeNext" class="btn btn-primary float-right">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  if (localStorage.getItem("skipTutorial") === null) {
+    ga('send', 'event', 'Welcome', 'skip-wizard');
+    $('#welcomeModal').modal();
+  }
+  $('#welcomeModal').on('hidden.bs.modal', function (e) {
+    ga('send', 'event', 'Welcome', 'skip-wizard');
+    localStorage.setItem("skipTutorial", true);
+  })
+  $('#welcomeNext').click(function() {
+    let next = $('.page-item .page-link.active').parent().next().find('a');
+    if (next.length) {
+      next.click();
+    } else {
+      $('#welcomeModal').modal('hide');
+    }
+  });
+</script>
+
+
+  
+
+
+  <!-- Google Analytics Tracking code -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-89019737-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+  </body>
+
+  <!--<script>-->
+    <!--var siteUrl = "https://play-with-go.dev"-->
+    <!--if ((window.location.protocol + '//' + window.location.hostname) == siteUrl) {-->
+    <!--!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";-->
+    <!--analytics.load("GvscnIMX05fG8s2MEZY7PkSV4BTsFvOU");-->
+    <!--analytics.page();-->
+    <!--}}();-->
+    <!--}-->
+    <!---->
+    <!--</script>-->
+    <!-- Twitter universal website tag code -->
+
+
+</html>
