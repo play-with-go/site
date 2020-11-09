@@ -37,7 +37,7 @@ layout: compress
 
 <link rel="alternate" type="application/rss+xml" title="play-with-go.dev" href="https://play-with-go.dev/feed.xml">
 <link rel="stylesheet" href="/css/quiz.css">
-<link rel="stylesheet" href="https://unpkg.com/pwd-sdk@0.0.2/dist/styles.css">
+<link rel="stylesheet" href="/dist/styles.css">
 </head>
 
 
@@ -167,7 +167,7 @@ layout: compress
 
           <div class="post-content">
             <script charset="utf-8">
-  if (localStorage.getItem("authenticated")) {
+  if (localStorage.getItem("authenticated") == "true") {
     document.location.href = "home.html";
   }
   function performLogin(provider) {
