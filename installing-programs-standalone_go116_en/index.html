@@ -9,13 +9,13 @@ layout: compress
 <html>
 
   <head>
-<title>play-with-go.dev</title>
+<title>Installing Go programs standalone</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="play-with-go.dev" />
+<meta name="twitter:title" content="Installing Go programs standalone" />
 <meta name="twitter:description" content="Learn Go through interactive online guides on play-with-go.dev" />
 <meta name="twitter:image" content="https://blog.golang.org/gopher/gopher.png" />
 
@@ -72,16 +72,12 @@ layout: compress
       <div class="btn-group"> 
        
         
-        <!-- We only want to show this nav-bar in the post page -->
-        <a href="https://github.com/play-with-go/play-with-go" target="_blank">
-          <button type="button" class="btn btn-lg btn-navbar fa fa-github" aria-hidden="true">
-          </button>
-        </a>
+        <button type="button" class="btn btn-lg btn-secondary btn-toggle btn-mode fa dark-mode" data-toggle="button">
+        </button>
 
-        <a href="https://twitter.com/playwithgo" target="_blank">
-          <button type="button" class="btn btn-lg btn-navbar fa fa-twitter" aria-hidden="true">
-          </button>
-        </a> 
+        <button type="button" id="help" class="btn btn-lg btn-link" style="color: white;">
+          Help &nbsp <span class="btn-label"><i class="fa fa-question-circle"></i></span>
+        </button>
         
       
       </div>
@@ -155,184 +151,232 @@ layout: compress
 </div>
 
     
-    <div style="background: linear-gradient(0deg, var(--docker-color), var(--navbar-color)); height: 100%;">
-  <div class="container" >
-      <div class="row">
-      <div class="col-md-12">
-        <article class="post">
-
-          <header class="post-header" style="background-color: #00A29C;">
-            <h1 class="post-title"></h1>
-          </header>
-
-          <div class="post-content">
-            <div class="hero" >
-
-  <div class="cover-container d-flex h-100 p-3 mx-auto flex-column text-center">
-    <main role="main" class="inner cover">
-      <h1 style="color: #FDDD00;">Hi Friend! Welcome to Play with Go</h1>
-      <p class="lead welcome-par" style="color: seashell;">
-        Join these challenges and learn how to build and share a containerized app</br>
-        and so much more. Sounds fun? Get started now!</p>
-      </p>
-  </div>
-</div>
-</div>
-<!-- <div class="tags-expo">
-  
-  <div class="tags-expo-section">
     
-    <ul class="tags-expo-posts">
-      
-      <li>
-        <a class="post-title" href="/using-staticcheck_go115_en/">Using Staticcheck: static analysis for the win</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/retracting-module-versions_go116_en/">Retracting Module Versions</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/basic-go-modules-example_go115_en/">A simple Go modules guide</a>
-      </li>
-      
-    </ul>
-    
-    <ul class="tags-expo-posts">
-      
-      <li>
-        <a class="post-title" href="/installing-programs-standalone_go116_en/">Installing Go programs standalone</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/tools-as-dependencies_go115_en/">Developer tools as module dependencies</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/go-fundamentals_go115_en/">Tutorial: Go fundamentals</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/get-started-with-go_go115_en/">Tutorial: Get started with Go</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/intro-to-play-with-go-dev_go115_en/">An introduction to play-with-go.dev guides</a>
-      </li>
-      
-    </ul>
-    
-  </div>
-</div> -->
-<div class="container">
-  
+<div class="progress-bar"></div>
+<div class="panel-container">
 
 
-<div class="row card-deck">
-  
-  
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Using Staticcheck: static analysis for the win</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/using-staticcheck_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-   
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Retracting Module Versions</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/retracting-module-versions_go116_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-   
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">A simple Go modules guide</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/basic-go-modules-example_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-   
-    
-  
-  
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Installing Go programs standalone</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/installing-programs-standalone_go116_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-   
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Developer tools as module dependencies</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/tools-as-dependencies_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-   
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Tutorial: Go fundamentals</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/go-fundamentals_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-   
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Tutorial: Get started with Go</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/get-started-with-go_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-   
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">An introduction to play-with-go.dev guides</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/intro-to-play-with-go-dev_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-   
-    
-  
-</div>
+    <div class="panel-left">
+        
+        <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">Installing Go programs standalone</h1>
+            </header>
+            <div class="post-content" itemprop="articleBody">
+                <p><em>By <a href="https://twitter.com/mvdan_">Daniel Martí</a></em></p>
 
-          </div>
+<p><em>Note: this is a preview of a <code class="highlighter-rouge">cmd/go</code> feature that is due to land in Go 1.16</em></p>
 
+<p>Users need a simple, easy-to-remember way to install Go programs. Similarly, tool authors need a simple one-liner they
+can include at the top of their <code class="highlighter-rouge">README.md</code> files explaining how to get started.</p>
+
+<p>Go 1.16 introduces a new, much simpler way to install Go programs standalone with the <code class="highlighter-rouge">go</code> command. This guide
+introduces the new mode of <code class="highlighter-rouge">go install</code> using the example of
+<a href="https://staticcheck.io/"><code class="highlighter-rouge">honnef.co/go/tools/cmd/staticcheck</code></a>, and is suitable for end users and tool authors.</p>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<p>You should already have completed:</p>
+
+<ul>
+  <li><a href="https://tour.golang.org/">The Go Tour</a></li>
+  <li><a href="/intro-to-play-with-go-dev/">An introduction to play-with-go.dev guides</a></li>
+  <li><a href="/get-started-with-go/">Tutorial: Get started with Go</a></li>
+</ul>
+
+<p>This guide is running using:</p>
+
+<pre data-command-src="Z28gdmVyc2lvbgo="><code class="language-.term1">$ go version
+go version devel +7307e86afd Sun Nov 8 12:19:55 2020 +0000 linux/amd64
+</code></pre>
+
+<h3 id="background">Background</h3>
+
+<p>Prior to Go 1.16, tool authors who wanted to provide installation instructions in their projects’ <code class="highlighter-rouge">README.md</code> files were
+advised to use something like this:</p>
+
+<pre data-command-src="KAoJY2QgJChta3RlbXAgLWQpCglHTzExMU1PRFVMRT1vbiBnbyBnZXQgaG9ubmVmLmNvL2dvL3Rvb2xzL2NtZC9zdGF0aWNjaGVja0B2MC4wLjEtMjAyMC4xLjYKKQo="><code class="language-.term1">$ (
+	cd $(mktemp -d)
+	GO111MODULE=on go get honnef.co/go/tools/cmd/staticcheck@v0.0.1-2020.1.6
+)
+go: downloading honnef.co/go/tools v0.0.1-2020.1.6
+go: downloading golang.org/x/tools v0.0.0-20200410194907-79a7a3126eef
+go: downloading golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
+go: downloading github.com/BurntSushi/toml v0.3.1
+</code></pre>
+
+<p>There are a number of problems with this:</p>
+
+<ul>
+  <li>It’s ugly not at all user-friendly; it’s not obvious to a newcomer to the language what is going on</li>
+  <li>It’s not cross platform, in particular this command is not guaranteed to work on Windows</li>
+  <li>The use of <code class="highlighter-rouge">go get</code> is confusing. <code class="highlighter-rouge">go get</code> is used to download and install executables,
+but it‘s also responsible for managing dependencies in <code class="highlighter-rouge">go.mod</code> files</li>
+</ul>
+
+<p>So what’s going on in this command?</p>
+
+<ul>
+  <li>The change to a temporary directory (<code class="highlighter-rouge">mktemp -d</code>) ensures that the remainder of the command is run outside of
+a module. Without this, it is possible that a user might run <code class="highlighter-rouge">go get</code> within a module, and hence the
+<code class="highlighter-rouge">go get</code> command would update the current module’s dependencies, rather than installing the tool
+standalone</li>
+  <li>The setting of <code class="highlighter-rouge">GO111MODULE</code> ensures that <code class="highlighter-rouge">go get</code> runs in module mode outside of a
+module (if the variable is unset it will run in <code class="highlighter-rouge">GOPATH</code> mode)</li>
+</ul>
+
+<p>The length of this explanation is reason enough to simplify things!</p>
+
+<h3 id="go-install-in-go-116"><code class="highlighter-rouge">go install</code> in Go 1.16</h3>
+
+<p>In Go 1.16, <code class="highlighter-rouge">go install</code> command is used to install programs standalone, i.e. regardless of the current
+module context:</p>
+
+<pre data-command-src="Z28gaW5zdGFsbCBob25uZWYuY28vZ28vdG9vbHMvY21kL3N0YXRpY2NoZWNrQHYwLjAuMS0yMDIwLjEuNgo="><code class="language-.term1">$ go install honnef.co/go/tools/cmd/staticcheck@v0.0.1-2020.1.6
+</code></pre>
+
+<p>For the purposes of this guide you are using a specific version (<code class="highlighter-rouge">v0.0.1-2020.1.6</code>). As an alternative,
+the special <code class="highlighter-rouge">latest</code> version specified could be used to install the latest version.</p>
+
+<p>Much like the previous behaviour of <code class="highlighter-rouge">go get</code>, <code class="highlighter-rouge">go install</code> installs binaries to
+<code class="highlighter-rouge">$GOPATH/bin</code>, or <code class="highlighter-rouge">$GOBIN</code> if set. Let’s confirm your setup using <code class="highlighter-rouge">go env</code>:</p>
+
+<pre data-command-src="Z28gZW52IEdPUEFUSApnbyBlbnYgR09CSU4K"><code class="language-.term1">$ go env GOPATH
+/home/gopher/go
+$ go env GOBIN
+
+</code></pre>
+
+<p><code class="highlighter-rouge">GOBIN</code> is not set. Therefore as a one off, add <code class="highlighter-rouge">$GOPATH/bin</code> to your <code class="highlighter-rouge">PATH</code>:</p>
+
+<pre data-command-src="ZXhwb3J0IFBBVEg9IiQoZ28gZW52IEdPUEFUSCkvYmluOiRQQVRIIgo="><code class="language-.term1">$ export PATH="$(go env GOPATH)/bin:$PATH"
+</code></pre>
+
+<p>Verify that <code class="highlighter-rouge">staticcheck</code> is now on your <code class="highlighter-rouge">PATH</code>:</p>
+
+<pre data-command-src="d2hpY2ggc3RhdGljY2hlY2sK"><code class="language-.term1">$ which staticcheck
+/home/gopher/go/bin/staticcheck
+</code></pre>
+
+<p>Run <code class="highlighter-rouge">staticcheck</code> to check everything is working:</p>
+
+<pre data-command-src="c3RhdGljY2hlY2sgLXZlcnNpb24K"><code class="language-.term1">$ staticcheck -version
+staticcheck 2020.1.6
+</code></pre>
+
+<p>You can also use <code class="highlighter-rouge">go version</code> to see the module dependencies used in building the program:</p>
+
+<pre data-command-src="Z28gdmVyc2lvbiAtbSAkKHdoaWNoIHN0YXRpY2NoZWNrKQo="><code class="language-.term1">$ go version -m $(which staticcheck)
+/home/gopher/go/bin/staticcheck: devel +7307e86afd Sun Nov 8 12:19:55 2020 +0000
+	path	honnef.co/go/tools/cmd/staticcheck
+	mod	honnef.co/go/tools	v0.0.1-2020.1.6	h1:W18jzjh8mfPez+AwGLxmOImucz/IFjpNlrKVnaj2YVc=
+	dep	github.com/BurntSushi/toml	v0.3.1	h1:WXkYYl6Yr3qBf1K79EBnL4mak0OimBfB0XUf9Vl28OQ=
+	dep	golang.org/x/tools	v0.0.0-20200410194907-79a7a3126eef	h1:RHORRhs540cYZYrzgU2CPUyykkwZM78hGdzocOo9P8A=
+	dep	golang.org/x/xerrors	v0.0.0-20191204190536-9bdfabe68543	h1:E7g+9GITq07hpfrRu66IVDexMakfv52eLZ2CXBWiKr4=
+</code></pre>
+
+<p>To eliminate redundancy and confusion, the <code class="highlighter-rouge">go get</code> approach used in Go 1.15 and before is being
+deprecated.</p>
+
+<script>let pageGuide="2020-11-09-installing-programs-standalone"; let pageLanguage="en"; let pageScenario="go116";</script>
+
+
+            </div>
         </article>
+    </div>
+
+
+    <div class="panel-right">
+        <div class="panel-nav">
+            <i class="expand-button fa fa-expand pull-right"></i>
+            <ul class="nav nav-tabs">
+            
+                <li class="nav-item">
+                    <a class="nav-link active" id="term1-tab" data-toggle="tab" href="#term1" role="tab" aria-controls="term1" aria-selected="true" >T.1</a>
+                </li>
+            
+            </ul>
+        </div>
+        <div class="twrapper">
+            <div class="splitter"></div>
+            <div class="tab-content" id="myTabContent">
+                
+                <div class="tab-pane show term1 active" id="term1" role="tabpanel" aria-labelledby="term1-tab"></div>
+                
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    var imageName = "";
+    (function() {
+        var font3 = document.createElement('link');
+        font3.type = 'text/css';
+        font3.rel = 'stylesheet';
+        font3.href = '/css/syntax-highlighting.css';
+        var q = document.getElementsByTagName('link')[0];
+        q.parentNode.insertBefore(font3, q);
+    })();
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+<script src="https://rawgit.com/RickStrahl/jquery-resizable/master/dist/jquery-resizable.min.js"></script>
+<script src="https://unpkg.com/pwd-sdk@0.0.9/dist/pwd.min.js"></script>
+<script src="/js/post-layout.js"></script>
+<script src="/js/progress-bar.js"></script>
+<script src="/js/menu.js"></script>
+<script src="/js/feedback-footer.js"></script>
+<script src="/js/dark-mode.js"></script>
+<script src="/js/exit-warning.js"></script>
+<script src="/js/import-file.js"></script>
+<div
+  class="modal fade"
+  id="congratz-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img src="/images/success.png" />
+        <h2 class="post-title">
+          Congratulations!
+        </h2>
+        <p class="congratz-text">
+          Great work! you are getting closer and closer to archieving your
+          goals. Go foward!
+        </p>
+        <div class="congratz-footer">
+          <button type="button" class="text-btn" data-dismiss="modal">
+            CLOSE
+          </button>
+          <div class="share">
+            <p class="share-text">Share your archievements</p>
+            <a
+              href="http://twitter.com/share?url=URL_TO_PAGE&text=TITLE_TO_SHARE&via=TWITTER_USERNAME"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u=http://labs.docker.com"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-facebook-official" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
 
     
     <div class="feedback-footer">
@@ -367,6 +411,93 @@ layout: compress
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
   
+    <!-- Welcome -->
+<div class="modal fade" id="welcomeModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="tab-content" id="welcomeContent">
+          <div class="tab-pane fade show active" id="welcome" role="tabpanel" aria-labelledby="welcome-tab">
+            <img src="/images/welcome.png"/>
+            <h2>Welcome to Go Labs.</h2>
+            <p>First time here? Take a short tour through Labs platform and learn how to use the new features.</p>
+          </div>
+          <div class="tab-pane fade" id="index" role="tabpanel" aria-labelledby="index-tab">
+            <img src="/images/index.png"/>
+            <h2>Course index.</h2>
+            <p>You will find the Lab’s content index on the menu. Also, look for the option "help" in the menu if you experience any problem, want to send us feedback or just need advice from your peers.</p>
+          </div>
+          <div class="tab-pane fade" id="dark" role="tabpanel" aria-labelledby="dark-tab">
+            <img src="/images/dark.png"/>
+            <h2>Dark mode and text size.</h2>
+            <p>On the upper right corner, you will find the dark mode switch and the option to change the font size. Also, you will see the icon to import files from your local computer.</p>
+          </div>
+          <div class="tab-pane fade" id="progress" role="tabpanel" aria-labelledby="progress-tab">
+            <img src="/images/progress.png"/>
+            <h2>Lab progress.</h2>
+            <p>You will see you Lab’s progress on a green bar, located on the top left side of your window.</p>
+          </div>
+          <div class="tab-pane fade" id="terminal" role="tabpanel" aria-labelledby="terminal-tab">
+            <img src="/images/terminal.png"/>
+            <h2>Full screen terminal.</h2>
+            <p>You'll be able to maximize your terminal by clicking on the icon you have on the upper right side.</p>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <button type="button" data-dismiss="modal"  class="btn btn-link">Skip</button>
+            </div>
+            <div class="col-sm my-auto">
+              <ul class="nav pagination justify-content-center" id="myTab" role="tablist">
+                <li class="page-item">
+                  <a class="page-link active" id="welcome-tab" data-toggle="tab" href="#welcome" role="tab" aria-controls="welcome" aria-selected="true"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="index-tab" data-toggle="tab" href="#index" role="tab" aria-controls="index" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="dark-tab" data-toggle="tab" href="#dark" role="tab" aria-controls="dark" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="progress-tab" data-toggle="tab" href="#progress" role="tab" aria-controls="progress" aria-selected="false"></a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" id="terminal-tab" data-toggle="tab" href="#terminal" role="tab" aria-controls="terminal" aria-selected="false"></a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm">
+              <button type="button" id="welcomeNext" class="btn btn-primary float-right">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  if (localStorage.getItem("skipTutorial") === null) {
+    //ga('send', 'event', 'Welcome', 'skip-wizard');
+    $('#welcomeModal').modal();
+  }
+  $('#welcomeModal').on('hidden.bs.modal', function (e) {
+    //ga('send', 'event', 'Welcome', 'skip-wizard');
+    localStorage.setItem("skipTutorial", true);
+  })
+  $('#welcomeNext').click(function() {
+    let next = $('.page-item .page-link.active').parent().next().find('a');
+    if (next.length) {
+      next.click();
+    } else {
+      $('#welcomeModal').modal('hide');
+    }
+  });
+</script>
+
+
+  
 
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -391,25 +522,6 @@ layout: compress
     <!--}}();-->
     <!--}-->
     <!---->
-    
-    <!--try {-->
-      <!--pwd.getUserInfo(function(pwduser){-->
-              <!--user = pwduser;-->
-              <!--if(user !== undefined){-->
-                  <!--analytics.identify(user.provider_user_id,{"email":user.email});-->
-              <!--}-->
-              <!--else {-->
-
-                  <!--analytics.identify();-->
-              <!--}-->
-          <!--});-->
-    <!--}-->
-    <!--catch (error) {-->
-      <!--analytics.identify();-->
-      <!--}-->
-    
-     
-      <!---->
     <!--</script>-->
     <!-- Twitter universal website tag code -->
 
