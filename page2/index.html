@@ -166,150 +166,73 @@ layout: compress
           </header>
 
           <div class="post-content">
-            <div class="hero" >
+            <script charset="utf-8">
+  if (localStorage.getItem("authenticated") == "true") {
+    document.location.href = "home.html";
+  }
+  function performLogin(provider) {
+    var width = screen.width * 0.6;
+    var height = screen.height * 0.6;
+    var x = screen.width / 2 - width / 2;
+    var y = screen.height / 2 - height / 2;
 
+    window.open(
+        "https://api.play-with-go.dev" + 
+        "/oauth/providers/"+provider+"/login",
+      "PWDLogin",
+      "width=" + width + ",height=" + height + ",left=" + x + ",top=" + y
+    );
+    var eventMethod = window.addEventListener
+      ? "addEventListener"
+      : "attachEvent";
+    var eventer = window[eventMethod];
+    var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+    // Listen to message from child window
+    eventer(
+      messageEvent,
+      function (e) {
+        if (e.data === "done") {
+          localStorage.setItem("authenticated", true);
+          document.location.href = "home.html"
+        }
+      },
+      false
+    );
+  }
+</script>
+
+<div style="background: linear-gradient(0deg, var(--docker-color), var(--navbar-color)); height: auto;">
   <div class="cover-container d-flex h-100 p-3 mx-auto flex-column text-center">
     <main role="main" class="inner cover">
-      <h1 style="color: #FDDD00;">Hi Friend! Welcome to Play with Go</h1>
+      <h1 class="cover-heading welcome-title" style="color: seashell;">Play with Go</h1>
       <p class="lead welcome-par" style="color: seashell;">
-        Join these challenges and learn how to build and share a containerized app</br>
-        and so much more. Sounds fun? Get started now!</p>
-      </p>
-  </div>
-</div>
-</div>
-<!-- <div class="tags-expo">
-  
-  <div class="tags-expo-section">
-    
-    <ul class="tags-expo-posts">
-      
-      <li>
-        <a class="post-title" href="/using-staticcheck_go115_en/">Using Staticcheck: static analysis for the win</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/retracting-module-versions_go116_en/">Retracting Module Versions</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/basic-go-modules-example_go115_en/">A simple Go modules guide</a>
-      </li>
-      
-    </ul>
-    
-    <ul class="tags-expo-posts">
-      
-      <li>
-        <a class="post-title" href="/tools-as-dependencies_go115_en/">Developer tools as module dependencies</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/go-fundamentals_go115_en/">Tutorial: Go fundamentals</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/get-started-with-go_go115_en/">Tutorial: Get started with Go</a>
-      </li>
-      
-      <li>
-        <a class="post-title" href="/intro-to-play-with-go-dev_go115_en/">An introduction to play-with-go.dev guides</a>
-      </li>
-      
-    </ul>
-    
-  </div>
-</div> -->
-<div class="container">
-  
+        Hands-on Golang Tutorials to learn from anywhere.</br>
+        It all starts with just a few minutes a day.
+      </p> 
+        <div class="container">
+          <div class="row align-items-center justify-content-center">
+            <div class="col-xs">
+            <button onclick="performLogin('google')" class="btn np-login btn-primary btn-welcome">
+              <img class="img-fluid" src="/images/google.svg" alt="Text"/>
+              <span>Sign-in with Google</span>
+              </button>
+              </div>
 
 
-<div class="row card-deck">
-  
-  
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Using Staticcheck: static analysis for the win</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/using-staticcheck_go115_en/" class="card-link">Start tutorial</a>
+            <div class="col-xs">
+            <button onclick="performLogin('github')" class="btn np-login btn-primary btn-welcome">
+              <img src="/images/github.svg" alt="Text"/>
+              <span>Sign-in with Github</span>
+              </button> 
+            </div>           
+            </div>
           </div>
-        </div>
-      </div>
-   
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Retracting Module Versions</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/retracting-module-versions_go116_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-   
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">A simple Go modules guide</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/basic-go-modules-example_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-   
-    
-  
-  
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Developer tools as module dependencies</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/tools-as-dependencies_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-   
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Tutorial: Go fundamentals</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/go-fundamentals_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-   
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Tutorial: Get started with Go</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/get-started-with-go_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-   
-    
-    <div class="col-sm-4 card-pad">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">An introduction to play-with-go.dev guides</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="/intro-to-play-with-go-dev_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-   
-    
-  
+       <img class="img-fluid" alt="Responsive image" src="/images/playgo.png"/>
+    </main>
+  </div>
 </div>
+
+
 
           </div>
 
