@@ -9,13 +9,13 @@ layout: compress
 <html>
 
   <head>
-<title>Using Staticcheck: static analysis for the win</title>
+<title>How to use and tweak Staticcheck</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Using Staticcheck: static analysis for the win" />
+<meta name="twitter:title" content="How to use and tweak Staticcheck" />
 <meta name="twitter:description" content="Learn Go through interactive online guides on play-with-go.dev" />
 <meta name="twitter:image" content="https://blog.golang.org/gopher/gopher.png" />
 
@@ -160,7 +160,7 @@ layout: compress
         
         <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
             <header class="post-header">
-                <h1 class="post-title" itemprop="name headline">Using Staticcheck: static analysis for the win</h1>
+                <h1 class="post-title" itemprop="name headline">How to use and tweak Staticcheck</h1>
             </header>
             <div class="post-content" itemprop="articleBody">
                 <p><em>By <a href="https://dominik.honnef.co/">Dominik Honnef</a>, author of Staticcheck.</em></p>
@@ -178,7 +178,7 @@ editor</a>.</p>
 
 <p>Staticcheck is open source and offered completely free of charge. Sponsors guarantee its continued development. The
 <code class="highlighter-rouge">play-with-go.dev</code> project is proud to sponsor the Staticcheck project. If you, your employer or your company use
-Staticcheck please consider <a href="https://staticcheck.io/sponsors">sponsoring</a> the project.</p>
+Staticcheck please consider <a href="https://github.com/sponsors/dominikh">sponsoring</a> the project.</p>
 
 <p>This guide gets you up and running with Staticcheck by analysing the <code class="highlighter-rouge">pets</code> module.</p>
 
@@ -253,7 +253,7 @@ $ go mod init pets
 go: creating new go.mod: module pets
 </code></pre>
 
-<p>Because you are not going to publish this module (or import import the <code class="highlighter-rouge">pets</code> package, it’s just a toy
+<p>Because you are not going to publish this module (or import the <code class="highlighter-rouge">pets</code> package; it’s just a toy
 example), you do not need to initialise this directory as a <code class="highlighter-rouge">git</code> repository and can give the module whatever path you
 like. Here, simply <code class="highlighter-rouge">pets</code>.</p>
 
@@ -326,7 +326,16 @@ listed below:</p>
 </ul>
 
 <p>The Staticcheck website <a href="https://staticcheck.io/docs/checks">lists and documents all the categories and checks</a>. Many of
-the checks even have examples.</p>
+the checks even have examples. You can also use the <code class="highlighter-rouge">-explain</code> flag to get details at the command
+line:</p>
+
+<pre data-command-src="c3RhdGljY2hlY2sgLWV4cGxhaW4gU0E1MDA5Cg=="><code class="language-.term1">$ staticcheck -explain SA5009
+Invalid Printf call
+
+Available since
+    2019.2
+
+</code></pre>
 
 <p>Let’s consider one of the problems reported, <a href="https://staticcheck.io/docs/checks#ST1006"><code class="highlighter-rouge">ST1006</code></a>, documented as “Poorly
 chosen receiver name”. The Staticcheck check documentation quotes from the <a href="https://github.com/golang/go/wiki/CodeReviewComments">Go Code Review Comments
@@ -346,7 +355,7 @@ brevity. Be consistent, too: if you call the receiver “c” in one
 method, don’t call it “cl” in another.</p>
 </blockquote>
 
-<p>Each error message explains the problem, but also indicate how to fix the problem. Let’s fix up <code class="highlighter-rouge">pets.go</code>:</p>
+<p>Each error message explains the problem, but also indicates how to fix the problem. Let’s fix up <code class="highlighter-rouge">pets.go</code>:</p>
 
 <pre data-upload-path="L2hvbWUvZ29waGVyL3BldHM=" data-upload-src="cGV0cy5nbw==:cGFja2FnZSBwZXRzCgppbXBvcnQgKAoJImZtdCIKKQoKdHlwZSBBbmltYWwgaW50Cgpjb25zdCAoCglEb2cgQW5pbWFsID0gaW90YQoJU25ha2UKKQoKdHlwZSBQZXQgc3RydWN0IHsKCUtpbmQgQW5pbWFsCglOYW1lIHN0cmluZwp9CgpmdW5jIChwIFBldCkgV2FsaygpIGVycm9yIHsKCXN3aXRjaCBwLktpbmQgewoJY2FzZSBEb2c6CgkJZm10LlByaW50ZigiV2lsbCB0YWtlICV2IGZvciBhIHdhbGsgYXJvdW5kIHRoZSBibG9ja1xuIiwgcC5OYW1lKQoJZGVmYXVsdDoKCQlyZXR1cm4gZm10LkVycm9yZigiY2Fubm90IHRha2UgJXYgZm9yIGEgd2FsayIsIHAuTmFtZSkKCX0KCXJldHVybiBuaWwKfQoKZnVuYyAocCBQZXQpIFN0cmluZygpIHN0cmluZyB7CglyZXR1cm4gcC5OYW1lCn0K" data-upload-term=".term1"><code class="language-go">package pets
 
