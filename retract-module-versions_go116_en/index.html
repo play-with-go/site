@@ -9,13 +9,13 @@ layout: compress
 <html>
 
   <head>
-<title>Retracting Module Versions</title>
+<title>Retract Module Versions</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Retracting Module Versions" />
+<meta name="twitter:title" content="Retract Module Versions" />
 <meta name="twitter:description" content="Learn Go through interactive online guides on play-with-go.dev" />
 <meta name="twitter:image" content="https://blog.golang.org/gopher/gopher.png" />
 
@@ -160,10 +160,13 @@ layout: compress
         
         <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
             <header class="post-header">
-                <h1 class="post-title" itemprop="name headline">Retracting Module Versions</h1>
+                <h1 class="post-title" itemprop="name headline">Retract Module Versions</h1>
             </header>
             <div class="post-content" itemprop="articleBody">
-                <p><em>Note: this is a preview of a <code class="highlighter-rouge">cmd/go</code> feature that is due to land in Go 1.16</em></p>
+                <p><em>By <a href="https://twitter.com/jayconrod">Jay Conrod</a>, software engineer on the <a href="https://golang.org/">Go</a> tools team, and
+principal author of module retraction in the <code class="highlighter-rouge">go</code> command.</em></p>
+
+<p><em>Note: this is a preview of a <code class="highlighter-rouge">cmd/go</code> feature that is due to land in Go 1.16</em></p>
 
 <p>Module authors need a way to indicate that published module versions should not be used. There are a number of reasons
 this may be needed:</p>
@@ -188,7 +191,7 @@ retracted research paper is still available, but it has problems and should not 
 versions should continue to work. However, users should be notified when they depend on a retracted version (either
 directly or indirectly). It should also be difficult to unintentionally upgrade to a retracted version.</p>
 
-<p>This guide walks you through how to use module retractions. In the guide you will create two packages:</p>
+<p>This guide walks you through how to use module retractions. In the guide you will create two modules:</p>
 
 <ul>
   <li><code class="highlighter-rouge">{{{.PROVERB}}}</code> (part of a module at the same path) that provides various different wise proverbs. You will
@@ -203,7 +206,7 @@ will be local-only.</li>
 go version devel +7307e86afd Sun Nov 8 12:19:55 2020 +0000 linux/amd64
 </code></pre>
 
-<h3 id="the-proverb-package">The <code class="highlighter-rouge">proverb</code> package</h3>
+<h3 id="the-proverb-module">The <code class="highlighter-rouge">proverb</code> module</h3>
 
 <p>Start by initialising your <code class="highlighter-rouge">proverb</code> module:</p>
 
@@ -244,11 +247,11 @@ remote: Processed 1 references in total
 </code></pre>
 
 <p>With the first version of the <code class="highlighter-rouge">proverb</code> module published, it’s time to create a first cut of your
-<code class="highlighter-rouge">gopher</code> package</p>
+<code class="highlighter-rouge">gopher</code> module.</p>
 
-<h3 id="the-gopher-package">The <code class="highlighter-rouge">gopher</code> package</h3>
+<h3 id="the-gopher-module">The <code class="highlighter-rouge">gopher</code> module</h3>
 
-<p>You are not going to publish the <code class="highlighter-rouge">gopher</code> package, so the setup is simpler:</p>
+<p>You are not going to publish the <code class="highlighter-rouge">gopher</code> module, so the setup is simpler:</p>
 
 <pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL2dvcGhlcgpjZCAvaG9tZS9nb3BoZXIvZ29waGVyCmdvIG1vZCBpbml0IGdvcGhlcgo="><code class="language-.term1">$ mkdir /home/gopher/gopher
 $ cd /home/gopher/gopher
@@ -344,19 +347,20 @@ $ go run .
 Concurrency is parallelism.
 </code></pre>
 
-<p>Oops! That doesn’t look right. Looks like we made a mistake with the changes in <code class="highlighter-rouge">v0.2.0</code>. You can
-surely publish a new version of the <code class="highlighter-rouge">proverb</code> module to correct the mistake, but can you be sure nobody will
-ever depend on this broken version?</p>
+<p>Oops! That doesn’t look right: the proverb should read <em>“Concurrency is <strong>not</strong> parallelism.”</em> Looks like you made a
+mistake with the changes in <code class="highlighter-rouge">v0.2.0</code>. You can surely publish a new version of the <code class="highlighter-rouge">proverb</code>
+module to correct the mistake, but how can you prevent your users from depending on this broken version?</p>
 
 <p>Module retraction to the rescue.</p>
 
 <h3 id="retracting-module-versions">Retracting module versions</h3>
 
 <p>A module author can retract a version of a module by adding a <code class="highlighter-rouge">retract</code> directive to the <code class="highlighter-rouge">go.mod</code> file. The <code class="highlighter-rouge">retract</code>
-directive simply lists retracted versions.</p>
+directive simply lists retracted versions. The <code class="highlighter-rouge">go</code> command reads retractions from the highest release version of the
+module.</p>
 
-<p>To retract <code class="highlighter-rouge">v0.2.0</code> of the <code class="highlighter-rouge">proverb</code> module, you will publish <code class="highlighter-rouge">v0.3.0</code>.
-This new version will also fix the bug we found in <code class="highlighter-rouge">v0.2.0</code>.</p>
+<p>To retract <code class="highlighter-rouge">v0.2.0</code> of the <code class="highlighter-rouge">proverb</code> module, you will therefore publish
+<code class="highlighter-rouge">v0.3.0</code>. This new version will also fix the bug you found in <code class="highlighter-rouge">v0.2.0</code>.</p>
 
 <p>Return to the <code class="highlighter-rouge">proverb</code> module:</p>
 
@@ -382,12 +386,16 @@ retract v0.2.0
 <p>As is best practice, add a comment to the <code class="highlighter-rouge">retract</code> directive documenting why the retraction was
 necessary:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="Z28ubW9k:bW9kdWxlIHt7ey5QUk9WRVJCfX19CgpnbyAxLjE2CgpyZXRyYWN0IHYwLjIuMCAvLyBHbyBwcm92ZXJiIHdhcyB0b3RhbGx5IHdyb25nCg==" data-upload-term=".term1"><code class="language-mod">module {{{.PROVERB}}}
+<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="Z28ubW9k:bW9kdWxlIHt7ey5QUk9WRVJCfX19CgpnbyAxLjE2CgovLyBHbyBwcm92ZXJiIHdhcyB0b3RhbGx5IHdyb25nCnJldHJhY3QgdjAuMi4wCg==" data-upload-term=".term1"><code class="language-mod">module {{{.PROVERB}}}
 
 go 1.16
 
-retract v0.2.0 // Go proverb was totally wrong
+// Go proverb was totally wrong
+retract v0.2.0
 </code></pre>
+
+<p>The comment may be shown by tools like <code class="highlighter-rouge">go get</code> and <code class="highlighter-rouge">go list</code>. It will be shown by
+<a href="https://pkg.go.dev/golang.org/x/exp/cmd/gorelease"><code class="highlighter-rouge">gorelease</code></a> and <a href="https://pkg.go.dev/"><code class="highlighter-rouge">pkg.go.dev</code></a> later on, too.</p>
 
 <p>Fix the bug in <code class="highlighter-rouge">proverb.go</code>:</p>
 
@@ -456,9 +464,6 @@ issue.</p>
 {{{.PROVERB}}} v0.1.0 v0.3.0
 </code></pre>
 
-<p><em>Note: there may be some delay whilst proxy.golang.org updates to reflect the new version information. Hence you might
-need to re-try this command to see the <code class="highlighter-rouge">v0.3.0</code> version listed in the output, as above.</em></p>
-
 <p>Notice that the newly published <code class="highlighter-rouge">v0.3.0</code> is in this list, but <code class="highlighter-rouge">v0.2.0</code> is not.</p>
 
 <p>List <em>all</em> versions versions (including any that are retracted):</p>
@@ -467,7 +472,7 @@ need to re-try this command to see the <code class="highlighter-rouge">v0.3.0</c
 {{{.PROVERB}}} v0.1.0 v0.2.0 v0.3.0
 </code></pre>
 
-<p>Ah, there is our mischievous <code class="highlighter-rouge">v0.2.0</code>.</p>
+<p>Ah, there is the mischievous <code class="highlighter-rouge">v0.2.0</code>.</p>
 
 <p>So what would happen if you were to rely on the now retracted <code class="highlighter-rouge">v0.2.0</code>?</p>
 
@@ -559,13 +564,16 @@ need to retract version <code class="highlighter-rouge">v1.0.1</code>. You do so
 range</a>. Make this change by hand by editing the
 <code class="highlighter-rouge">proverb</code> <code class="highlighter-rouge">go.mod</code> file, commenting the <code class="highlighter-rouge">retract</code> directive as is best practice:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="Z28ubW9k:bW9kdWxlIHt7ey5QUk9WRVJCfX19CgpnbyAxLjE2CgpyZXRyYWN0ICgKCXYwLjIuMCAvLyBHbyBwcm92ZXJiIHdhcyB0b3RhbGx5IHdyb25nCglbdjEuMC4wLCB2MS4wLjFdIC8vIHB1Ymxpc2hlZCB2MSB0b28gZWFybHkKKQo=" data-upload-term=".term1"><code class="language-mod">module {{{.PROVERB}}}
+<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="Z28ubW9k:bW9kdWxlIHt7ey5QUk9WRVJCfX19CgpnbyAxLjE2CgpyZXRyYWN0ICgKCS8vIEdvIHByb3ZlcmIgd2FzIHRvdGFsbHkgd3JvbmcKCXYwLjIuMAoKCS8vIFB1Ymxpc2hlZCB2MSB0b28gZWFybHkKCVt2MS4wLjAsIHYxLjAuMV0KKQo=" data-upload-term=".term1"><code class="language-mod">module {{{.PROVERB}}}
 
 go 1.16
 
 <b>retract (</b>
-<b>	v0.2.0 // Go proverb was totally wrong</b>
-<b>	[v1.0.0, v1.0.1] // published v1 too early</b>
+<b>	// Go proverb was totally wrong</b>
+<b>	v0.2.0</b>
+<b></b>
+<b>	// Published v1 too early</b>
+<b>	[v1.0.0, v1.0.1]</b>
 <b>)</b>
 </code></pre>
 
@@ -592,11 +600,11 @@ remote: Processed 1 references in total
 
 <pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QHYxLjAuMApnbyBnZXQge3t7LlBST1ZFUkJ9fX1AdjEuMC4xCmdvIGdldCB7e3suUFJPVkVSQn19fUB2MC40LjAK"><code class="language-.term1">$ go get {{{.PROVERB}}}@v1.0.0
 go: downloading {{{.PROVERB}}} v1.0.0
-go: warning: {{{.PROVERB}}}@v1.0.0 is retracted: published v1 too early
+go: warning: {{{.PROVERB}}}@v1.0.0 is retracted: Published v1 too early
 go: run 'go get {{{.PROVERB}}}@latest' to switch to the latest unretracted version
 $ go get {{{.PROVERB}}}@v1.0.1
 go: downloading {{{.PROVERB}}} v1.0.1
-go: warning: {{{.PROVERB}}}@v1.0.1 is retracted: published v1 too early
+go: warning: {{{.PROVERB}}}@v1.0.1 is retracted: Published v1 too early
 go: run 'go get {{{.PROVERB}}}@latest' to switch to the latest unretracted version
 $ go get {{{.PROVERB}}}@v0.4.0
 go: downloading {{{.PROVERB}}} v0.4.0
@@ -617,10 +625,6 @@ warning message, or it may not.</em></p>
 <pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMgLXJldHJhY3RlZCB7e3suUFJPVkVSQn19fQo="><code class="language-.term1">$ go list -m -versions -retracted {{{.PROVERB}}}
 {{{.PROVERB}}} v0.1.0 v0.2.0 v0.3.0 v0.4.0 v1.0.0 v1.0.1
 </code></pre>
-
-<p><em>Note: there may be some delay whilst proxy.golang.org updates to reflect the new version information. Hence you might
-need to re-try this command to see versions <code class="highlighter-rouge">v0.4.0</code>, <code class="highlighter-rouge">v1.0.0</code> and
-<code class="highlighter-rouge">v1.0.1</code> listed in the output, as above.</em></p>
 
 <p>List the non-retracted versions of the <code class="highlighter-rouge">{{{.PROVERB}}}</code> known to the proxy:</p>
 
@@ -653,12 +657,15 @@ Go proverb: Concurrency is not parallelism.
 Life advice: A bird in the hand is worth two in the bush.
 </code></pre>
 
+<p>Note that when you come to publish the “real” <code class="highlighter-rouge">v1.0.0</code> of the <code class="highlighter-rouge">proverb</code> module, it must
+be published as <code class="highlighter-rouge">v1.0.2</code> since you cannot change or delete versions (retracted or not).</p>
+
 <h3 id="conclusion">Conclusion</h3>
 
 <p>That’s it! This guide has introduced module retraction, demonstrating how to retract a simple bad version, as well as
 retracting an accidental <code class="highlighter-rouge">v1</code>. For more information on module retraction, see <a href="https://golang.org/ref/mod">the modules
 reference</a>.
-<script>let pageGuide="2020-11-08-retracting-module-versions"; let pageLanguage="en"; let pageScenario="go116";</script></p>
+<script>let pageGuide="2020-11-08-retract-module-versions"; let pageLanguage="en"; let pageScenario="go116";</script></p>
 
             </div>
         </article>
