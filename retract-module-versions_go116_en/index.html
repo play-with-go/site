@@ -200,6 +200,14 @@ publish a number of versions of this module.</li>
 will be local-only.</li>
 </ul>
 
+<h3 id="prerequisites">Prerequisites</h3>
+
+<p>You should already have completed:</p>
+
+<ul>
+  <li>The <a href="/go-fundamentals_go115_en">Go fundamentals Tutorial</a></li>
+</ul>
+
 <p>This guide is running using:</p>
 
 <pre data-command-src="Z28gdmVyc2lvbgo="><code class="language-.term1">$ go version
@@ -220,11 +228,11 @@ go: creating new go.mod: module {{{.PROVERB}}}
 
 <p>Create an initial version with a <code class="highlighter-rouge">Go</code> function that returns a Go proverb in the file <code class="highlighter-rouge">proverb.go</code>:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="cHJvdmVyYi5nbw==:cGFja2FnZSBwcm92ZXJiCgovLyBHbyByZXR1cm5zIGEgR28gcHJvdmVyYgpmdW5jIEdvKCkgc3RyaW5nIHsKCXJldHVybiAiRG9uJ3QgY29tbXVuaWNhdGUgYnkgc2hhcmluZyBtZW1vcnksIHNoYXJkIG1lbW9yeSBieSBjb21tdW5pY2F0aW5nLiIKfQo=" data-upload-term=".term1"><code class="language-go">package proverb
+<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="cHJvdmVyYi5nbw==:cGFja2FnZSBwcm92ZXJiCgovLyBHbyByZXR1cm5zIGEgR28gcHJvdmVyYgpmdW5jIEdvKCkgc3RyaW5nIHsKCXJldHVybiAiRG9uJ3QgY29tbXVuaWNhdGUgYnkgc2hhcmluZyBtZW1vcnksIHNoYXJlIG1lbW9yeSBieSBjb21tdW5pY2F0aW5nLiIKfQo=" data-upload-term=".term1"><code class="language-go">package proverb
 
 // Go returns a Go proverb
 func Go() string {
-	return &#34;Don&#39;t communicate by sharing memory, shard memory by communicating.&#34;
+	return &#34;Don&#39;t communicate by sharing memory, share memory by communicating.&#34;
 }
 </code></pre>
 
@@ -294,7 +302,7 @@ go: downloading {{{.PROVERB}}} v0.1.0
 <p>Run to make sure everything works:</p>
 
 <pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
-Don't communicate by sharing memory, shard memory by communicating.
+Don't communicate by sharing memory, share memory by communicating.
 </code></pre>
 
 <p>Looks great!</p>
