@@ -9,13 +9,13 @@ layout: compress
 <html>
 
   <head>
-<title>play-with-go.dev</title>
+<title>Working with private modules</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="play-with-go.dev" />
+<meta name="twitter:title" content="Working with private modules" />
 <meta name="twitter:description" content="Learn Go through interactive online guides on play-with-go.dev" />
 <meta name="twitter:image" content="https://blog.golang.org/gopher/gopher.png" />
 
@@ -72,23 +72,12 @@ layout: compress
       <div class="btn-group"> 
        
         
-        <!-- We only want to show this nav-bar in the post page -->
+        <button type="button" class="btn btn-lg btn-secondary btn-toggle btn-mode fa dark-mode" data-toggle="button">
+        </button>
 
-        
-        <a class="nav-link about" href="about.html">About</a>
-          
-       
-        <a href="https://github.com/play-with-go/play-with-go" target="_blank">
-          <button type="button" class="btn btn-lg btn-navbar fa fa-github" aria-hidden="true">
-          </button>
-        </a>
-
-        <a href="https://twitter.com/playwithgo" target="_blank">
-          <button type="button" class="btn btn-lg btn-navbar fa fa-twitter" aria-hidden="true">
-          </button>
-        </a> 
-
-      
+        <button type="button" id="help" class="btn btn-lg btn-link" style="color: white;">
+          Help &nbsp <span class="btn-label"><i class="fa fa-question-circle"></i></span>
+        </button>
         
       
       </div>
@@ -162,320 +151,347 @@ layout: compress
 </div>
 
     
-    <div class="landing">
-  <div class="container">
-    <div class="row d-flex align-items-center mb-4">
-      <div class="col-lg-7 col-md-9 guides-hero">
-        <h1 class= "title-guides" style="color: #FDDD00;">
-            Welcome to Play with Go</h1>
-        <p class="lead welcome-par" style="color: seashell;" >
-           <b>play-with-go.dev</b> covers the
-            various subcommands of the <b>go</b> command,
-            <b>staticcheck</b> and many other tools that will make
-            writing Go programs that much easier and fun!
-      </div>
-      <div class="col-lg-5">
-        <div class="d-none d-lg-block">
-          <img src="/images/gopher.png">
-        </div>
-      </div>
-    </div>
-
-
     
+<div class="progress-bar"></div>
+<div class="panel-container">
 
-    
-    <div class="row">
-      <div class="col"><hr class="line"></div>
-      <div class="col-auto catego">Start here</div>
-      <div class="col"><hr class="line"></div>
+
+    <div class="panel-left">
+        
+        <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">Working with private modules</h1>
+            </header>
+            <div class="post-content" itemprop="articleBody">
+                <p>The <code class="highlighter-rouge">go</code> command defaults to downloading modules from the public Go module mirror at
+<a href="https://proxy.golang.org">proxy.golang.org</a>. It also defaults to validating downloaded modules, regardless of source,
+against the public Go checksum database at <a href="https://sum.golang.org">sum.golang.org</a>.  These defaults work well for
+publicly available source code.</p>
+
+<p>But what happens if you and your fellow developers need to work with private modules?</p>
+
+<p>This guide explains how to work with private modules. In the guide you will create three modules:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">{{{.PUBLIC}}}</code>, a publicly accessible module that provides a <code class="highlighter-rouge">Message()</code> function</li>
+  <li><code class="highlighter-rouge">{{{.PRIVATE}}}</code>, a private module that provides a <code class="highlighter-rouge">Secret()</code> function</li>
+  <li><code class="highlighter-rouge">gopher</code>, a local-only module that uses <code class="highlighter-rouge">public</code> and <code class="highlighter-rouge">private</code> modules</li>
+</ul>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<p>You should already have completed:</p>
+
+<ul>
+  <li>The <a href="/go-fundamentals_go115_en">Go fundamentals Tutorial</a></li>
+</ul>
+
+<p>This guide is running using:</p>
+
+<pre data-command-src="Z28gdmVyc2lvbgo="><code class="language-.term1">$ go version
+go version go1.15.3 linux/amd64
+</code></pre>
+
+<h3 id="the-public-and-private-modules">The <code class="highlighter-rouge">public</code> and <code class="highlighter-rouge">private</code> modules</h3>
+
+<p>Start by initialising your  <code class="highlighter-rouge">public</code> module:</p>
+
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL3B1YmxpYwpjZCAvaG9tZS9nb3BoZXIvcHVibGljCmdvIG1vZCBpbml0IHB1YmxpYwpnaXQgaW5pdCAtcQpnaXQgcmVtb3RlIGFkZCBvcmlnaW4gaHR0cHM6Ly97e3suUFVCTElDfX19LmdpdAo="><code class="language-.term1">$ mkdir /home/gopher/public
+$ cd /home/gopher/public
+$ go mod init public
+go: creating new go.mod: module public
+$ git init -q
+$ git remote add origin https://{{{.PUBLIC}}}.git
+</code></pre>
+
+<p>Create an initial version of the <code class="highlighter-rouge">Message()</code> in <code class="highlighter-rouge">public.go</code>:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3B1YmxpYw==" data-upload-src="cHVibGljLmdv:cGFja2FnZSBwdWJsaWMKCmZ1bmMgTWVzc2FnZSgpIHN0cmluZyB7CglyZXR1cm4gIlRoaXMgaXMgYSBwdWJsaWMgc2FmZXR5IGFubm91bmNlbWVudCEiCn0K" data-upload-term=".term1"><code class="language-go">package public
+
+func Message() string {
+	return &#34;This is a public safety announcement!&#34;
+}
+</code></pre>
+
+<p>Commit and push this initial version:</p>
+
+<pre data-command-src="Z2l0IGFkZCBwdWJsaWMuZ28KZ2l0IGNvbW1pdCAtcSAtbSAnSW5pdGlhbCBjb21taXQgb2YgcHVibGljIG1vZHVsZScKZ2l0IHB1c2ggLXEgb3JpZ2luIG1haW4K"><code class="language-.term1">$ git add public.go
+$ git commit -q -m 'Initial commit of public module'
+$ git push -q origin main
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<p>Now do the same for the <code class="highlighter-rouge">private</code> module:</p>
+
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL3ByaXZhdGUKY2QgL2hvbWUvZ29waGVyL3ByaXZhdGUKZ28gbW9kIGluaXQgcHJpdmF0ZQpnaXQgaW5pdCAtcQpnaXQgcmVtb3RlIGFkZCBvcmlnaW4gaHR0cHM6Ly97e3suUFJJVkFURX19fS5naXQK"><code class="language-.term1">$ mkdir /home/gopher/private
+$ cd /home/gopher/private
+$ go mod init private
+go: creating new go.mod: module private
+$ git init -q
+$ git remote add origin https://{{{.PRIVATE}}}.git
+</code></pre>
+
+<p>Create an initial version of the <code class="highlighter-rouge">Secret()</code> in <code class="highlighter-rouge">private.go</code>:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3ByaXZhdGU=" data-upload-src="cHJpdmF0ZS5nbw==:cGFja2FnZSBwcml2YXRlCgpmdW5jIFNlY3JldCgpIHN0cmluZyB7CglyZXR1cm4gIlRoaXMgaXMgYSB0b3Agc2VjcmV0IG1lc3NhZ2UuLi4gZm9yIHlvdXIgZXllcyBvbmx5Igp9Cg==" data-upload-term=".term1"><code class="language-go">package private
+
+func Secret() string {
+	return &#34;This is a top secret message... for your eyes only&#34;
+}
+</code></pre>
+
+<p>Commit and push this initial version:</p>
+
+<pre data-command-src="Z2l0IGFkZCBwcml2YXRlLmdvCmdpdCBjb21taXQgLXEgLW0gJ0luaXRpYWwgY29tbWl0IG9mIHByaXZhdGUgbW9kdWxlJwpnaXQgcHVzaCAtcSBvcmlnaW4gbWFpbgo="><code class="language-.term1">$ git add private.go
+$ git commit -q -m 'Initial commit of private module'
+$ git push -q origin main
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<h3 id="the-gopher-module">The <code class="highlighter-rouge">gopher</code> module</h3>
+
+<p>Now create a <code class="highlighter-rouge">gopher</code> module to try out the <code class="highlighter-rouge">public</code> and <code class="highlighter-rouge">private</code> modules. Unlike
+the <code class="highlighter-rouge">public</code> and <code class="highlighter-rouge">private</code> modules, you will not publisht the <code class="highlighter-rouge">gopher</code> module; it
+will be local only:</p>
+
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL2dvcGhlcgpjZCAvaG9tZS9nb3BoZXIvZ29waGVyCmdvIG1vZCBpbml0IGdvcGhlcgo="><code class="language-.term1">$ mkdir /home/gopher/gopher
+$ cd /home/gopher/gopher
+$ go mod init gopher
+go: creating new go.mod: module gopher
+</code></pre>
+
+<p>Create an initial version of a <code class="highlighter-rouge">main</code> package that uses the two modules, in <code class="highlighter-rouge">gopher.go</code>:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2dvcGhlcg==" data-upload-src="Z29waGVyLmdv:cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKCgkie3t7LlBVQkxJQ319fSIKCSJ7e3suUFJJVkFURX19fSIKKQoKZnVuYyBtYWluKCkgewoJZm10LlByaW50ZigicHVibGljLk1lc3NhZ2UoKTogJXZcbiIsIHB1YmxpYy5NZXNzYWdlKCkpCglmbXQuUHJpbnRmKCJwcml2YXRlLlNlY3JldCgpOiAldlxuIiwgcHJpdmF0ZS5TZWNyZXQoKSkKfQo=" data-upload-term=".term1"><code class="language-go">package main
+
+import (
+	&#34;fmt&#34;
+
+	&#34;{{{.PUBLIC}}}&#34;
+	&#34;{{{.PRIVATE}}}&#34;
+)
+
+func main() {
+	fmt.Printf(&#34;public.Message(): %v\n&#34;, public.Message())
+	fmt.Printf(&#34;private.Secret(): %v\n&#34;, private.Secret())
+}
+</code></pre>
+
+<p>At this point, let’s take a small diversion to talk about proxies.</p>
+
+<h3 id="module-proxies">Module proxies</h3>
+
+<p>The <code class="highlighter-rouge">go</code> command can fetch modules from a proxy or connect to source control
+servers directly, according to the setting of the <code class="highlighter-rouge">GOPROXY</code> environment
+variable (see <code class="highlighter-rouge">go help env</code>). You can see the default setting for <code class="highlighter-rouge">GOPROXY</code> by inspecting
+the output of <code class="highlighter-rouge">go env</code>:</p>
+
+<pre data-command-src="Z28gZW52IEdPUFJPWFkK"><code class="language-.term1">$ go env GOPROXY
+https://proxy.golang.org,direct
+</code></pre>
+
+<p>This means it will try the Go module mirror run by Google and fall back to a direct connection if the proxy reports that
+it does not have the module (HTTP error 404 or 410).</p>
+
+<p>The <code class="highlighter-rouge">go</code> command also defaults to validating downloaded modules, regardless of source,
+against the public Go checksum database at <a href="https://sum.golang.org">sum.golang.org</a>, something that is controlled by the
+<code class="highlighter-rouge">GOSUMDB</code> environment variable. You can see the default for <code class="highlighter-rouge">GOSUMDB</code> by checking the
+output of <code class="highlighter-rouge">go env</code>:</p>
+
+<pre data-command-src="Z28gZW52IEdPU1VNREIK"><code class="language-.term1">$ go env GOSUMDB
+sum.golang.org
+</code></pre>
+
+<p>Because your session is already configured with authentication credentials for the source control system that hosts
+<code class="highlighter-rouge">{{{.PRIVATE}}}</code>, attempting to <code class="highlighter-rouge">go get</code> that module will succeed because the <code class="highlighter-rouge">go</code> command will
+fall back to the <code class="highlighter-rouge">direct</code> mode.</p>
+
+<p>Let’s simulate getting our module dependencies with no credentials by setting <code class="highlighter-rouge">GOPROXY</code> to only use the
+public proxy, using the <code class="highlighter-rouge">go env</code> command:</p>
+
+<pre data-command-src="Z28gZW52IC13IEdPUFJPWFk9aHR0cHM6Ly9wcm94eS5nb2xhbmcub3JnCg=="><code class="language-.term1">$ go env -w GOPROXY=https://proxy.golang.org
+</code></pre>
+
+<p>Add a dependency on the <code class="highlighter-rouge">public</code> module:</p>
+
+<pre data-command-src="Z28gZ2V0IHt7ey5QVUJMSUN9fX0K"><code class="language-.term1">$ go get {{{.PUBLIC}}}
+go: downloading {{{.PUBLIC}}} v0.0.0-20060102150405-abcedf12345
+go: {{{.PUBLIC}}} upgrade =&gt; v0.0.0-20060102150405-abcedf12345
+</code></pre>
+
+<p>As expected, that succeeded.</p>
+
+<p>Try to add a dependency on the <code class="highlighter-rouge">private</code> module:</p>
+
+<pre data-command-src="Z28gZ2V0IHt7ey5QUklWQVRFfX19Cg=="><code class="language-.term1">$ go get {{{.PRIVATE}}}
+go get {{{.PRIVATE}}}: module {{{.PRIVATE}}}: reading https://proxy.golang.org/{{{.PRIVATE}}}/@v/list: 410 Gone
+	server response:
+	not found: module {{{.PRIVATE}}}: git ls-remote -q origin in /tmp/gopath/pkg/mod/cache/vcs/0123456789abcdef: exit status 128:
+		fatal: could not read Username for 'https://gopher.live': terminal prompts disabled
+	Confirm the import path was entered correctly.
+	If this is a private repository, see https://golang.org/doc/faq#git_https for additional information.
+</code></pre>
+
+<p>Thankfully, this failed.</p>
+
+<p>Let’s return <code class="highlighter-rouge">GOPROXY</code> to its default value:</p>
+
+<pre data-command-src="Z28gZW52IC13IEdPUFJPWFk9Cg=="><code class="language-.term1">$ go env -w GOPROXY=
+</code></pre>
+
+<p>And try once again to add a dependency on the <code class="highlighter-rouge">private</code> module:</p>
+
+<pre data-command-src="Z28gZ2V0IHt7ey5QUklWQVRFfX19Cg=="><code class="language-.term1">$ go get {{{.PRIVATE}}}
+go: downloading {{{.PRIVATE}}} v0.0.0-20060102150405-abcedf12345
+go get {{{.PRIVATE}}}: {{{.PRIVATE}}}@v0.0.0-20060102150405-abcedf12345: verifying module: {{{.PRIVATE}}}@v0.0.0-20060102150405-abcedf12345: reading https://sum.golang.org/lookup/{{{.PRIVATE}}}@v0.0.0-20060102150405-abcedf12345: 410 Gone
+	server response:
+	not found: {{{.PRIVATE}}}@v0.0.0-20060102150405-abcedf12345: invalid version: git fetch -f origin refs/heads/*:refs/heads/* refs/tags/*:refs/tags/* in /tmp/gopath/pkg/mod/cache/vcs/0123456789abcdef: exit status 128:
+		fatal: could not read Username for 'https://gopher.live': terminal prompts disabled
+</code></pre>
+
+<p>This fails because the checksum database is not able to access your <code class="highlighter-rouge">private</code> module. But it’s worse than
+that, because the <code class="highlighter-rouge">go</code> command “leaked” a request for <code class="highlighter-rouge">{{{.PRIVATE}}}</code> to the public proxy. This might well be
+fine for a trusted proxy like the Google proxy, but it isn’t always the case.</p>
+
+<h3 id="the-goprivate-environment-variable">The <code class="highlighter-rouge">GOPRIVATE</code> environment variable</h3>
+
+<p>The <code class="highlighter-rouge">GOPRIVATE</code> environment variable controls which modules the <code class="highlighter-rouge">go</code> command
+considers to be private (not available publicly) and should therefore not use the
+proxy or checksum database. The variable is a comma-separated list of
+glob patterns (in the syntax of Go’s <a href="https://pkg.go.dev/path#Match"><code class="highlighter-rouge">path.Match</code></a>) of module path prefixes.</p>
+
+<p>Let’s tell the <code class="highlighter-rouge">go</code> command that <code class="highlighter-rouge">{{{.PRIVATE}}}</code> by setting the <code class="highlighter-rouge">GOPRIVATE</code> environment
+variable:</p>
+
+<pre data-command-src="Z28gZW52IC13IEdPUFJJVkFURT17e3suUFJJVkFURX19fQo="><code class="language-.term1">$ go env -w GOPRIVATE={{{.PRIVATE}}}
+</code></pre>
+
+<p>Try to get the latest version of the <code class="highlighter-rouge">private</code> module again (remember, the <code class="highlighter-rouge">public</code> module
+succeeded):</p>
+
+<pre data-command-src="Z28gZ2V0IHt7ey5QUklWQVRFfX19Cg=="><code class="language-.term1">$ go get {{{.PRIVATE}}}
+go: downloading {{{.PRIVATE}}} v0.0.0-20060102150405-abcedf12345
+go: {{{.PRIVATE}}} upgrade =&gt; v0.0.0-20060102150405-abcedf12345
+</code></pre>
+
+<p>Success! As a final check, run the <code class="highlighter-rouge">gopher</code> module <code class="highlighter-rouge">main</code> package:</p>
+
+<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
+public.Message(): This is a public safety announcement!
+private.Secret(): This is a top secret message... for your eyes only
+</code></pre>
+
+<p>For more details on the <code class="highlighter-rouge">GOPRIVATE</code> environment variable and the values it can take, see
+<code class="highlighter-rouge">go help module-private</code>, which also includes examples of how to use the <code class="highlighter-rouge">*</code> glob to match multiple sub domains
+or modules.</p>
+
+<p>The <code class="highlighter-rouge">GONOPROXY</code> and <code class="highlighter-rouge">GONOSUMDB</code> environment variables can be used for more fine
+grained control. Again, see <code class="highlighter-rouge">go help module-private</code> for more information.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>This guide has provided you with a brief introduction to handling private modules.</p>
+
+<script>let pageGuide="2020-11-12-working-with-private-modules"; let pageLanguage="en"; let pageScenario="go115";</script>
+
+
+            </div>
+        </article>
     </div>
 
-    <div class="row card-deck">
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Tutorial: Go fundamentals</h5>
-            <p class="card-text">Primer on creating and using go modules</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>   
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Beginner.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time"> 
-                
-                56 min read.
-                </p>
-              </div>
-            </div>
+
+    <div class="panel-right">
+        <div class="panel-nav">
+            <i class="expand-button fa fa-expand pull-right"></i>
+            <ul class="nav nav-tabs">
             
-          </div>
-          <div class="card-footer fofo">
-            <a href="/go-fundamentals_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Tutorial: Get started with Go</h5>
-            <p class="card-text">You've completed the Go tour, so what next? This guide gives a brief introduction to Go programming</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>   
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Beginner.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time"> 
-                
-                8 min read.
-                </p>
-              </div>
-            </div>
+                <li class="nav-item">
+                    <a class="nav-link active" id="term1-tab" data-toggle="tab" href="#term1" role="tab" aria-controls="term1" aria-selected="true" >T.1</a>
+                </li>
             
-          </div>
-          <div class="card-footer fofo">
-            <a href="/get-started-with-go_go115_en/" class="card-link">Start tutorial</a>
-          </div>
+            </ul>
         </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">An introduction to play-with-go.dev guides</h5>
-            <p class="card-text">Learn about how to get the most out of play-with-go.dev guides</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>   
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Beginner.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time"> 
+        <div class="twrapper">
+            <div class="splitter"></div>
+            <div class="tab-content" id="myTabContent">
                 
-                6 min read.
-                </p>
-              </div>
+                <div class="tab-pane show term1 active" id="term1" role="tabpanel" aria-labelledby="term1-tab"><div class="term-init">Initializing environment, hold a few seconds please...</div></div>
+                
             </div>
-            
-          </div>
-          <div class="card-footer fofo">
-            <a href="/intro-to-play-with-go-dev_go115_en/" class="card-link">Start tutorial</a>
-          </div>
         </div>
-      </div>
-      
-    </div>
-    
-    <div class="row">
-      <div class="col"><hr class="line"></div>
-      <div class="col-auto catego">Next steps</div>
-      <div class="col"><hr class="line"></div>
     </div>
 
-    <div class="row card-deck">
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Working with private modules</h5>
-            <p class="card-text">How to create, publish and work with non-public modules in your team.</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>   
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Intermediate.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time"> 
-                
-                12 min read.
-                </p>
-              </div>
-            </div>
-            
-          </div>
-          <div class="card-footer fofo">
-            <a href="/working-with-private-modules_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">How to use and tweak Staticcheck</h5>
-            <p class="card-text">Using static analysis to automatically find bugs and performance optimizations.</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>   
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Intermediate.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time"> 
-                
-                24 min read.
-                </p>
-              </div>
-            </div>
-            
-          </div>
-          <div class="card-footer fofo">
-            <a href="/using-staticcheck_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Developer tools as module dependencies</h5>
-            <p class="card-text">Ensure all developers use the same version of each developer tool</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>   
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Intermediate.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time"> 
-                
-                16 min read.
-                </p>
-              </div>
-            </div>
-            
-          </div>
-          <div class="card-footer fofo">
-            <a href="/tools-as-dependencies_go115_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-    
-    <div class="row">
-      <div class="col"><hr class="line"></div>
-      <div class="col-auto catego">What's coming in Go 1.16</div>
-      <div class="col"><hr class="line"></div>
-    </div>
-
-    <div class="row card-deck">
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Installing Go programs standalone</h5>
-            <p class="card-text">Simple easy-to-remember way to install Go programs</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>   
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Beginner.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time"> 
-                
-                8 min read.
-                </p>
-              </div>
-            </div>
-            
-          </div>
-          <div class="card-footer fofo">
-            <a href="/installing-programs-standalone_go116_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Retract Module Versions</h5>
-            <p class="card-text">Learn how to flag modules that shouldn't be used</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>   
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Intermediate.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time"> 
-                
-                26 min read.
-                </p>
-              </div>
-            </div>
-            
-          </div>
-          <div class="card-footer fofo">
-            <a href="/retract-module-versions_go116_en/" class="card-link">Start tutorial</a>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-    
-  </div>
-  </div>
 </div>
 
-
+<script>
+    var imageName = "";
+    (function() {
+        var font3 = document.createElement('link');
+        font3.type = 'text/css';
+        font3.rel = 'stylesheet';
+        font3.href = '/css/syntax-highlighting.css';
+        var q = document.getElementsByTagName('link')[0];
+        q.parentNode.insertBefore(font3, q);
+    })();
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+<script src="https://rawgit.com/RickStrahl/jquery-resizable/master/dist/jquery-resizable.min.js"></script>
+<script src="https://unpkg.com/pwd-sdk@0.0.10/dist/pwd.min.js"></script>
+<script src="/js/post-layout.js"></script>
+<script src="/js/progress-bar.js"></script>
+<script src="/js/menu.js"></script>
+<script src="/js/feedback-footer.js"></script>
+<script src="/js/dark-mode.js"></script>
+<script src="/js/exit-warning.js"></script>
+<script src="/js/import-file.js"></script>
+<div
+  class="modal fade"
+  id="congratz-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img src="/images/success.png" />
+        <h2 class="post-title">
+          Congratulations!
+        </h2>
+        <p class="congratz-text">
+          Great work! you are getting closer and closer to archieving your
+          goals. Go foward!
+        </p>
+        <div class="congratz-footer">
+          <button type="button" class="text-btn" data-dismiss="modal">
+            CLOSE
+          </button>
+          <div class="share">
+            <p class="share-text">Share your archievements</p>
+            <a
+              href="http://twitter.com/share?url=URL_TO_PAGE&text=TITLE_TO_SHARE&via=TWITTER_USERNAME"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u=http://labs.docker.com"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-facebook-official" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
     
@@ -533,25 +549,6 @@ layout: compress
     <!--}}();-->
     <!--}-->
     <!---->
-    
-    <!--try {-->
-      <!--pwd.getUserInfo(function(pwduser){-->
-              <!--user = pwduser;-->
-              <!--if(user !== undefined){-->
-                  <!--analytics.identify(user.provider_user_id,{"email":user.email});-->
-              <!--}-->
-              <!--else {-->
-
-                  <!--analytics.identify();-->
-              <!--}-->
-          <!--});-->
-    <!--}-->
-    <!--catch (error) {-->
-      <!--analytics.identify();-->
-      <!--}-->
-    
-     
-      <!---->
     <!--</script>-->
     <!-- Twitter universal website tag code -->
 
