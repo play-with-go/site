@@ -170,6 +170,16 @@ layout: compress
 <p>This guide walks you through those steps, discusses the Go environment, and also explains how to setup your <code class="highlighter-rouge">PATH</code> for
 running any Go programs you install.</p>
 
+<h3 id="prerequisites">Prerequisites</h3>
+
+<p>You should already have completed:</p>
+
+<ul>
+  <li><a href="https://tour.golang.org/">The Go Tour</a></li>
+  <li><a href="/intro-to-play-with-go-dev/">An introduction to play-with-go.dev guides</a></li>
+  <li><a href="/get-started-with-go/">Get started with Go</a></li>
+</ul>
+
 <h3 id="installing-go">Installing Go</h3>
 
 <p><em>Note: this guide is running on Linux. For Mac or Windows steps, see the official <a href="https://golang.org/doc/install">Download and
@@ -260,13 +270,13 @@ GOGCCFLAGS="-fPIC -m64 -pthread -fno-caret-diagnostics -Qunused-arguments -fmess
 
 <p>To change the default setting of a variable, for example <code class="highlighter-rouge">GOBIN</code>, you can run:</p>
 
-<pre data-command-src="Z28gZW52IC13IEdPQklOPS9wYXRoL3RvL215L2dvcGF0aAo="><code class="language-.term1">$ go env -w GOBIN=/path/to/my/gopath
+<pre data-command-src="Z28gZW52IC13IEdPQklOPS9wYXRoL3RvL215L2dvYmluCg=="><code class="language-.term1">$ go env -w GOBIN=/path/to/my/gobin
 </code></pre>
 
 <p>Check the new value is set:</p>
 
 <pre data-command-src="Z28gZW52IEdPQklOCg=="><code class="language-.term1">$ go env GOBIN
-/path/to/my/gopath
+/path/to/my/gobin
 </code></pre>
 
 <p>Defaults changed in this way
@@ -327,8 +337,14 @@ the environment variable <code class="highlighter-rouge">GOENV</code>.</p>
 
 <h3 id="conclusion">Conclusion</h3>
 
-<p>That’s it! You’re all set for working with Go on your local system.
-<script>let pageGuide="2020-08-13-installing-go"; let pageLanguage="en"; let pageScenario="go115";</script></p>
+<p>That’s it! You’re all set for working with Go on your local system.</p>
+
+<p>As a next step you might like to consider:</p>
+
+<ul>
+  <li><a href="/go-fundamentals_go115_en">Go Fundamentals</a>
+<script>let pageGuide="2020-08-13-installing-go"; let pageLanguage="en"; let pageScenario="go115";</script></li>
+</ul>
 
             </div>
             <a href="/guides.html"><button class="btn btn-primary" style="margin: 10px 0 40px 0">Back to guides</button></a>

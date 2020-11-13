@@ -163,7 +163,9 @@ layout: compress
                 <h1 class="post-title" itemprop="name headline">Working with private modules</h1>
             </header>
             <div class="post-content" itemprop="articleBody">
-                <p>The <code class="highlighter-rouge">go</code> command defaults to downloading modules from the public Go module mirror at
+                <p><em>By <a href="https://twitter.com/_myitcv">Paul Jolly</a>, Go contributor, and co-creator of <code class="highlighter-rouge">play-with-go.dev</code>.</em></p>
+
+<p>The <code class="highlighter-rouge">go</code> command defaults to downloading modules from the public Go module mirror at
 <a href="https://proxy.golang.org">proxy.golang.org</a>. It also defaults to validating downloaded modules, regardless of source,
 against the public Go checksum database at <a href="https://sum.golang.org">sum.golang.org</a>.  These defaults work well for
 publicly available source code.</p>
@@ -183,7 +185,7 @@ publicly available source code.</p>
 <p>You should already have completed:</p>
 
 <ul>
-  <li>The <a href="/go-fundamentals_go115_en">Go fundamentals Tutorial</a></li>
+  <li><a href="/go-fundamentals_go115_en">Go Fundamentals</a></li>
 </ul>
 
 <p>This guide is running using:</p>
@@ -231,6 +233,11 @@ go: creating new go.mod: module private
 $ git init -q
 $ git remote add origin https://{{{.PRIVATE}}}.git
 </code></pre>
+
+<p><em>Note: the <code class="highlighter-rouge">private</code> source code repository at https://{{{.PRIVATE}}}.git was automatically created for you when this
+guide loaded, much like https://{{{.PUBLIC}}}.git was created for the <code class="highlighter-rouge">public</code> module. However, the
+<code class="highlighter-rouge">private</code> module repository was marked as <code class="highlighter-rouge">Private: true</code>, hence authenticated access is required to access
+https://{{{.PRIVATE}}}.git.</em></p>
 
 <p>Create an initial version of the <code class="highlighter-rouge">Secret()</code> in <code class="highlighter-rouge">private.go</code>:</p>
 
@@ -394,8 +401,14 @@ grained control. Again, see <code class="highlighter-rouge">go help module-priva
 
 <p>This guide has provided you with a brief introduction to handling private modules.</p>
 
-<script>let pageGuide="2020-11-12-working-with-private-modules"; let pageLanguage="en"; let pageScenario="go115";</script>
+<p>As a next step you might like to consider:</p>
 
+<ul>
+  <li><a href="/tools-as-dependencies_go115_en/">Developer tools as module dependencies</a></li>
+  <li><a href="/using-staticcheck_go115_en/">How to use and tweak Staticcheck</a></li>
+  <li><a href="/installing-go_go115_en/">Installing Go</a>
+<script>let pageGuide="2020-11-12-working-with-private-modules"; let pageLanguage="en"; let pageScenario="go115";</script></li>
+</ul>
 
             </div>
             <a href="/guides.html"><button class="btn btn-primary" style="margin: 10px 0 40px 0">Back to guides</button></a>
