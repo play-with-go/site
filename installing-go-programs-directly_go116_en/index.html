@@ -157,13 +157,14 @@ layout: compress
 
 
     <div class="panel-left">
-        
+
         <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
             <header class="post-header">
                 <h1 class="post-title" itemprop="name headline">Installing Go programs directly</h1>
             </header>
             <div class="post-content" itemprop="articleBody">
-                <p><em>By <a href="https://mvdan.cc">Daniel Martí</a>, contributor to Go, maintainer of <a href="https://pkg.go.dev/encoding/json"><code class="highlighter-rouge">encoding/json</code></a>, and tool author.</em></p>
+                <p><em>By <a href="https://mvdan.cc">Daniel Martí</a>, contributor to Go, maintainer of
+<a href="https://pkg.go.dev/encoding/json"><code class="highlighter-rouge">encoding/json</code></a>, and tool author.</em></p>
 
 <p><em>Note: this is a preview of a <code class="highlighter-rouge">cmd/go</code> feature that is due to land in Go 1.16</em></p>
 
@@ -182,6 +183,7 @@ introduces the new mode of <code class="highlighter-rouge">go install</code> usi
   <li><a href="https://tour.golang.org/">The Go Tour</a></li>
   <li><a href="/intro-to-play-with-go-dev/">An introduction to play-with-go.dev guides</a></li>
   <li><a href="/get-started-with-go/">Tutorial: Get started with Go</a></li>
+  <li><a href="/installing-go_go115_en">Installing Go</a></li>
 </ul>
 
 <p>This guide is running with:</p>
@@ -192,8 +194,7 @@ go version devel +7307e86afd Sun Nov 8 12:19:55 2020 +0000 linux/amd64
 
 <h3 id="background">Background</h3>
 
-<p>Typically, tool authors who wanted to provide installation instructions in their
-projects’ <code class="highlighter-rouge">README.md</code> would include:</p>
+<p>Currently, tool authors who want to provide installation instructions in their projects’ <code class="highlighter-rouge">README.md</code> typically include:</p>
 
 <pre data-command-src="Z28gZ2V0IGhvbm5lZi5jby9nby90b29scy9jbWQvc3RhdGljY2hlY2sK"><code class="language-.term1">$ go get honnef.co/go/tools/cmd/staticcheck
 go: downloading honnef.co/go/tools v0.0.1-2020.1.6
@@ -240,19 +241,9 @@ module context:</p>
 <p>For the purposes of this guide you are using a specific version (<code class="highlighter-rouge">v0.0.1-2020.1.6</code>). Alternatively,
 the special <code class="highlighter-rouge">latest</code> version can be used to install the latest release.</p>
 
-<p>Much like the previous behaviour of <code class="highlighter-rouge">go get</code>, <code class="highlighter-rouge">go install</code> places binaries in
-<code class="highlighter-rouge">$GOPATH/bin</code>, or in <code class="highlighter-rouge">$GOBIN</code> if set. Let’s confirm your setup using <code class="highlighter-rouge">go env</code>:</p>
-
-<pre data-command-src="Z28gZW52IEdPUEFUSApnbyBlbnYgR09CSU4K"><code class="language-.term1">$ go env GOPATH
-/home/gopher/go
-$ go env GOBIN
-
-</code></pre>
-
-<p><code class="highlighter-rouge">GOBIN</code> is not set. Therefore as a one off, add <code class="highlighter-rouge">$GOPATH/bin</code> to your <code class="highlighter-rouge">PATH</code>:</p>
-
-<pre data-command-src="ZXhwb3J0IFBBVEg9IiQoZ28gZW52IEdPUEFUSCkvYmluOiRQQVRIIgo="><code class="language-.term1">$ export PATH="$(go env GOPATH)/bin:$PATH"
-</code></pre>
+<p>Much like the previous behaviour of <code class="highlighter-rouge">go get</code>, <code class="highlighter-rouge">go install</code> places binaries in <code class="highlighter-rouge">$GOPATH/bin</code>,
+or in <code class="highlighter-rouge">$GOBIN</code> if set. See the <em>“Setting up your <code class="highlighter-rouge">PATH</code>“</em> section in <a href="/installing-go_go115_en">Installing Go</a> to ensure
+your <code class="highlighter-rouge">PATH</code> is set correctly.</p>
 
 <p>Verify that <code class="highlighter-rouge">staticcheck</code> is now on your <code class="highlighter-rouge">PATH</code>:</p>
 
@@ -278,7 +269,11 @@ staticcheck 2020.1.6
 </code></pre>
 
 <p>To eliminate redundancy and confusion, using <code class="highlighter-rouge">go get</code> to build or
-install programs is being deprecated in Go 1.16.
+install programs is being deprecated in Go 1.16.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>That’s it! Time to sit back and wait for the release of Go 1.16!
 <script>let pageGuide="2020-11-09-installing-go-programs-directly"; let pageLanguage="en"; let pageScenario="go116";</script></p>
 
             </div>
@@ -302,7 +297,7 @@ install programs is being deprecated in Go 1.16.
             <div class="splitter"></div>
             <div class="tab-content" id="myTabContent">
                 
-                <div class="tab-pane show term1 active" id="term1" role="tabpanel" aria-labelledby="term1-tab"><div class="term-init">Initializing environment, hold a few seconds please...</div></div>
+                <div class="tab-pane show term1 active" id="term1" role="tabpanel" aria-labelledby="term1-tab"><div class="term-init">Initializing remote session...</div></div>
                 
             </div>
         </div>

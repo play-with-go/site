@@ -9,13 +9,13 @@ layout: compress
 <html>
 
   <head>
-<title>A simple Go modules guide</title>
+<title>Installing Go</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="A simple Go modules guide" />
+<meta name="twitter:title" content="Installing Go" />
 <meta name="twitter:description" content="Learn Go through interactive online guides on play-with-go.dev" />
 <meta name="twitter:image" content="https://play-with-go.dev/images/playgo.png" />
 
@@ -160,60 +160,175 @@ layout: compress
 
         <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
             <header class="post-header">
-                <h1 class="post-title" itemprop="name headline">A simple Go modules guide</h1>
+                <h1 class="post-title" itemprop="name headline">Installing Go</h1>
             </header>
             <div class="post-content" itemprop="articleBody">
-                <p>Create a module:</p>
+                <p>So you’re ready to take the plunge and install Go on your local system? Congratulations!</p>
 
-<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL21vZDEKY2QgL2hvbWUvZ29waGVyL21vZDEKZ2l0IGluaXQgLXEKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8ve3t7LlJFUE8xfX19LmdpdApnbyBtb2QgaW5pdCB7e3suUkVQTzF9fX0K"><code class="language-.term1">$ mkdir /home/gopher/mod1
-$ cd /home/gopher/mod1
-$ git init -q
-$ git remote add origin https://{{{.REPO1}}}.git
-$ go mod init {{{.REPO1}}}
-go: creating new go.mod: module {{{.REPO1}}}
+<p>The official <a href="https://golang.org/doc/install"><em>Download and Install</em></a> instructions get you quickly up and running with Go.</p>
+
+<p>This guide walks you through those steps, discusses the Go environment, and also explains how to setup your <code class="highlighter-rouge">PATH</code> for
+running any Go programs you install.</p>
+
+<h3 id="installing-go">Installing Go</h3>
+
+<p><em>Note: this guide is running on Linux. For Mac or Windows steps, see the official <a href="https://golang.org/doc/install">Download and
+Install</a> instructions.</em></p>
+
+<p>Start in your home directory:</p>
+
+<pre data-command-src="cHdkCg=="><code class="language-.term1">$ pwd
+/home/gopher
 </code></pre>
 
-<p>Write a readme:</p>
+<p>Download the latest version of Go:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVyL21vZDE=" data-upload-src="UkVBRE1FLm1k:IyMgYHt7ey5SRVBPMX19fWA=" data-upload-term=".term1"><code class="language-md">## `{{{.REPO1}}}`</code></pre>
-
-<p>Write a readme:</p>
-
-<pre data-upload-path="L2hvbWUvZ29waGVyL21vZDE=" data-upload-src="bWFpbi5nbw==:cGFja2FnZSBtYWluCgppbXBvcnQgImZtdCIKCmZ1bmMgbWFpbigpIHsKCWZtdC5QcmludGxuKCJIZWxsbywgd29ybGQhIikKfQo=" data-upload-term=".term1"><code class="language-go">package main
-
-import &#34;fmt&#34;
-
-func main() {
-	fmt.Println(&#34;Hello, world!&#34;)
-}
+<pre data-command-src="d2dldCAtcSBodHRwczovL2dvbGFuZy5vcmcvZGwvZ28xLjE1LjUubGludXgtYW1kNjQudGFyLmd6Cg=="><code class="language-.term1">$ wget -q https://golang.org/dl/go1.15.5.linux-amd64.tar.gz
 </code></pre>
 
-<p>Commit and push:</p>
+<p>Extract and install:</p>
 
-<pre data-command-src="Z2l0IGFkZCBSRUFETUUubWQgbWFpbi5nbwpnaXQgY29tbWl0IC1xIC1tICJJbml0aWFsIGNvbW1pdCIKZ2l0IHB1c2ggLXEgb3JpZ2luIG1haW4K"><code class="language-.term1">$ git add README.md main.go
-$ git commit -q -m "Initial commit"
-$ git push -q origin main
-remote: . Processing 1 references        
-remote: Processed 1 references in total        
+<pre data-command-src="c3VkbyB0YXIgLUMgL3Vzci9sb2NhbCAteHpmIGdvMS4xNS41LmxpbnV4LWFtZDY0LnRhci5nego="><code class="language-.term1">$ sudo tar -C /usr/local -xzf go1.15.5.linux-amd64.tar.gz
 </code></pre>
 
-<p>Use the module:</p>
+<p>Add the install target to your profile <code class="highlighter-rouge">PATH</code>:</p>
 
-<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL21vZDIKY2QgL2hvbWUvZ29waGVyL21vZDIKZ28gbW9kIGluaXQgbW9kLmNvbQpnbyBnZXQge3t7LlJFUE8xfX19CmdvIHJ1biB7e3suUkVQTzF9fX0K"><code class="language-.term1">$ mkdir /home/gopher/mod2
-$ cd /home/gopher/mod2
-$ go mod init mod.com
-go: creating new go.mod: module mod.com
-$ go get {{{.REPO1}}}
-go: downloading {{{.REPO1}}} v0.0.0-20060102150405-abcedf12345
-go: {{{.REPO1}}} upgrade =&gt; v0.0.0-20060102150405-abcedf12345
-$ go run {{{.REPO1}}}
-Hello, world!
+<pre data-command-src="ZWNobyBleHBvcnQgUEFUSD0iL3Vzci9sb2NhbC9nby9iaW46JFBBVEgiID4+JEhPTUUvLnByb2ZpbGUK"><code class="language-.term1">$ echo export PATH="/usr/local/go/bin:$PATH" &gt;&gt;$HOME/.profile
 </code></pre>
 
-<p>You’re done!</p>
+<p>Source your profile to test the new settings:</p>
 
-<script>let pageGuide="2020-09-01-basic-go-modules-example"; let pageLanguage="en"; let pageScenario="go115";</script>
+<pre data-command-src="c291cmNlICRIT01FLy5wcm9maWxlCg=="><code class="language-.term1">$ source $HOME/.profile
+</code></pre>
 
+<p>Verify the Go installation:</p>
+
+<pre data-command-src="Z28gdmVyc2lvbgo="><code class="language-.term1">$ go version
+go version go1.15.5 linux/amd64
+</code></pre>
+
+<h3 id="the-go-environment">The Go environment</h3>
+
+<p>The <code class="highlighter-rouge">go</code> command and the tools it invokes consult environment variables
+for configuration. If an environment variable is unset, the <code class="highlighter-rouge">go</code> command
+uses a sensible default setting.</p>
+
+<p>Let’s examine the default settings in your setup:</p>
+
+<pre data-command-src="Z28gZW52Cg=="><code class="language-.term1">$ go env
+GO111MODULE=""
+GOARCH="amd64"
+GOBIN=""
+GOCACHE="/home/gopher/.cache/go-build"
+GOENV="/home/gopher/.config/go/env"
+GOEXE=""
+GOFLAGS=""
+GOHOSTARCH="amd64"
+GOHOSTOS="linux"
+GOINSECURE=""
+GOMODCACHE="/home/gopher/go/pkg/mod"
+GONOPROXY=""
+GONOSUMDB=""
+GOOS="linux"
+GOPATH="/home/gopher/go"
+GOPRIVATE=""
+GOPROXY="https://proxy.golang.org,direct"
+GOROOT="/usr/local/go"
+GOSUMDB="sum.golang.org"
+GOTMPDIR=""
+GOTOOLDIR="/usr/local/go/pkg/tool/linux_amd64"
+GCCGO="gccgo"
+AR="ar"
+CC="gcc"
+CXX="g++"
+CGO_ENABLED="1"
+GOMOD=""
+CGO_CFLAGS="-g -O2"
+CGO_CPPFLAGS=""
+CGO_CXXFLAGS="-g -O2"
+CGO_FFLAGS="-g -O2"
+CGO_LDFLAGS="-g -O2"
+PKG_CONFIG="pkg-config"
+GOGCCFLAGS="-fPIC -m64 -pthread -fno-caret-diagnostics -Qunused-arguments -fmessage-length=0 -fdebug-prefix-map=/tmp/go-build -gno-record-gcc-switches"
+</code></pre>
+
+<p>To see the effective setting of a specific variable, for example <code class="highlighter-rouge">GOBIN</code>, you can run:</p>
+
+<pre data-command-src="Z28gZW52IEdPQklOCg=="><code class="language-.term1">$ go env GOBIN
+
+</code></pre>
+
+<p>To change the default setting of a variable, for example <code class="highlighter-rouge">GOBIN</code>, you can run:</p>
+
+<pre data-command-src="Z28gZW52IC13IEdPQklOPS9wYXRoL3RvL215L2dvcGF0aAo="><code class="language-.term1">$ go env -w GOBIN=/path/to/my/gopath
+</code></pre>
+
+<p>Check the new value is set:</p>
+
+<pre data-command-src="Z28gZW52IEdPQklOCg=="><code class="language-.term1">$ go env GOBIN
+/path/to/my/gopath
+</code></pre>
+
+<p>Defaults changed in this way
+are recorded in a Go environment configuration file stored in the
+per-user configuration directory, as reported by <a href="https://pkg.go.dev/os#UserConfigDir"><code class="highlighter-rouge">os.UserConfigDir</code></a>.
+The location of the configuration file can be changed by setting
+the environment variable <code class="highlighter-rouge">GOENV</code>.</p>
+
+<p>Print the effective location of the configuration file:</p>
+
+<pre data-command-src="Z28gZW52IEdPRU5WCg=="><code class="language-.term1">$ go env GOENV
+/home/gopher/.config/go/env
+</code></pre>
+
+<p>Note, you cannot change the default location of the configuration file.</p>
+
+<p>Unset <code class="highlighter-rouge">GOBIN</code>, returning to its default value:</p>
+
+<pre data-command-src="Z28gZW52IC13IEdPQklOPQo="><code class="language-.term1">$ go env -w GOBIN=
+</code></pre>
+
+<p>Check the effective value of <code class="highlighter-rouge">GOBIN</code> now:</p>
+
+<pre data-command-src="Z28gZW52IEdPQklOCg=="><code class="language-.term1">$ go env GOBIN
+
+</code></pre>
+
+<p>That is to say, <code class="highlighter-rouge">GOBIN</code> is not set by default.</p>
+
+<p>See <code class="highlighter-rouge">go help env</code> for more details.</p>
+
+<h3 id="setting-up-your-path">Setting up your <code class="highlighter-rouge">PATH</code></h3>
+
+<p><em>Note: this section applies to Linux and Mac users only.</em></p>
+
+<p><code class="highlighter-rouge">go get</code> and <code class="highlighter-rouge">go install</code> install programs to <code class="highlighter-rouge">$GOPATH/bin</code>, or
+<code class="highlighter-rouge">$GOBIN</code> if set. <code class="highlighter-rouge">GOBIN</code> is not set in the <code class="highlighter-rouge">play-with-go.dev</code> environment:</p>
+
+<pre data-command-src="Z28gZW52IEdPQklOCg=="><code class="language-.term1">$ go env GOBIN
+
+</code></pre>
+
+<p>So you need to add <code class="highlighter-rouge">$GOPATH/bin</code> to your profile <code class="highlighter-rouge">PATH</code>:</p>
+
+<pre data-command-src="ZWNobyBleHBvcnQgUEFUSD0iJChnbyBlbnYgR09QQVRIKS9iaW46JFBBVEgiID4+JEhPTUUvLnByb2ZpbGUK"><code class="language-.term1">$ echo export PATH="$(go env GOPATH)/bin:$PATH" &gt;&gt;$HOME/.profile
+</code></pre>
+
+<p>Source your profile again to test the new settings:</p>
+
+<pre data-command-src="c291cmNlICRIT01FLy5wcm9maWxlCg=="><code class="language-.term1">$ source $HOME/.profile
+</code></pre>
+
+<p>Verify the new setting of <code class="highlighter-rouge">PATH</code>:</p>
+
+<pre data-command-src="ZWNobyAkUEFUSAo="><code class="language-.term1">$ echo $PATH
+/home/gopher/go/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+</code></pre>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>That’s it! You’re all set for working with Go on your local system.
+<script>let pageGuide="2020-08-13-installing-go"; let pageLanguage="en"; let pageScenario="go115";</script></p>
 
             </div>
             <a href="/guides.html"><button class="btn btn-primary" style="margin: 10px 0 40px 0">Back to guides</button></a>

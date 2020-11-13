@@ -157,7 +157,7 @@ layout: compress
 
 
     <div class="panel-left">
-        
+
         <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
             <header class="post-header">
                 <h1 class="post-title" itemprop="name headline">How to use and tweak Staticcheck</h1>
@@ -187,7 +187,8 @@ Staticcheck please consider <a href="https://github.com/sponsors/dominikh">spons
 <p>You should already have completed:</p>
 
 <ul>
-  <li>The <a href="/go-fundamentals_go115_en">Go fundamentals Tutorial</a></li>
+  <li><a href="/go-fundamentals_go115_en">Go fundamentals</a></li>
+  <li><a href="/installing-go_go115_en">Installing Go</a></li>
 </ul>
 
 <p>This guide is running using:</p>
@@ -214,27 +215,18 @@ go: downloading golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
 <p><em>Note: so that this guide remains reproducible we have spcified an explicit version, <code class="highlighter-rouge">v0.0.1-2020.1.6</code>.
 When running yourself you could use the special version <code class="highlighter-rouge">latest</code>.</em></p>
 
-<p>The rather ugly use of a temporary directory ensures that <code class="highlighter-rouge">go get</code> is run outside of a module. When run
-outside of a module, <code class="highlighter-rouge">go get</code> installs binaries to <code class="highlighter-rouge">$GOPATH/bin</code>, or <code class="highlighter-rouge">$GOBIN</code> if set.</p>
+<p>The rather ugly use of a temporary directory ensures that <code class="highlighter-rouge">go get</code> is run outside of a module.  See the
+<em>“Setting up your <code class="highlighter-rouge">PATH</code>“</em> section in <a href="/installing-go_go115_en">Installing Go</a> to ensure your <code class="highlighter-rouge">PATH</code> is set correctly.</p>
 
-<p>Confirm your setup using <code class="highlighter-rouge">go env</code>:</p>
+<p>Check that <code class="highlighter-rouge">staticcheck</code> is on your <code class="highlighter-rouge">PATH</code>:</p>
 
-<pre data-command-src="Z28gZW52IEdPUEFUSApnbyBlbnYgR09CSU4K"><code class="language-.term1">$ go env GOPATH
-/home/gopher/go
-$ go env GOBIN
-
-</code></pre>
-
-<p>So <code class="highlighter-rouge">GOBIN</code> is not set. As a one off, add <code class="highlighter-rouge">$GOPATH/bin</code> to your <code class="highlighter-rouge">PATH</code>:</p>
-
-<pre data-command-src="ZXhwb3J0IFBBVEg9IiQoZ28gZW52IEdPUEFUSCkvYmluOiRQQVRIIgo="><code class="language-.term1">$ export PATH="$(go env GOPATH)/bin:$PATH"
-</code></pre>
-
-<p>Finally, check that <code class="highlighter-rouge">staticcheck</code> can be resolved from your <code class="highlighter-rouge">PATH</code>:</p>
-
-<pre data-command-src="d2hpY2ggc3RhdGljY2hlY2sKc3RhdGljY2hlY2sgLXZlcnNpb24K"><code class="language-.term1">$ which staticcheck
+<pre data-command-src="d2hpY2ggc3RhdGljY2hlY2sK"><code class="language-.term1">$ which staticcheck
 /home/gopher/go/bin/staticcheck
-$ staticcheck -version
+</code></pre>
+
+<p>Run <code class="highlighter-rouge">staticcheck</code> as a quick check:</p>
+
+<pre data-command-src="c3RhdGljY2hlY2sgLXZlcnNpb24K"><code class="language-.term1">$ staticcheck -version
 staticcheck 2020.1.6
 </code></pre>
 
@@ -706,7 +698,7 @@ like Staticcheck to a project.</li>
             <div class="splitter"></div>
             <div class="tab-content" id="myTabContent">
                 
-                <div class="tab-pane show term1 active" id="term1" role="tabpanel" aria-labelledby="term1-tab"><div class="term-init">Initializing environment, hold a few seconds please...</div></div>
+                <div class="tab-pane show term1 active" id="term1" role="tabpanel" aria-labelledby="term1-tab"><div class="term-init">Initializing remote session...</div></div>
                 
             </div>
         </div>
