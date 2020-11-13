@@ -9,13 +9,13 @@ layout: compress
 <html>
 
   <head>
-<title>Installing Go programs standalone</title>
+<title>Installing Go programs directly</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Installing Go programs standalone" />
+<meta name="twitter:title" content="Installing Go programs directly" />
 <meta name="twitter:description" content="Learn Go through interactive online guides on play-with-go.dev" />
 <meta name="twitter:image" content="https://blog.golang.org/gopher/gopher.png" />
 
@@ -160,19 +160,19 @@ layout: compress
         
         <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
             <header class="post-header">
-                <h1 class="post-title" itemprop="name headline">Installing Go programs standalone</h1>
+                <h1 class="post-title" itemprop="name headline">Installing Go programs directly</h1>
             </header>
             <div class="post-content" itemprop="articleBody">
-                <p><em>By <a href="https://twitter.com/mvdan_">Daniel Martí</a></em></p>
+                <p><em>By <a href="https://mvdan.cc">Daniel Martí</a>, contributor to Go, maintainer of <a href="https://pkg.go.dev/encoding/json"><code class="highlighter-rouge">encoding/json</code></a>, and tool author.</em></p>
 
 <p><em>Note: this is a preview of a <code class="highlighter-rouge">cmd/go</code> feature that is due to land in Go 1.16</em></p>
 
-<p>Users need a simple, easy-to-remember way to install Go programs. Similarly, tool authors need a simple one-liner they
-can include at the top of their <code class="highlighter-rouge">README.md</code> files explaining how to get started.</p>
+<p>Users need a simple, easy-to-remember way to install Go programs. Similarly, tool authors need a short one-liner they
+can include at the top of their <code class="highlighter-rouge">README.md</code> explaining how to install the tool.</p>
 
-<p>Go 1.16 introduces a new, much simpler way to install Go programs standalone with the <code class="highlighter-rouge">go</code> command. This guide
+<p>Go 1.16 introduces a new way to install Go programs directly with the <code class="highlighter-rouge">go</code> command. This guide
 introduces the new mode of <code class="highlighter-rouge">go install</code> using the example of
-<a href="https://staticcheck.io/"><code class="highlighter-rouge">honnef.co/go/tools/cmd/staticcheck</code></a>, and is suitable for end users and tool authors.</p>
+<a href="https://staticcheck.io/"><code class="highlighter-rouge">honnef.co/go/tools/cmd/staticcheck</code></a>, and is suitable for both end users and tool authors.</p>
 
 <h3 id="prerequisites">Prerequisites</h3>
 
@@ -184,7 +184,7 @@ introduces the new mode of <code class="highlighter-rouge">go install</code> usi
   <li><a href="/get-started-with-go/">Tutorial: Get started with Go</a></li>
 </ul>
 
-<p>This guide is running using:</p>
+<p>This guide is running with:</p>
 
 <pre data-command-src="Z28gdmVyc2lvbgo="><code class="language-.term1">$ go version
 go version devel +7307e86afd Sun Nov 8 12:19:55 2020 +0000 linux/amd64
@@ -192,51 +192,56 @@ go version devel +7307e86afd Sun Nov 8 12:19:55 2020 +0000 linux/amd64
 
 <h3 id="background">Background</h3>
 
-<p>Prior to Go 1.16, tool authors who wanted to provide installation instructions in their projects’ <code class="highlighter-rouge">README.md</code> files were
-advised to use something like this:</p>
+<p>Typically, tool authors who wanted to provide installation instructions in their
+projects’ <code class="highlighter-rouge">README.md</code> would include:</p>
 
-<pre data-command-src="KGNkICQobWt0ZW1wIC1kKTsgR08xMTFNT0RVTEU9b24gZ28gZ2V0IGhvbm5lZi5jby9nby90b29scy9jbWQvc3RhdGljY2hlY2tAdjAuMC4xLTIwMjAuMS42KQo="><code class="language-.term1">$ (cd $(mktemp -d); GO111MODULE=on go get honnef.co/go/tools/cmd/staticcheck@v0.0.1-2020.1.6)
+<pre data-command-src="Z28gZ2V0IGhvbm5lZi5jby9nby90b29scy9jbWQvc3RhdGljY2hlY2sK"><code class="language-.term1">$ go get honnef.co/go/tools/cmd/staticcheck
 go: downloading honnef.co/go/tools v0.0.1-2020.1.6
 go: downloading golang.org/x/tools v0.0.0-20200410194907-79a7a3126eef
 go: downloading golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
 go: downloading github.com/BurntSushi/toml v0.3.1
 </code></pre>
 
-<p>There are a number of problems with this:</p>
+<p>There are a number of problems with this approach:</p>
 
 <ul>
-  <li>It’s ugly not at all user-friendly; it’s not obvious to a newcomer to the language what is going on</li>
-  <li>It’s not cross platform, in particular this command is not guaranteed to work on Windows</li>
-  <li>The use of <code class="highlighter-rouge">go get</code> is confusing. <code class="highlighter-rouge">go get</code> is used to download and install executables,
-but it‘s also responsible for managing dependencies in <code class="highlighter-rouge">go.mod</code> files</li>
+  <li>A user might run the above <code class="highlighter-rouge">go get</code> within a module, which would
+update the current module’s dependencies, rather than just installing the tool directly.</li>
+  <li><code class="highlighter-rouge">go get</code> might not be running in module mode at all, for example
+if the user previously modified <code class="highlighter-rouge">GO111MODULE</code>.</li>
+  <li>The use of <code class="highlighter-rouge">go get</code> is confusing; it is used to download and install executables,
+but it’s also responsible for managing dependencies in <code class="highlighter-rouge">go.mod</code> files.</li>
 </ul>
 
-<p>So what’s going on in this command?</p>
+<p>Prior to Go 1.16, the general advice to fix the first two problems was to use a snippet
+which runs <code class="highlighter-rouge">go get</code> in module mode and outside any module, by using a temporary directory:</p>
+
+<pre data-command-src="KGNkICQobWt0ZW1wIC1kKTsgR08xMTFNT0RVTEU9b24gZ28gZ2V0IGhvbm5lZi5jby9nby90b29scy9jbWQvc3RhdGljY2hlY2tAdjAuMC4xLTIwMjAuMS42KQo="><code class="language-.term1">$ (cd $(mktemp -d); GO111MODULE=on go get honnef.co/go/tools/cmd/staticcheck@v0.0.1-2020.1.6)
+</code></pre>
+
+<p>However, this new approach had its own problems:</p>
 
 <ul>
-  <li>The change to a temporary directory (<code class="highlighter-rouge">mktemp -d</code>) ensures that the remainder of the command is run outside of
-a module. Without this, it is possible that a user might run <code class="highlighter-rouge">go get</code> within a module, and hence the
-<code class="highlighter-rouge">go get</code> command would update the current module’s dependencies, rather than installing the tool
-standalone</li>
-  <li>The setting of <code class="highlighter-rouge">GO111MODULE</code> ensures that <code class="highlighter-rouge">go get</code> runs in module mode outside of a
-module (if the variable is unset it will run in <code class="highlighter-rouge">GOPATH</code> mode)</li>
+  <li>It’s not user-friendly; the extra shell is confusing to newcomers, and hard to remember.</li>
+  <li>It’s not cross platform; the command is not guaranteed to work on Windows.</li>
 </ul>
 
-<p>The length of this explanation is reason enough to simplify things!</p>
+<p>It is clear that neither method is satisfactory, especially for <code class="highlighter-rouge">README.md</code>
+instructions which are meant to be brief and easy to follow.</p>
 
 <h3 id="go-install-in-go-116"><code class="highlighter-rouge">go install</code> in Go 1.16</h3>
 
-<p>In Go 1.16, <code class="highlighter-rouge">go install</code> command is used to install programs standalone, i.e. regardless of the current
+<p>In Go 1.16, the <code class="highlighter-rouge">go install</code> command is now used to install programs directly, i.e. regardless of the current
 module context:</p>
 
 <pre data-command-src="Z28gaW5zdGFsbCBob25uZWYuY28vZ28vdG9vbHMvY21kL3N0YXRpY2NoZWNrQHYwLjAuMS0yMDIwLjEuNgo="><code class="language-.term1">$ go install honnef.co/go/tools/cmd/staticcheck@v0.0.1-2020.1.6
 </code></pre>
 
-<p>For the purposes of this guide you are using a specific version (<code class="highlighter-rouge">v0.0.1-2020.1.6</code>). As an alternative,
-the special <code class="highlighter-rouge">latest</code> version specified could be used to install the latest version.</p>
+<p>For the purposes of this guide you are using a specific version (<code class="highlighter-rouge">v0.0.1-2020.1.6</code>). Alternatively,
+the special <code class="highlighter-rouge">latest</code> version can be used to install the latest release.</p>
 
-<p>Much like the previous behaviour of <code class="highlighter-rouge">go get</code>, <code class="highlighter-rouge">go install</code> installs binaries to
-<code class="highlighter-rouge">$GOPATH/bin</code>, or <code class="highlighter-rouge">$GOBIN</code> if set. Let’s confirm your setup using <code class="highlighter-rouge">go env</code>:</p>
+<p>Much like the previous behaviour of <code class="highlighter-rouge">go get</code>, <code class="highlighter-rouge">go install</code> places binaries in
+<code class="highlighter-rouge">$GOPATH/bin</code>, or in <code class="highlighter-rouge">$GOBIN</code> if set. Let’s confirm your setup using <code class="highlighter-rouge">go env</code>:</p>
 
 <pre data-command-src="Z28gZW52IEdPUEFUSApnbyBlbnYgR09CSU4K"><code class="language-.term1">$ go env GOPATH
 /home/gopher/go
@@ -272,11 +277,9 @@ staticcheck 2020.1.6
 	dep	golang.org/x/xerrors	v0.0.0-20191204190536-9bdfabe68543	h1:E7g+9GITq07hpfrRu66IVDexMakfv52eLZ2CXBWiKr4=
 </code></pre>
 
-<p>To eliminate redundancy and confusion, the <code class="highlighter-rouge">go get</code> approach used in Go 1.15 and before is being
-deprecated.</p>
-
-<script>let pageGuide="2020-11-09-installing-programs-standalone"; let pageLanguage="en"; let pageScenario="go116";</script>
-
+<p>To eliminate redundancy and confusion, using <code class="highlighter-rouge">go get</code> to build or
+install programs is being deprecated in Go 1.16.
+<script>let pageGuide="2020-11-09-installing-go-programs-directly"; let pageLanguage="en"; let pageScenario="go116";</script></p>
 
             </div>
         </article>
