@@ -69,8 +69,8 @@ layout: compress
         </svg>
         </a>
 
-      <div class="btn-group"> 
-       
+      <div class="btn-group">
+
         
         <button type="button" class="btn btn-lg btn-secondary btn-toggle btn-mode fa dark-mode" data-toggle="button">
         </button>
@@ -79,7 +79,7 @@ layout: compress
           Help &nbsp <span class="btn-label"><i class="fa fa-question-circle"></i></span>
         </button>
         
-      
+
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <!--<div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">-->
@@ -123,7 +123,7 @@ layout: compress
           Send us you message and we will get back to you as soon as possible.
         </p>
         <div class="row">
-          
+
           <div class="col-sm">
             <a href="https://github.com/play-with-go/play-with-go/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BHELP%5D+-+" target="_blank">
               <button
@@ -163,9 +163,12 @@ layout: compress
                 <h1 class="post-title" itemprop="name headline">Developer tools as module dependencies</h1>
             </header>
             <div class="post-content" itemprop="articleBody">
-                <p>Go modules support developer tools (commands) as dependencies. For example, your project might require a tool to help
+                <p><em>By <a href="https://twitter.com/joncalhoun">Jon Calhoun</a>, creator of <a href="https://gophercises.com/">Gophercises</a> and other Go
+courses and learning material.</em></p>
+
+<p>Go modules support developer tools (commands) as dependencies. For example, your project might require a tool to help
 with code generation, or to lint/vet your code for correctness. Adding developer tool dependencies ensures that all
-develpoers use the same version of each tool.</p>
+developers use the same version of each tool.</p>
 
 <p>This guide shows you how to manage developer tool dependencies with a Go module, specifically the code generator<a href="https://pkg.go.dev/golang.org/x/tools/cmd/stringer">
 <code class="highlighter-rouge">stringer</code></a>.</p>

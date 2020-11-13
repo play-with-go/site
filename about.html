@@ -9,13 +9,13 @@ layout: compress
 <html>
 
   <head>
-<title>An introduction to play-with-go.dev guides</title>
+<title>play-with-go.dev</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="An introduction to play-with-go.dev guides" />
+<meta name="twitter:title" content="play-with-go.dev" />
 <meta name="twitter:description" content="Learn Go through interactive online guides on play-with-go.dev" />
 <meta name="twitter:image" content="https://blog.golang.org/gopher/gopher.png" />
 
@@ -72,12 +72,23 @@ layout: compress
       <div class="btn-group">
 
         
-        <button type="button" class="btn btn-lg btn-secondary btn-toggle btn-mode fa dark-mode" data-toggle="button">
-        </button>
+        <!-- We only want to show this nav-bar in the post page -->
 
-        <button type="button" id="help" class="btn btn-lg btn-link" style="color: white;">
-          Help &nbsp <span class="btn-label"><i class="fa fa-question-circle"></i></span>
-        </button>
+
+        <a class="nav-link about" href="about">About</a>
+
+
+        <a href="https://github.com/play-with-go/play-with-go" target="_blank">
+          <button type="button" class="btn btn-lg btn-navbar fa fa-github" aria-hidden="true">
+          </button>
+        </a>
+
+        <a href="https://twitter.com/playwithgo" target="_blank">
+          <button type="button" class="btn btn-lg btn-navbar fa fa-twitter" aria-hidden="true">
+          </button>
+        </a>
+
+
         
 
       </div>
@@ -151,220 +162,55 @@ layout: compress
 </div>
 
     
-    
-<div class="progress-bar"></div>
-<div class="panel-container">
+    <div class="container">
+
+<h1>Play with Go</h1>
+
+<p><a href="https://play-with-go.dev/"><code class="highlighter-rouge">play-with-go.dev</code></a> is a series of
+hands-on, interactive, browser-based guides that introduce the tools required to work with <a href="https://golang.org/">the Go programming language</a>. It is the natural next step after <a href="https://tour.golang.org/welcome/1">“A Tour of Go”</a> which introduces the language itself. <code class="highlighter-rouge">play-with-go.dev</code> covers the various subcommands of the <code class="highlighter-rouge">go</code> command, <a href="https://staticcheck.io/"><code class="highlighter-rouge">staticcheck</code></a> and many other tools that will make writing Go programs that much
+easier and fun!</p>
+
+<p>To get started learning with <code class="highlighter-rouge">play-with-go.dev</code>, simply visit <a href="https://play-with-go.dev/.">https://play-with-go.dev/</a>.</p>
+
+<p>If you are interested in learning more about the project, in particular how to contribute, please see the <a href="https://github.com/play-with-go/play-with-go/blob/main/CONTRIBUTING.md">contribution guidelines</a>.</p>
 
 
-    <div class="panel-left">
-        
-        <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
-            <header class="post-header">
-                <h1 class="post-title" itemprop="name headline">An introduction to play-with-go.dev guides</h1>
-            </header>
-            <div class="post-content" itemprop="articleBody">
-                <p><a href="https://play-with-go.dev/"><code class="highlighter-rouge">play-with-go.dev</code></a> is a series of interactive browser-based guides that lead you on a tour
-of the <a href="https://golang.org/cmd/go/">Go command</a> and <a href="https://golang.org/ref/mod">Go modules</a>.</p>
+<h3 id="about">About</h3>
 
-<p>If you have not done so already, head over and complete <a href="https://tour.golang.org">the Go Tour</a>; it presents an excellent
-interactive introduction to Go the programming language.</p>
+<p><code class="highlighter-rouge">play-with-go.dev</code> was created by <a href="https://twitter.com/_myitcv">Paul Jolly</a> and <a href="https://twitter.com/marcosnils">Marcos
+Nils</a>. Guides are built using the popular
+<a href="https://github.com/play-with-docker/play-with-docker"><code class="highlighter-rouge">play-with-docker</code></a> platform (created by <a href="https://twitter.com/marcosnils">Marcos
+Nils</a> and <a href="https://twitter.com/xetorthio">Jonathan Leibiusky</a>). Guides are served via
+https://play-with-go.dev/ and run in a user’s browser, presenting the guide content on the left, and an interactive
+terminal on the right. This terminal is connected to a remote session hosted in <a href="https://cloud.google.com/">Google’s
+Cloud</a>.</p>
 
-<p><code class="highlighter-rouge">play-with-go.dev</code> helps you take the next steps to practically getting things done with Go, covering various topics
-from writing tests, understanding Go modules, static analysis, code generation and much more.</p>
+<p><code class="highlighter-rouge">play-with-go.dev</code> is an experiment designed to test the hypothesis that interactive guides are a more engaging medium
+for learning when it comes to developer tools. The <code class="highlighter-rouge">go</code> command and modules lend themselves very well to this type of
+guide therefore.</p>
 
-<h3 id="structure-of-play-with-godev-guides">Structure of <code class="highlighter-rouge">play-with-go.dev</code> guides</h3>
+<p>If you have any questions, please feel free to raise an issue or <a href="mailto:contact@play-with-go.dev">contact us directly</a>.</p>
 
-<p><code class="highlighter-rouge">play-with-go.dev</code> guides are best viewed on a laptop or desktop device with a good sized screen. The left hand side
-(the bit you are reading now) is the guide itself, otherwise known as the prose. The right hand size is an interactive
-terminal that is connected to a remote virtual session, hosted on <a href="https://cloud.google.com/">Google Cloud</a>. <em>Do not
-enter any personal credentials/details into the interactive terminal. We make no guarantees on the security of these
-remotes sessions.</em></p>
+<h3 id="sponsors">Sponsors</h3>
 
-<p>For Go-related guides, the remote session runs with a user and working directory as follows:</p>
+<p>The <code class="highlighter-rouge">play-with-go.dev</code> project exists and is free of charge thanks to the generosity of our sponsors (details to
+follow).</p>
 
-<pre data-command-src="d2hvYW1pCnB3ZAo="><code class="language-.term1">$ whoami
-gopher
-$ pwd
-/home/gopher
-</code></pre>
+<p>If you or your company would like to sponsor the project, please <a href="mailto:sponsor@play-with-go.dev">contact us</a>.</p>
 
-<p>Throughout each guide (prose) you will see clickable <em>command</em> and <em>code</em> blocks. For example, click on the following
-command block:</p>
+<h3 id="thanks">Thanks</h3>
 
-<pre data-command-src="ZWNobyAiSGVsbG8sIHdvcmxkISIK"><code class="language-.term1">$ echo "Hello, world!"
-Hello, world!
-</code></pre>
+<p>Thank you to the following individuals for their help in making <code class="highlighter-rouge">play-with-go.dev</code> happen: <a href="https://twitter.com/carmatrocity">Carmen
+Andoh</a>, <a href="https://twitter.com/mpvl_">Marcel van Lohuizen</a>, <a href="https://twitter.com/mvdan_">Daniel
+Martí</a>, <a href="https://twitter.com/rogpeppe">Roger Peppe</a>, <a href="https://twitter.com/goinggodotnet">Bill
+Kennedy</a>, <a href="https://twitter.com/joncalhoun">Jon Calhoun</a>, <a href="https://twitter.com/corylanou">Cory
+LaNou</a>, <a href="https://twitter.com/jboursiquot">Johnny Boursiquot</a>, <a href="https://twitter.com/vansimke">Michael
+VanSickle</a>, <a href="https://twitter.com/egonelbre">Egon Elbre</a>.</p>
 
-<p>Clicking on command block causes those commands to run in the interactive terminal on the right hand side. Command
-blocks are indicated by a <code class="highlighter-rouge">$</code> sign at the beginning of a line; the output from that command (if there is any) will be on
-the lines that follow. Command blocks can contain multiple commands:</p>
+<img src="/images/playgo.png" alt="Screenshot showing a play-with-go.dev guide in the browser" title="The play-with-go.dev splash image" style="max-width:100%;" />
 
-<pre data-command-src="bWtkaXIgaGVsbG8KY2QgaGVsbG8K"><code class="language-.term1">$ mkdir hello
-$ cd hello
-</code></pre>
+<p>The <code class="highlighter-rouge">play-with-go.dev</code> splash image was kindly created for the project by <a href="https://twitter.com/egonelbre">Egon Elbre</a>.</p>
 
-<p>You can also upload code/content to our interactive session using code blocks. Click on the following code block to
-upload contents to <code class="highlighter-rouge">README.md</code>:</p>
-
-<pre data-upload-path="L2hvbWUvZ29waGVyL2hlbGxv" data-upload-src="UkVBRE1FLm1k:VGhpcyBpcyBSRUFETUUubWQuCgpIZWxsbywgZ29waGVyIQo=" data-upload-term=".term1"><code class="language-md">This is README.md.
-
-Hello, gopher!
-</code></pre>
-
-<p>If a later code block updates a file, we typically highlight the bits that have changed:</p>
-
-<pre data-upload-path="L2hvbWUvZ29waGVyL2hlbGxv" data-upload-src="UkVBRE1FLm1k:VGhpcyBpcyBSRUFETUUubWQuCgpIZWxsbywgZ29waGVyIQoKV2UgbWFkZSBhIGNoYW5nZSEK" data-upload-term=".term1"><code class="language-md">This is README.md.
-
-Hello, gopher!
-<b></b>
-<b>We made a change!</b>
-</code></pre>
-
-<p>Now that we have uploaded <code class="highlighter-rouge">README.md</code> we can run another command to show us its contents:</p>
-
-<pre data-command-src="Y2F0IFJFQURNRS5tZAo="><code class="language-.term1">$ cat README.md
-This is README.md.
-
-Hello, gopher!
-
-We made a change!
-
-</code></pre>
-
-<h3 id="remote-source-code-repositories">Remote source code repositories</h3>
-
-<p>Some guides need you to publish code to a remote source code repository. For such guides, a unique user is automatically
-created for you in the <a href="https://gopher.live"><code class="highlighter-rouge">gopher.live</code></a> <a href="https://gitea.io"><code class="highlighter-rouge">gitea</code></a> instance. Repostitories are
-created beneath that user account. For example, for this guide we have created the unique user <code class="highlighter-rouge">{{{.GITEA_USERNAME}}}</code>
-and a repository called <code class="highlighter-rouge">hello</code>.</p>
-
-<p>Let’s add the <code class="highlighter-rouge">README.md</code> file we created earlier to this remote repository.</p>
-
-<p>Initialise a local <code class="highlighter-rouge">git</code> repository and add the remote:</p>
-
-<pre data-command-src="Z2l0IGluaXQgLXEKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8ve3t7LlJFUE8xfX19LmdpdAo="><code class="language-.term1">$ git init -q
-$ git remote add origin https://{{{.REPO1}}}.git
-</code></pre>
-
-<p>Add and commit the <code class="highlighter-rouge">README.md</code> file we created earlier:</p>
-
-<pre data-command-src="Z2l0IGFkZCBSRUFETUUubWQKZ2l0IGNvbW1pdCAtcSAtbSAnSW5pdGlhbCBjb21taXQnCg=="><code class="language-.term1">$ git add README.md
-$ git commit -q -m 'Initial commit'
-</code></pre>
-
-<p>Push the commit to the remote repository:</p>
-
-<pre data-command-src="Z2l0IHB1c2ggLXEgb3JpZ2luIG1haW4K"><code class="language-.term1">$ git push -q origin main
-remote: . Processing 1 references        
-remote: Processed 1 references in total        
-</code></pre>
-
-<p>It’s as easy as that. Authentication is taken care of for you. The user and repository will be destroyed after 3 hours
-along with the guide session.</p>
-
-<h3 id="im-lost-help">I’m lost, help!</h3>
-
-<p>Don’t worry, there are people who can help! Either head over to <code class="highlighter-rouge">#play-with-go</code> on <a href="https://gophers.slack.com/">Gophers
-Slack</a> (<a href="https://invite.slack.golangbridge.org/">sign-up</a>) or <a href="https://github.com/play-with-go/play-with-go/issues/new?title=help:&amp;labels=question">raise an
-issue</a> in our GitHub issue tracker.</p>
-
-<script>let pageGuide="2020-10-07-intro-to-play-with-go-dev"; let pageLanguage="en"; let pageScenario="go115";</script>
-
-
-            </div>
-        </article>
-    </div>
-
-
-    <div class="panel-right">
-        <div class="panel-nav">
-            <i class="expand-button fa fa-expand pull-right"></i>
-            <ul class="nav nav-tabs">
-            
-                <li class="nav-item">
-                    <a class="nav-link active" id="term1-tab" data-toggle="tab" href="#term1" role="tab" aria-controls="term1" aria-selected="true" >T.1</a>
-                </li>
-            
-            </ul>
-        </div>
-        <div class="twrapper">
-            <div class="splitter"></div>
-            <div class="tab-content" id="myTabContent">
-                
-                <div class="tab-pane show term1 active" id="term1" role="tabpanel" aria-labelledby="term1-tab"><div class="term-init">Initializing environment, hold a few seconds please...</div></div>
-                
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<script>
-    var imageName = "";
-    (function() {
-        var font3 = document.createElement('link');
-        font3.type = 'text/css';
-        font3.rel = 'stylesheet';
-        font3.href = '/css/syntax-highlighting.css';
-        var q = document.getElementsByTagName('link')[0];
-        q.parentNode.insertBefore(font3, q);
-    })();
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
-<script src="https://rawgit.com/RickStrahl/jquery-resizable/master/dist/jquery-resizable.min.js"></script>
-<script src="https://unpkg.com/pwd-sdk@0.0.10/dist/pwd.min.js"></script>
-<script src="/js/post-layout.js"></script>
-<script src="/js/progress-bar.js"></script>
-<script src="/js/menu.js"></script>
-<script src="/js/feedback-footer.js"></script>
-<script src="/js/dark-mode.js"></script>
-<script src="/js/exit-warning.js"></script>
-<script src="/js/import-file.js"></script>
-<div
-  class="modal fade"
-  id="congratz-modal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <img src="/images/success.png" />
-        <h2 class="post-title">
-          Congratulations!
-        </h2>
-        <p class="congratz-text">
-          Great work! you are getting closer and closer to archieving your
-          goals. Go foward!
-        </p>
-        <div class="congratz-footer">
-          <button type="button" class="text-btn" data-dismiss="modal">
-            CLOSE
-          </button>
-          <div class="share">
-            <p class="share-text">Share your archievements</p>
-            <a
-              href="http://twitter.com/share?url=URL_TO_PAGE&text=TITLE_TO_SHARE&via=TWITTER_USERNAME"
-              class="share-link"
-              target="_blank"
-            >
-              <i class="fa fa-twitter" aria-hidden="true"></i>
-            </a>
-            <a
-              href="https://www.facebook.com/sharer/sharer.php?u=http://labs.docker.com"
-              class="share-link"
-              target="_blank"
-            >
-              <i class="fa fa-facebook-official" aria-hidden="true"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 
@@ -423,6 +269,25 @@ issue</a> in our GitHub issue tracker.</p>
     <!--}}();-->
     <!--}-->
     <!---->
+    
+    <!--try {-->
+      <!--pwd.getUserInfo(function(pwduser){-->
+              <!--user = pwduser;-->
+              <!--if(user !== undefined){-->
+                  <!--analytics.identify(user.provider_user_id,{"email":user.email});-->
+              <!--}-->
+              <!--else {-->
+
+                  <!--analytics.identify();-->
+              <!--}-->
+          <!--});-->
+    <!--}-->
+    <!--catch (error) {-->
+      <!--analytics.identify();-->
+      <!--}-->
+    
+     
+      <!---->
     <!--</script>-->
     <!-- Twitter universal website tag code -->
 
