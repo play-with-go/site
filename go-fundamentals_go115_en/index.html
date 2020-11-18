@@ -300,7 +300,8 @@ the value of the name parameter completes the greeting text.</li>
 </ul>
 
 <p>For people to be able to use your module you need to publish it. You publish a module by pushing a commit to a version
-control system like <a href="https://github.com/">GitHub</a>. You will publish your module to <a href="https://{{{.GREETINGS}}}.git"><code class="highlighter-rouge">{{{.GREETINGS}}}</code></a>.</p>
+control system like <a href="https://github.com/">GitHub</a>. You will publish your module to
+<a href="https://{{{.GREETINGS}}}.git"><code class="highlighter-rouge">{{{.GREETINGS}}}</code></a>.</p>
 
 <p>Initialise a local  <code class="highlighter-rouge">git</code> repository for your <code class="highlighter-rouge">greetings</code> module:</p>
 
@@ -323,7 +324,8 @@ remote: Processed 1 references in total
 
 <h3 id="call-your-code-from-another-module">Call your code from another module</h3>
 
-<p>You’ll now write code that you can execute as an application, which makes calls to the <code class="highlighter-rouge">Hello</code> function in the <code class="highlighter-rouge">greetings</code> module you published to <code class="highlighter-rouge">{{{.GREETINGS}}}</code>.</p>
+<p>You’ll now write code that you can execute as an application, which makes calls to the <code class="highlighter-rouge">Hello</code> function in the
+<code class="highlighter-rouge">greetings</code> module you published to <code class="highlighter-rouge">{{{.GREETINGS}}}</code>.</p>
 
 <p>Create the directory <code class="highlighter-rouge">/home/gopher/hello</code> for your Go module source code. This is where you’ll write your caller.</p>
 
@@ -506,7 +508,8 @@ func main() {
 <p>In this code, you:</p>
 
 <ul>
-  <li>Configure the <a href="https://golang.org/pkg/log/"><code class="highlighter-rouge">log</code> package</a> to print the command name (<code class="highlighter-rouge">"greetings: "</code>) at the start of its log messages, without a time stamp or source file information.</li>
+  <li>Configure the <a href="https://golang.org/pkg/log/"><code class="highlighter-rouge">log</code> package</a> to print the command name (<code class="highlighter-rouge">"greetings: "</code>)
+at the start of its log messages, without a time stamp or source file information.</li>
   <li>Assign both of the <code class="highlighter-rouge">Hello</code> return values, including the error, to variables.</li>
   <li>Change the <code class="highlighter-rouge">Hello</code> argument from Gladys’s name to an empty string, so you can try out your error-handling code.</li>
   <li>Look for a non-nil error value. There’s no sense continuing in this case.</li>
