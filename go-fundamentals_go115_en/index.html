@@ -928,14 +928,14 @@ confirm that your error handling works. If the call returns a non-empty string o
 
 <pre data-command-src="Z28gdGVzdApnbyB0ZXN0IC12Cg=="><code class="language-.term1">$ go test
 PASS
-ok  	{{{.GREETINGS}}}	0.042s
+ok  	{{{.GREETINGS}}}	0.002s
 $ go test -v
 === RUN   TestHelloName
---- PASS: TestHelloName (0.042s)
+--- PASS: TestHelloName (0.00s)
 === RUN   TestHelloEmpty
---- PASS: TestHelloEmpty (0.042s)
+--- PASS: TestHelloEmpty (0.00s)
 PASS
-ok  	{{{.GREETINGS}}}	0.042s
+ok  	{{{.GREETINGS}}}	0.002s
 </code></pre>
 
 <p>You will now break the <code class="highlighter-rouge">greetings.Hello</code> function to view a failing test. The <code class="highlighter-rouge">TestHelloName</code> test function
@@ -1016,11 +1016,11 @@ without the <code class="highlighter-rouge">-v</code> flag. The output will incl
 a lot of tests. The <code class="highlighter-rouge">TestHelloName</code> test should fail – <code class="highlighter-rouge">TestHelloEmpty</code> still passes:</p>
 
 <pre data-command-src="Z28gdGVzdAo="><code class="language-.term1">$ go test
---- FAIL: TestHelloName (0.042s)
+--- FAIL: TestHelloName (0.00s)
     greetings_test.go:15: Hello("Gladys") = "Hail, %v! Well met!", &lt;nil&gt;, want match for `\bGladys\b`, &lt;nil&gt;
 FAIL
 exit status 1
-FAIL	{{{.GREETINGS}}}	0.042s
+FAIL	{{{.GREETINGS}}}	0.002s
 </code></pre>
 
 <p>Let’s restore <code class="highlighter-rouge">greetings.Hello</code> to a working state</p>
@@ -1094,7 +1094,7 @@ func randomFormat() string {
 
 <pre data-command-src="Z28gdGVzdAo="><code class="language-.term1">$ go test
 PASS
-ok  	{{{.GREETINGS}}}	0.042s
+ok  	{{{.GREETINGS}}}	0.002s
 </code></pre>
 
 <p>This section introduced Go’s built-in support for unit testing. In the next section, you’ll see how to compile and
