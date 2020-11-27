@@ -221,9 +221,9 @@ go version devel +7307e86afd Sun Nov 8 12:19:55 2020 +0000 linux/amd64
 <pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL3Byb3ZlcmIKY2QgL2hvbWUvZ29waGVyL3Byb3ZlcmIKZ2l0IGluaXQgLXEKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8ve3t7LlBST1ZFUkJ9fX0uZ2l0CmdvIG1vZCBpbml0IHt7ey5QUk9WRVJCfX19Cg=="><code class="language-.term1">$ mkdir /home/gopher/proverb
 $ cd /home/gopher/proverb
 $ git init -q
-$ git remote add origin https://{{{.PROVERB}}}.git
-$ go mod init {{{.PROVERB}}}
-go: creating new go.mod: module {{{.PROVERB}}}
+$ git remote add origin https://&#123;&#123;&#123;.PROVERB&#125;&#125;&#125;.git
+$ go mod init &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
+go: creating new go.mod: module &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
 </code></pre>
 
 <p>Create an initial version with a <code class="highlighter-rouge">Go</code> function that returns a Go proverb in the file <code class="highlighter-rouge">proverb.go</code>:</p>
@@ -231,15 +231,15 @@ go: creating new go.mod: module {{{.PROVERB}}}
 <pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="cHJvdmVyYi5nbw==:cGFja2FnZSBwcm92ZXJiCgovLyBHbyByZXR1cm5zIGEgR28gcHJvdmVyYgpmdW5jIEdvKCkgc3RyaW5nIHsKCXJldHVybiAiRG9uJ3QgY29tbXVuaWNhdGUgYnkgc2hhcmluZyBtZW1vcnksIHNoYXJlIG1lbW9yeSBieSBjb21tdW5pY2F0aW5nLiIKfQo=" data-upload-term=".term1"><code class="language-go">package proverb
 
 // Go returns a Go proverb
-func Go() string {
+func Go() string &#123;
 	return &#34;Don&#39;t communicate by sharing memory, share memory by communicating.&#34;
-}
+&#125;
 </code></pre>
 
 <p>Commit and push this initial version:</p>
 
 <pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJJbml0aWFsIGNvbW1pdCIKZ2l0IHB1c2ggLXEgb3JpZ2luIG1haW4K"><code class="language-.term1">$ git add -A
-$ git commit -q -m "Initial commit"
+$ git commit -q -m &#34;Initial commit&#34;
 $ git push -q origin main
 remote: . Processing 1 references        
 remote: Processed 1 references in total        
@@ -277,12 +277,12 @@ will be local-only, you can use any path you like.</p>
 import (
 	&#34;fmt&#34;
 
-	&#34;{{{.PROVERB}}}&#34;
+	&#34;&#123;&#123;&#123;.PROVERB&#125;&#125;&#125;&#34;
 )
 
-func main() {
+func main() &#123;
 	fmt.Println(proverb.Go())
-}
+&#125;
 </code></pre>
 
 <p>In this code you:</p>
@@ -295,14 +295,14 @@ function.</li>
 
 <p>Add a dependency on the <code class="highlighter-rouge">{{{.PROVERB}}}</code> module:</p>
 
-<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QHYwLjEuMAo="><code class="language-.term1">$ go get {{{.PROVERB}}}@v0.1.0
-go: downloading {{{.PROVERB}}} v0.1.0
+<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QHYwLjEuMAo="><code class="language-.term1">$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v0.1.0
+go: downloading &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.1.0
 </code></pre>
 
 <p>Run to make sure everything works:</p>
 
 <pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
-Don't communicate by sharing memory, share memory by communicating.
+Don&#39;t communicate by sharing memory, share memory by communicating.
 </code></pre>
 
 <p>Looks great!</p>
@@ -322,15 +322,15 @@ Don't communicate by sharing memory, share memory by communicating.
 <pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="cHJvdmVyYi5nbw==:cGFja2FnZSBwcm92ZXJiCgovLyBHbyByZXR1cm5zIGEgR28gcHJvdmVyYgpmdW5jIEdvKCkgc3RyaW5nIHsKCXJldHVybiAiQ29uY3VycmVuY3kgaXMgcGFyYWxsZWxpc20uIgp9Cg==" data-upload-term=".term1"><code class="language-go">package proverb
 
 // Go returns a Go proverb
-func Go() string {
+func Go() string &#123;
 <b>	return &#34;Concurrency is parallelism.&#34;</b>
-}
+&#125;
 </code></pre>
 
 <p>Commit and push this updated version:</p>
 
 <pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJTd2l0Y2ggR28gcHJvdmVyYiB0byBzb21ldGhpbmcgbW9yZSBmYW1vdXMiCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluCg=="><code class="language-.term1">$ git add -A
-$ git commit -q -m "Switch Go proverb to something more famous"
+$ git commit -q -m &#34;Switch Go proverb to something more famous&#34;
 $ git push -q origin main
 remote: . Processing 1 references        
 remote: Processed 1 references in total        
@@ -349,8 +349,8 @@ remote: Processed 1 references in total
 try this out:</p>
 
 <pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2dvcGhlcgpnbyBnZXQge3t7LlBST1ZFUkJ9fX1AdjAuMi4wCmdvIHJ1biAuCg=="><code class="language-.term1">$ cd /home/gopher/gopher
-$ go get {{{.PROVERB}}}@v0.2.0
-go: downloading {{{.PROVERB}}} v0.2.0
+$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v0.2.0
+go: downloading &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.2.0
 $ go run .
 Concurrency is parallelism.
 </code></pre>
@@ -384,7 +384,7 @@ module.</p>
 <p>Inspect the <code class="highlighter-rouge">go.mod</code> to see the result:</p>
 
 <pre data-command-src="Y2F0IGdvLm1vZAo="><code class="language-.term1">$ cat go.mod
-module {{{.PROVERB}}}
+module &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
 
 go 1.16
 
@@ -394,7 +394,7 @@ retract v0.2.0
 <p>As is best practice, add a comment to the <code class="highlighter-rouge">retract</code> directive documenting why the retraction was
 necessary:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="Z28ubW9k:bW9kdWxlIHt7ey5QUk9WRVJCfX19CgpnbyAxLjE2CgovLyBHbyBwcm92ZXJiIHdhcyB0b3RhbGx5IHdyb25nCnJldHJhY3QgdjAuMi4wCg==" data-upload-term=".term1"><code class="language-mod">module {{{.PROVERB}}}
+<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="Z28ubW9k:bW9kdWxlIHt7ey5QUk9WRVJCfX19CgpnbyAxLjE2CgovLyBHbyBwcm92ZXJiIHdhcyB0b3RhbGx5IHdyb25nCnJldHJhY3QgdjAuMi4wCg==" data-upload-term=".term1"><code class="language-go.mod">module &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
 
 go 1.16
 
@@ -410,15 +410,15 @@ retract v0.2.0
 <pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="cHJvdmVyYi5nbw==:cGFja2FnZSBwcm92ZXJiCgovLyBHbyByZXR1cm5zIGEgR28gcHJvdmVyYgpmdW5jIEdvKCkgc3RyaW5nIHsKCXJldHVybiAiQ29uY3VycmVuY3kgaXMgbm90IHBhcmFsbGVsaXNtLiIKfQo=" data-upload-term=".term1"><code class="language-go">package proverb
 
 // Go returns a Go proverb
-func Go() string {
+func Go() string &#123;
 <b>	return &#34;Concurrency is not parallelism.&#34;</b>
-}
+&#125;
 </code></pre>
 
 <p>Commit, push and tag <code class="highlighter-rouge">v0.3.0</code>:</p>
 
 <pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJGaXggc2V2ZXJlIGVycm9yIGluIEdvIHByb3ZlcmIiCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluCmdpdCB0YWcgdjAuMy4wCmdpdCBwdXNoIC1xIG9yaWdpbiB2MC4zLjAK"><code class="language-.term1">$ git add -A
-$ git commit -q -m "Fix severe error in Go proverb"
+$ git commit -q -m &#34;Fix severe error in Go proverb&#34;
 $ git push -q origin main
 remote: . Processing 1 references        
 remote: Processed 1 references in total        
@@ -431,8 +431,8 @@ remote: Processed 1 references in total
 <p>Return to your <code class="highlighter-rouge">gopher</code> module to use this new version:</p>
 
 <pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2dvcGhlcgpnbyBnZXQge3t7LlBST1ZFUkJ9fX1AdjAuMy4wCg=="><code class="language-.term1">$ cd /home/gopher/gopher
-$ go get {{{.PROVERB}}}@v0.3.0
-go: downloading {{{.PROVERB}}} v0.3.0
+$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v0.3.0
+go: downloading &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.3.0
 </code></pre>
 
 <p>This step also ensures that <a href="https://proxy.golang.org/">proxy.golang.org</a> is now aware of <code class="highlighter-rouge">v0.3.0</code>.
@@ -468,25 +468,25 @@ issue.</p>
 
 <p>List the non-retracted, “usable” versions of the <code class="highlighter-rouge">{{{.PROVERB}}}</code> module known to the proxy:</p>
 
-<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMge3t7LlBST1ZFUkJ9fX0K"><code class="language-.term1">$ go list -m -versions {{{.PROVERB}}}
-{{{.PROVERB}}} v0.1.0 v0.3.0
+<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMge3t7LlBST1ZFUkJ9fX0K"><code class="language-.term1">$ go list -m -versions &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
+&#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.1.0 v0.3.0
 </code></pre>
 
 <p>Notice that the newly published <code class="highlighter-rouge">v0.3.0</code> is in this list, but <code class="highlighter-rouge">v0.2.0</code> is not.</p>
 
 <p>List <em>all</em> versions versions (including any that are retracted):</p>
 
-<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMgLXJldHJhY3RlZCB7e3suUFJPVkVSQn19fQo="><code class="language-.term1">$ go list -m -versions -retracted {{{.PROVERB}}}
-{{{.PROVERB}}} v0.1.0 v0.2.0 v0.3.0
+<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMgLXJldHJhY3RlZCB7e3suUFJPVkVSQn19fQo="><code class="language-.term1">$ go list -m -versions -retracted &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
+&#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.1.0 v0.2.0 v0.3.0
 </code></pre>
 
 <p>Ah, there is the mischievous <code class="highlighter-rouge">v0.2.0</code>.</p>
 
 <p>So what would happen if you were to rely on the now retracted <code class="highlighter-rouge">v0.2.0</code>?</p>
 
-<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QHYwLjIuMAo="><code class="language-.term1">$ go get {{{.PROVERB}}}@v0.2.0
-go: warning: {{{.PROVERB}}}@v0.2.0 is retracted: Go proverb was totally wrong
-go: run 'go get {{{.PROVERB}}}@latest' to switch to the latest unretracted version
+<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QHYwLjIuMAo="><code class="language-.term1">$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v0.2.0
+go: warning: &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v0.2.0 is retracted: Go proverb was totally wrong
+go: run &#39;go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@latest&#39; to switch to the latest unretracted version
 </code></pre>
 
 <p>A helpful message is printed, warning that you are now depending on a retracted version. Notice that this error message
@@ -505,12 +505,12 @@ Concurrency is parallelism.
 
 <pre data-command-src="Z28gbGlzdCAtbSAtdSBhbGwK"><code class="language-.term1">$ go list -m -u all
 gopher
-{{{.PROVERB}}} v0.2.0 (retracted) [v0.3.0]
+&#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.2.0 (retracted) [v0.3.0]
 </code></pre>
 
 <p>Let’s follow the advice of the warning message, and return to the latest un-retracted version:</p>
 
-<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QGxhdGVzdAo="><code class="language-.term1">$ go get {{{.PROVERB}}}@latest
+<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QGxhdGVzdAo="><code class="language-.term1">$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@latest
 </code></pre>
 
 <h3 id="another-type-of-proverb">Another type of proverb</h3>
@@ -527,20 +527,20 @@ its advice, and that one more change is therefore required before you declare it
 <pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="cHJvdmVyYi5nbw==:cGFja2FnZSBwcm92ZXJiCgovLyBHbyByZXR1cm5zIGEgR28gcHJvdmVyYgpmdW5jIEdvKCkgc3RyaW5nIHsKCXJldHVybiAiQ29uY3VycmVuY3kgaXMgbm90IHBhcmFsbGVsaXNtLiIKfQoKLy8gTGlmZSByZXR1cm5zIGEgcHJvdmVyYiB1c2VmdWwgZm9yIGRheS10by1kYXkgbGl2aW5nCmZ1bmMgTGlmZSgpIHN0cmluZyB7CglyZXR1cm4gIkEgYmlyZCBpbiB0aGUgaGFuZCBpcyB3b3J0aCB0d28gaW4gdGhlIGJ1c2guIgp9Cg==" data-upload-term=".term1"><code class="language-go">package proverb
 
 // Go returns a Go proverb
-func Go() string {
+func Go() string &#123;
 	return &#34;Concurrency is not parallelism.&#34;
-}
+&#125;
 <b></b>
 <b>// Life returns a proverb useful for day-to-day living</b>
-<b>func Life() string {</b>
+<b>func Life() string &#123;</b>
 <b>	return &#34;A bird in the hand is worth two in the bush.&#34;</b>
-<b>}</b>
+<b>&#125;</b>
 </code></pre>
 
 <p>Commit and push this updated version:</p>
 
 <pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJBZGQgTGlmZSgpIHByb3ZlcmIiCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluCg=="><code class="language-.term1">$ git add -A
-$ git commit -q -m "Add Life() proverb"
+$ git commit -q -m &#34;Add Life() proverb&#34;
 $ git push -q origin main
 remote: . Processing 1 references        
 remote: Processed 1 references in total        
@@ -572,7 +572,7 @@ need to retract version <code class="highlighter-rouge">v1.0.1</code>. You do so
 range</a>. Make this change by hand by editing the
 <code class="highlighter-rouge">proverb</code> <code class="highlighter-rouge">go.mod</code> file, commenting the <code class="highlighter-rouge">retract</code> directive as is best practice:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="Z28ubW9k:bW9kdWxlIHt7ey5QUk9WRVJCfX19CgpnbyAxLjE2CgpyZXRyYWN0ICgKCS8vIEdvIHByb3ZlcmIgd2FzIHRvdGFsbHkgd3JvbmcKCXYwLjIuMAoKCS8vIFB1Ymxpc2hlZCB2MSB0b28gZWFybHkKCVt2MS4wLjAsIHYxLjAuMV0KKQo=" data-upload-term=".term1"><code class="language-mod">module {{{.PROVERB}}}
+<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="Z28ubW9k:bW9kdWxlIHt7ey5QUk9WRVJCfX19CgpnbyAxLjE2CgpyZXRyYWN0ICgKCS8vIEdvIHByb3ZlcmIgd2FzIHRvdGFsbHkgd3JvbmcKCXYwLjIuMAoKCS8vIFB1Ymxpc2hlZCB2MSB0b28gZWFybHkKCVt2MS4wLjAsIHYxLjAuMV0KKQo=" data-upload-term=".term1"><code class="language-go.mod">module &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
 
 go 1.16
 
@@ -588,7 +588,7 @@ go 1.16
 <p>Commit, tag, push and publish <code class="highlighter-rouge">v1.0.1</code>:</p>
 
 <pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJSZXRyYWN0IFt2MS4wLjAsIHYxLjAuMV0iCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluCmdpdCB0YWcgdjEuMC4xCmdpdCBwdXNoIC1xIG9yaWdpbiB2MS4wLjEK"><code class="language-.term1">$ git add -A
-$ git commit -q -m "Retract [v1.0.0, v1.0.1]"
+$ git commit -q -m &#34;Retract [v1.0.0, v1.0.1]&#34;
 $ git push -q origin main
 remote: . Processing 1 references        
 remote: Processed 1 references in total        
@@ -606,16 +606,16 @@ remote: Processed 1 references in total
 <p>Ensure proxy.golang.org is aware of the new versions of <code class="highlighter-rouge">proverb</code> you just published. <code class="highlighter-rouge">go get</code>
 <code class="highlighter-rouge">v0.4.0</code> last to leave that version as the current dependency (you will test it later).</p>
 
-<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QHYxLjAuMApnbyBnZXQge3t7LlBST1ZFUkJ9fX1AdjEuMC4xCmdvIGdldCB7e3suUFJPVkVSQn19fUB2MC40LjAK"><code class="language-.term1">$ go get {{{.PROVERB}}}@v1.0.0
-go: downloading {{{.PROVERB}}} v1.0.0
-go: warning: {{{.PROVERB}}}@v1.0.0 is retracted: Published v1 too early
-go: run 'go get {{{.PROVERB}}}@latest' to switch to the latest unretracted version
-$ go get {{{.PROVERB}}}@v1.0.1
-go: downloading {{{.PROVERB}}} v1.0.1
-go: warning: {{{.PROVERB}}}@v1.0.1 is retracted: Published v1 too early
-go: run 'go get {{{.PROVERB}}}@latest' to switch to the latest unretracted version
-$ go get {{{.PROVERB}}}@v0.4.0
-go: downloading {{{.PROVERB}}} v0.4.0
+<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QHYxLjAuMApnbyBnZXQge3t7LlBST1ZFUkJ9fX1AdjEuMC4xCmdvIGdldCB7e3suUFJPVkVSQn19fUB2MC40LjAK"><code class="language-.term1">$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v1.0.0
+go: downloading &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v1.0.0
+go: warning: &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v1.0.0 is retracted: Published v1 too early
+go: run &#39;go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@latest&#39; to switch to the latest unretracted version
+$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v1.0.1
+go: downloading &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v1.0.1
+go: warning: &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v1.0.1 is retracted: Published v1 too early
+go: run &#39;go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@latest&#39; to switch to the latest unretracted version
+$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v0.4.0
+go: downloading &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.4.0
 </code></pre>
 
 <p><em>Note: you might not see the warning about either <code class="highlighter-rouge">v1.0.0</code> or <code class="highlighter-rouge">v1.0.1</code> being
@@ -630,14 +630,14 @@ warning message, or it may not.</em></p>
 
 <p>List all versions of the <code class="highlighter-rouge">{{{.PROVERB}}}</code> known to the proxy, including the retracted ones:</p>
 
-<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMgLXJldHJhY3RlZCB7e3suUFJPVkVSQn19fQo="><code class="language-.term1">$ go list -m -versions -retracted {{{.PROVERB}}}
-{{{.PROVERB}}} v0.1.0 v0.2.0 v0.3.0 v0.4.0 v1.0.0 v1.0.1
+<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMgLXJldHJhY3RlZCB7e3suUFJPVkVSQn19fQo="><code class="language-.term1">$ go list -m -versions -retracted &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
+&#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.1.0 v0.2.0 v0.3.0 v0.4.0 v1.0.0 v1.0.1
 </code></pre>
 
 <p>List the non-retracted versions of the <code class="highlighter-rouge">{{{.PROVERB}}}</code> known to the proxy:</p>
 
-<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMge3t7LlBST1ZFUkJ9fX0K"><code class="language-.term1">$ go list -m -versions {{{.PROVERB}}}
-{{{.PROVERB}}} v0.1.0 v0.3.0 v0.4.0
+<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMge3t7LlBST1ZFUkJ9fX0K"><code class="language-.term1">$ go list -m -versions &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
+&#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.1.0 v0.3.0 v0.4.0
 </code></pre>
 
 <p>This shows that <code class="highlighter-rouge">v0.4.0</code> is the latest version of the <code class="highlighter-rouge">proverb</code> module, as expected.</p>
@@ -649,13 +649,13 @@ warning message, or it may not.</em></p>
 import (
 	&#34;fmt&#34;
 
-	&#34;{{{.PROVERB}}}&#34;
+	&#34;&#123;&#123;&#123;.PROVERB&#125;&#125;&#125;&#34;
 )
 
-func main() {
+func main() &#123;
 <b>	fmt.Printf(&#34;Go proverb: %v\n&#34;, proverb.Go())</b>
 <b>	fmt.Printf(&#34;Life advice: %v\n&#34;, proverb.Life())</b>
-}
+&#125;
 </code></pre>
 
 <p>Finally, run <code class="highlighter-rouge">gopher</code> to verify everything works:</p>

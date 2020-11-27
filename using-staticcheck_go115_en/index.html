@@ -261,24 +261,24 @@ const (
 	Snake
 )
 
-type Pet struct {
+type Pet struct &#123;
 	Kind Animal
 	Name string
-}
+&#125;
 
-func (p Pet) Walk() error {
-	switch p.Kind {
+func (p Pet) Walk() error &#123;
+	switch p.Kind &#123;
 	case Dog:
 		fmt.Printf(&#34;Will take %v for a walk around the block\n&#34;)
 	default:
 		return errors.New(fmt.Sprintf(&#34;Cannot take %v for a walk&#34;, p.Name))
-	}
+	&#125;
 	return nil
-}
+&#125;
 
-func (self Pet) String() string {
+func (self Pet) String() string &#123;
 	return fmt.Sprintf(&#34;%s&#34;, self.Name)
-}
+&#125;
 </code></pre>
 
 <p>This code looks sensible enough. Build it to confirm there are no compile errors:</p>
@@ -294,8 +294,8 @@ be run on well-formed Go packages. So let’s run it on the current package, the
 <pre data-command-src="c3RhdGljY2hlY2sgLgo="><code class="language-.term1">$ staticcheck .
 pets.go:23:14: Printf format %v reads arg #1, but call has only 0 args (SA5009)
 pets.go:25:10: should use fmt.Errorf(...) instead of errors.New(fmt.Sprintf(...)) (S1028)
-pets.go:30:7: receiver name should be a reflection of its identity; don't use generic names such as "this" or "self" (ST1006)
-pets.go:31:9: the argument is already a string, there's no need to use fmt.Sprintf (S1025)
+pets.go:30:7: receiver name should be a reflection of its identity; don&#39;t use generic names such as &#34;this&#34; or &#34;self&#34; (ST1006)
+pets.go:31:9: the argument is already a string, there&#39;s no need to use fmt.Sprintf (S1025)
 </code></pre>
 
 <p>Oh dear, Staticcheck has found some issues!</p>
@@ -358,24 +358,24 @@ const (
 	Snake
 )
 
-type Pet struct {
+type Pet struct &#123;
 	Kind Animal
 	Name string
-}
+&#125;
 
-func (p Pet) Walk() error {
-	switch p.Kind {
+func (p Pet) Walk() error &#123;
+	switch p.Kind &#123;
 	case Dog:
 <b>		fmt.Printf(&#34;Will take %v for a walk around the block\n&#34;, p.Name)</b>
 	default:
 <b>		return fmt.Errorf(&#34;cannot take %v for a walk&#34;, p.Name)</b>
-	}
+	&#125;
 	return nil
-}
+&#125;
 
-<b>func (p Pet) String() string {</b>
+<b>func (p Pet) String() string &#123;</b>
 <b>	return p.Name</b>
-}
+&#125;
 </code></pre>
 
 <p>And re-run Staticcheck to confirm:</p>
@@ -401,7 +401,7 @@ case, but that it is not enabled by default.</p>
 <p>Let’s create a Staticcheck configuration file to enable check <code class="highlighter-rouge">ST1000</code>, inheriting from the
 Staticcheck defaults:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVyL3BldHM=" data-upload-src="c3RhdGljY2hlY2suY29uZg==:Y2hlY2tzID0gWyJpbmhlcml0IiwgIlNUMTAwMCJdCg==" data-upload-term=".term1"><code class="language-conf">checks = [&#34;inherit&#34;, &#34;ST1000&#34;]
+<pre data-upload-path="L2hvbWUvZ29waGVyL3BldHM=" data-upload-src="c3RhdGljY2hlY2suY29uZg==:Y2hlY2tzID0gWyJpbmhlcml0IiwgIlNUMTAwMCJdCg==" data-upload-term=".term1"><code class="language-toml">checks = [&#34;inherit&#34;, &#34;ST1000&#34;]
 </code></pre>
 
 <p>Re-run Staticcheck to verify <code class="highlighter-rouge">ST1000</code> is reported:</p>
@@ -426,24 +426,24 @@ const (
 	Snake
 )
 
-type Pet struct {
+type Pet struct &#123;
 	Kind Animal
 	Name string
-}
+&#125;
 
-func (p Pet) Walk() error {
-	switch p.Kind {
+func (p Pet) Walk() error &#123;
+	switch p.Kind &#123;
 	case Dog:
 		fmt.Printf(&#34;Will take %v for a walk around the block\n&#34;, p.Name)
 	default:
 		return fmt.Errorf(&#34;cannot take %v for a walk&#34;, p.Name)
-	}
+	&#125;
 	return nil
-}
+&#125;
 
-func (p Pet) String() string {
+func (p Pet) String() string &#123;
 	return p.Name
-}
+&#125;
 </code></pre>
 
 <p>Re-run Staticcheck to confirm there are no further problems:</p>
@@ -470,29 +470,29 @@ const (
 	Snake
 )
 
-type Pet struct {
+type Pet struct &#123;
 	Kind Animal
 	Name string
-}
+&#125;
 
-func (p Pet) Walk() error {
-	switch p.Kind {
+func (p Pet) Walk() error &#123;
+	switch p.Kind &#123;
 	case Dog:
 		fmt.Printf(&#34;Will take %v for a walk around the block\n&#34;, p.Name)
 	default:
 		return fmt.Errorf(&#34;cannot take %v for a walk&#34;, p.Name)
-	}
+	&#125;
 	return nil
-}
+&#125;
 
-<b>func (p Pet) Feed(food string) {</b>
+<b>func (p Pet) Feed(food string) &#123;</b>
 <b>	food = food</b>
 <b>	fmt.Printf(&#34;Feeding %v some %v\n&#34;, p.Name, food)</b>
-<b>}</b>
+<b>&#125;</b>
 <b></b>
-func (p Pet) String() string {
+func (p Pet) String() string &#123;
 	return p.Name
-}
+&#125;
 </code></pre>
 
 <p>Re-run Staticcheck to verify all is still fine:</p>
@@ -531,30 +531,30 @@ const (
 	Snake
 )
 
-type Pet struct {
+type Pet struct &#123;
 	Kind Animal
 	Name string
-}
+&#125;
 
-func (p Pet) Walk() error {
-	switch p.Kind {
+func (p Pet) Walk() error &#123;
+	switch p.Kind &#123;
 	case Dog:
 		fmt.Printf(&#34;Will take %v for a walk around the block\n&#34;, p.Name)
 	default:
 		return fmt.Errorf(&#34;cannot take %v for a walk&#34;, p.Name)
-	}
+	&#125;
 	return nil
-}
+&#125;
 
-func (p Pet) Feed(food string) {
+func (p Pet) Feed(food string) &#123;
 <b>	//lint:ignore SA4018 trying out line-based linter directives</b>
 	food = food
 	fmt.Printf(&#34;Feeding %v some %v\n&#34;, p.Name, food)
-}
+&#125;
 
-func (p Pet) String() string {
+func (p Pet) String() string &#123;
 	return p.Name
-}
+&#125;
 </code></pre>
 
 <p>Verify that Staticcheck no longer complains:</p>
@@ -584,29 +584,29 @@ const (
 	Snake
 )
 
-type Pet struct {
+type Pet struct &#123;
 	Kind Animal
 	Name string
-}
+&#125;
 
-func (p Pet) Walk() error {
-	switch p.Kind {
+func (p Pet) Walk() error &#123;
+	switch p.Kind &#123;
 	case Dog:
 		fmt.Printf(&#34;Will take %v for a walk around the block\n&#34;, p.Name)
 	default:
 		return fmt.Errorf(&#34;cannot take %v for a walk&#34;, p.Name)
-	}
+	&#125;
 	return nil
-}
+&#125;
 
-func (p Pet) Feed(food string) {
+func (p Pet) Feed(food string) &#123;
 	food = food
 	fmt.Printf(&#34;Feeding %v some %v\n&#34;, p.Name, food)
-}
+&#125;
 
-func (p Pet) String() string {
+func (p Pet) String() string &#123;
 	return p.Name
-}
+&#125;
 </code></pre>
 
 <p>Verify that Staticcheck continues to ignore this check:</p>
@@ -632,28 +632,28 @@ const (
 	Snake
 )
 
-type Pet struct {
+type Pet struct &#123;
 	Kind Animal
 	Name string
-}
+&#125;
 
-func (p Pet) Walk() error {
-	switch p.Kind {
+func (p Pet) Walk() error &#123;
+	switch p.Kind &#123;
 	case Dog:
 		fmt.Printf(&#34;Will take %v for a walk around the block\n&#34;, p.Name)
 	default:
 		return fmt.Errorf(&#34;cannot take %v for a walk&#34;, p.Name)
-	}
+	&#125;
 	return nil
-}
+&#125;
 
-func (p Pet) Feed(food string) {
+func (p Pet) Feed(food string) &#123;
 	fmt.Printf(&#34;Feeding %v some %v\n&#34;, p.Name, food)
-}
+&#125;
 
-func (p Pet) String() string {
+func (p Pet) String() string &#123;
 	return p.Name
-}
+&#125;
 </code></pre>
 
 <p>And check that Staticcheck is happy one last time:</p>

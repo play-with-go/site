@@ -168,14 +168,14 @@ layout: compress
 <pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL21vZDEKY2QgL2hvbWUvZ29waGVyL21vZDEKZ2l0IGluaXQgLXEKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8ve3t7LlJFUE8xfX19LmdpdApnbyBtb2QgaW5pdCB7e3suUkVQTzF9fX0K"><code class="language-.term1">$ mkdir /home/gopher/mod1
 $ cd /home/gopher/mod1
 $ git init -q
-$ git remote add origin https://{{{.REPO1}}}.git
-$ go mod init {{{.REPO1}}}
-go: creating new go.mod: module {{{.REPO1}}}
+$ git remote add origin https://&#123;&#123;&#123;.REPO1&#125;&#125;&#125;.git
+$ go mod init &#123;&#123;&#123;.REPO1&#125;&#125;&#125;
+go: creating new go.mod: module &#123;&#123;&#123;.REPO1&#125;&#125;&#125;
 </code></pre>
 
 <p>Write a readme:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVyL21vZDE=" data-upload-src="UkVBRE1FLm1k:IyMgYHt7ey5SRVBPMX19fWA=" data-upload-term=".term1"><code class="language-md">## `{{{.REPO1}}}`</code></pre>
+<pre data-upload-path="L2hvbWUvZ29waGVyL21vZDE=" data-upload-src="UkVBRE1FLm1k:IyMgYHt7ey5SRVBPMX19fWA=" data-upload-term=".term1"><code class="language-md">## `&#123;&#123;&#123;.REPO1&#125;&#125;&#125;`</code></pre>
 
 <p>Write a readme:</p>
 
@@ -183,15 +183,15 @@ go: creating new go.mod: module {{{.REPO1}}}
 
 import &#34;fmt&#34;
 
-func main() {
+func main() &#123;
 	fmt.Println(&#34;Hello, world!&#34;)
-}
+&#125;
 </code></pre>
 
 <p>Commit and push:</p>
 
 <pre data-command-src="Z2l0IGFkZCBnby5tb2QgUkVBRE1FLm1kIG1haW4uZ28KZ2l0IGNvbW1pdCAtcSAtbSAiSW5pdGlhbCBjb21taXQiCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluCg=="><code class="language-.term1">$ git add go.mod README.md main.go
-$ git commit -q -m "Initial commit"
+$ git commit -q -m &#34;Initial commit&#34;
 $ git push -q origin main
 remote: . Processing 1 references        
 remote: Processed 1 references in total        
@@ -203,10 +203,10 @@ remote: Processed 1 references in total
 $ cd /home/gopher/mod2
 $ go mod init mod.com
 go: creating new go.mod: module mod.com
-$ go get {{{.REPO1}}}
-go: downloading {{{.REPO1}}} v0.0.0-20060102150405-abcedf12345
-go: {{{.REPO1}}} upgrade =&gt; v0.0.0-20060102150405-abcedf12345
-$ go run {{{.REPO1}}}
+$ go get &#123;&#123;&#123;.REPO1&#125;&#125;&#125;
+go: downloading &#123;&#123;&#123;.REPO1&#125;&#125;&#125; v0.0.0-20060102150405-abcedf12345
+go: &#123;&#123;&#123;.REPO1&#125;&#125;&#125; upgrade =&gt; v0.0.0-20060102150405-abcedf12345
+$ go run &#123;&#123;&#123;.REPO1&#125;&#125;&#125;
 Hello, world!
 </code></pre>
 
