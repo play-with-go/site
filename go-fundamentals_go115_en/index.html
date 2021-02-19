@@ -187,7 +187,7 @@ or applications. The second is a caller application which will use the first.</p
 <p>This guide requires you to push code to remote source code repositories. A unique user, <code class="highlighter-rouge">{{{.GITEA_USERNAME}}}</code>, has
 been automatically created for you, as have the repositories <a href="https://{{{.GREETINGS}}}.git"><code class="highlighter-rouge">{{{.GREETINGS}}}</code></a> and
 <a href="https://{{{.HELLO}}}.git"><code class="highlighter-rouge">{{{.HELLO}}}</code></a>. For more details on how <code class="highlighter-rouge">play-with-go.dev</code> guides work, please see the
-<a href="ntro-to-play-with-go-dev/"><em>Introduction to <code class="highlighter-rouge">play-with-go.dev</code> guides</em></a> guide.</p>
+<a href="/intro-to-play-with-go-dev_go115_en"><em>Introduction to <code class="highlighter-rouge">play-with-go.dev</code> guides</em></a> guide.</p>
 
 <h3 id="prerequisites">Prerequisites</h3>
 
@@ -202,7 +202,7 @@ been automatically created for you, as have the repositories <a href="https://{{
 <p>This guide is running using:</p>
 
 <pre data-command-src="Z28gdmVyc2lvbgo="><code class="language-.term1">$ go version
-go version go1.15.7 linux/amd64
+go version go1.15.8 linux/amd64
 </code></pre>
 
 <h3 id="create-a-module-that-others-can-use">Create a module that others can use</h3>
@@ -928,14 +928,14 @@ confirm that your error handling works. If the call returns a non-empty string o
 
 <pre data-command-src="Z28gdGVzdApnbyB0ZXN0IC12Cg=="><code class="language-.term1">$ go test
 PASS
-ok  	&#123;&#123;&#123;.GREETINGS&#125;&#125;&#125;	0.003s
+ok  	&#123;&#123;&#123;.GREETINGS&#125;&#125;&#125;	0.002s
 $ go test -v
 === RUN   TestHelloName
 --- PASS: TestHelloName (0.00s)
 === RUN   TestHelloEmpty
 --- PASS: TestHelloEmpty (0.00s)
 PASS
-ok  	&#123;&#123;&#123;.GREETINGS&#125;&#125;&#125;	0.004s
+ok  	&#123;&#123;&#123;.GREETINGS&#125;&#125;&#125;	0.002s
 </code></pre>
 
 <p>You will now break the <code class="highlighter-rouge">greetings.Hello</code> function to view a failing test. The <code class="highlighter-rouge">TestHelloName</code> test function
