@@ -9,13 +9,13 @@ layout: compress
 <html>
 
   <head>
-<title>play-with-go.dev</title>
+<title>Using build flags for backwards compatibility</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="play-with-go.dev" />
+<meta name="twitter:title" content="Using build flags for backwards compatibility" />
 <meta name="twitter:description" content="Learn Go through interactive online guides on play-with-go.dev" />
 <meta name="twitter:image" content="https://play-with-go.dev/images/playgo.png" />
 
@@ -72,23 +72,12 @@ layout: compress
       <div class="btn-group">
 
         
-        <!-- We only want to show this nav-bar in the post page -->
+        <button type="button" class="btn btn-lg btn-secondary btn-toggle btn-mode fa dark-mode" data-toggle="button">
+        </button>
 
-
-        <a class="nav-link about" href="about">About</a>
-
-
-        <a href="https://github.com/play-with-go/play-with-go" target="_blank">
-          <button type="button" class="btn btn-lg btn-navbar fa fa-github" aria-hidden="true">
-          </button>
-        </a>
-
-        <a href="https://twitter.com/playwithgo" target="_blank">
-          <button type="button" class="btn btn-lg btn-navbar fa fa-twitter" aria-hidden="true">
-          </button>
-        </a>
-
-
+        <button type="button" id="help" class="btn btn-lg btn-link" style="color: white;">
+          Help &nbsp <span class="btn-label"><i class="fa fa-question-circle"></i></span>
+        </button>
         
 
       </div>
@@ -162,401 +151,384 @@ layout: compress
 </div>
 
     
-    <div class="landing">
-  <div class="container">
-    <div class="row d-flex align-items-center mb-4">
-      <div class="col-lg-7 col-md-9 guides-hero">
-        <h1 class= "title-guides" style="color: #FDDD00;">
-            Welcome to Play with Go</h1>
-        <p class="lead welcome-par guides-link" style="color: seashell;" >
-          A series of hands-on, interactive, browser-based guides that introduce the tools required to work with the Go programming language.
-      </div>
-      <div class="col-lg-5">
-        <div class="d-none d-lg-block">
-          <img src="/images/playgo.png">
-        </div>
-      </div>
-    </div>
-
-
     
+<div class="progress-bar"></div>
+<div class="panel-container">
 
-    
-    <div class="row">
-      <div class="col"><hr class="line"></div>
-      <div class="col-auto catego">Start here</div>
-      <div class="col"><hr class="line"></div>
+
+    <div class="panel-left">
+
+        <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">Using build flags for backwards compatibility</h1>
+            </header>
+            <div class="post-content" itemprop="articleBody">
+                <p><em>By <a href="https://twitter.com/marcosnils">Marcos Nils</a>, <a href="https://www.docker.com/captains/marcos-lilljedahl">Docker Captain</a>, Hashicorp Ambassador, Go developer, and co-creator of <code class="highlighter-rouge">play-with-go.dev</code>.</em></p>
+
+<p>Sometimes, when a new <code class="highlighter-rouge">go</code> version is released, it also ships with a bunch of changes and really interesting features in the standard library.
+At the time of this article, <a href="https://golang.org/doc/go1.16">go 1.16</a> has been released around two months ago which introduces some changes and
+new features into the <a href="https://golang.org/doc/go1.16#library">core library</a> like the new <code class="highlighter-rouge">io.FS</code> interface, the <code class="highlighter-rouge">go:embed</code> directive amongst others.</p>
+
+<p>As a module author, how could I introduce these new features and at the same time provide some guarantees that
+my module can still support the last N releases of go?</p>
+
+<p>This guide explains how to deal with situations where you want to use new features of recent versions of <code class="highlighter-rouge">go</code>
+and at the same time you don’t want to force downstream dependats to upgrade. In this case we’ll be using
+conditional compilation through build tags in a real life scenario by using 1.16’s new io.FS whilst retaining compatibility for users of <code class="highlighter-rouge">go</code> 1.15.</p>
+
+<p>Here’s a high level overview of the steps you’ll accomplish following this guide:</p>
+
+<ul>
+  <li>Create a <code class="highlighter-rouge">public</code> module that contains and exports a <code class="highlighter-rouge">DoSomething()</code> function</li>
+  <li>Create a <code class="highlighter-rouge">gopher</code> module that uses the <code class="highlighter-rouge">public</code>module</li>
+  <li>Bump the <code class="highlighter-rouge">public</code> module to use <code class="highlighter-rouge">go</code> 1.16 features without any considerations</li>
+  <li>Try updating the <code class="highlighter-rouge">gopher</code> module and show the observed errors</li>
+  <li>Fix the <code class="highlighter-rouge">public</code> module by adding required buid tags.</li>
+</ul>
+
+<h3 id="a-simple-go-115-program-using-ioutildiscard">A simple go 1.15 program using ioutil.Discard</h3>
+
+<p>Verifying that we’re using <code class="highlighter-rouge">go</code> 1.15 version:</p>
+
+<pre data-command-src="Z28xMTUgdmVyc2lvbgo="><code class="language-.term1">$ go115 version
+go version go1.15.8 linux/amd64
+</code></pre>
+
+<p>Now, we’ll also check that we have <code class="highlighter-rouge">go</code> 1.16 installed as well:</p>
+
+<pre data-command-src="Z28xMTYgdmVyc2lvbgo="><code class="language-.term1">$ go116 version
+go version go1.16.3 linux/amd64
+</code></pre>
+
+<p>We’ll start by setting <code class="highlighter-rouge">go</code> 1.15 as the default working version:</p>
+
+<pre data-command-src="YWxpYXMgZ289Z28xMTUK"><code class="language-.term1">$ alias go=go115
+</code></pre>
+
+<p>Start by a new <code class="highlighter-rouge">public</code> module:</p>
+
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL3B1YmxpYwpjZCAvaG9tZS9nb3BoZXIvcHVibGljCmdvIG1vZCBpbml0IHt7ey5QVUJMSUN9fX0KZ2l0IGluaXQgLXEKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8ve3t7LlBVQkxJQ319fS5naXQK"><code class="language-.term1">$ mkdir /home/gopher/public
+$ cd /home/gopher/public
+$ go mod init &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125;
+go: creating new go.mod: module &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125;
+$ git init -q
+$ git remote add origin https://&#123;&#123;&#123;.PUBLIC&#125;&#125;&#125;.git
+</code></pre>
+
+<p>Now, we’ll upload a simple <code class="highlighter-rouge">go</code> program that uses 1.15 <code class="highlighter-rouge">ioutil.Discard</code> in a public function:</p>
+
+<p>Create an initial version of the <code class="highlighter-rouge">DoSomething()</code> in <code class="highlighter-rouge">public.go</code>:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3B1YmxpYw==" data-upload-src="cHVibGljLmdv:cGFja2FnZSBwdWJsaWMKCmltcG9ydCAoCiAgICAiZm10IgogICAgImlvL2lvdXRpbCIKKQoKZnVuYyBEb1NvbWV0aGluZygpIHsKICAgIGZtdC5GcHJpbnRmKGlvdXRpbC5EaXNjYXJkLCAiVGhpcyBkb2Vzbid0IHByaW50IGFueXRoaW5nIikKfQ==" data-upload-term=".term1"><code class="language-go">package public
+
+import (
+    &#34;fmt&#34;
+    &#34;io/ioutil&#34;
+)
+
+func DoSomething() &#123;
+    fmt.Fprintf(ioutil.Discard, &#34;This doesn&#39;t print anything&#34;)
+&#125;</code></pre>
+
+<p>Commit and push this initial version:</p>
+
+<pre data-command-src="Z2l0IGFkZCBwdWJsaWMuZ28gZ28ubW9kCmdpdCBjb21taXQgLXEgLW0gJ0luaXRpYWwgY29tbWl0IG9mIHB1YmxpYyBtb2R1bGUnCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluCg=="><code class="language-.term1">$ git add public.go go.mod
+$ git commit -q -m &#39;Initial commit of public module&#39;
+$ git push -q origin main
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<h3 id="the-gopher-module">The <code class="highlighter-rouge">gopher</code> module</h3>
+
+<p>Now create a <code class="highlighter-rouge">gopher</code> module to try out the <code class="highlighter-rouge">public</code> module. Unlike
+the <code class="highlighter-rouge">public</code> module, you will not publish the <code class="highlighter-rouge">gopher</code> module; it
+will be local only:</p>
+
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL2dvcGhlcgpjZCAvaG9tZS9nb3BoZXIvZ29waGVyCmdvIG1vZCBpbml0IGdvcGhlcgo="><code class="language-.term1">$ mkdir /home/gopher/gopher
+$ cd /home/gopher/gopher
+$ go mod init gopher
+go: creating new go.mod: module gopher
+</code></pre>
+
+<p>Create an initial version of a <code class="highlighter-rouge">main</code> package that uses the previous public module, in <code class="highlighter-rouge">gopher.go</code>:</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2dvcGhlcg==" data-upload-src="Z29waGVyLmdv:cGFja2FnZSBtYWluCgppbXBvcnQgKAoKInt7ey5QVUJMSUN9fX0iCikKCmZ1bmMgbWFpbigpIHsKICAgIHB1YmxpYy5Eb1NvbWV0aGluZygpCn0K" data-upload-term=".term1"><code class="language-go">package main
+
+import (
+
+&#34;&#123;&#123;&#123;.PUBLIC&#125;&#125;&#125;&#34;
+)
+
+func main() &#123;
+    public.DoSomething()
+&#125;
+</code></pre>
+
+<p>Get the initial version of the <code class="highlighter-rouge">gopher</code> module:</p>
+
+<pre data-command-src="Z28gZ2V0IC1kIHt7ey5QVUJMSUN9fX1AbGF0ZXN0Cg=="><code class="language-.term1">$ go get -d &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125;@latest
+go: downloading &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125; v0.0.0-20060102150405-abcedf12345
+go: &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125; latest =&gt; v0.0.0-20060102150405-abcedf12345
+</code></pre>
+
+<p>Now, we’ll run the <code class="highlighter-rouge">gopher</code> module <code class="highlighter-rouge">main</code> package:</p>
+
+<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
+</code></pre>
+
+<h3 id="bumping-the-public-dependency-to-go-116">Bumping the <code class="highlighter-rouge">public</code> dependency to <code class="highlighter-rouge">go</code> 1.16</h3>
+
+<p><code class="highlighter-rouge">Go</code> 1.16 has been released, and as good developers we want to refactor our
+code so it uses the new <code class="highlighter-rouge">io.Discard</code> variable instead of the deprecated <code class="highlighter-rouge">ioutil</code> one.</p>
+
+<p>First, we set our <code class="highlighter-rouge">go</code> version to 1.16:</p>
+
+<pre data-command-src="YWxpYXMgZ289Z28xMTYK"><code class="language-.term1">$ alias go=go116
+</code></pre>
+
+<p>Now, we change our original <code class="highlighter-rouge">public</code> module to use the new variable.</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3B1YmxpYw==" data-upload-src="cHVibGljLmdv:cGFja2FnZSBwdWJsaWMKCmltcG9ydCAoCiAgICAiZm10IgogICAgImlvIgopCgpmdW5jIERvU29tZXRoaW5nKCkgewogICAgZm10LkZwcmludGYoaW8uRGlzY2FyZCwgIlRoaXMgZG9lc24ndCBwcmludCBhbnl0aGluZyIpCn0=" data-upload-term=".term1"><code class="language-go">package public
+
+import (
+    &#34;fmt&#34;
+    &#34;io&#34;
+)
+
+func DoSomething() &#123;
+    fmt.Fprintf(io.Discard, &#34;This doesn&#39;t print anything&#34;)
+&#125;</code></pre>
+
+<p>Now we’re good to release a new version of our <code class="highlighter-rouge">public</code> module
+using the <code class="highlighter-rouge">go</code> 1.16 new package:</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL3B1YmxpYwpnaXQgYWRkIHB1YmxpYy5nbyBnby5tb2QKZ2l0IGNvbW1pdCAtcSAtbSAnQnVtcCBwdWJsaWMgdG8gZ28xLjE2JwpnaXQgcHVzaCAtcSBvcmlnaW4gbWFpbgo="><code class="language-.term1">$ cd /home/gopher/public
+$ git add public.go go.mod
+$ git commit -q -m &#39;Bump public to go1.16&#39;
+$ git push -q origin main
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<p>Let’s go back to our <code class="highlighter-rouge">gopher</code> module in <code class="highlighter-rouge">go</code> 1.15, fetch the latest
+version of the <code class="highlighter-rouge">public</code> dependecy and see what happens when we try and
+run again:</p>
+
+<pre data-command-src="YWxpYXMgZ289Z28xMTUK"><code class="language-.term1">$ alias go=go115
+</code></pre>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2dvcGhlcgpHT1BST1hZPWRpcmVjdCBnbyBnZXQgLWQge3t7LlBVQkxJQ319fUBsYXRlc3QK"><code class="language-.term1">$ cd /home/gopher/gopher
+$ GOPROXY=direct go get -d &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125;@latest
+go: &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125; latest =&gt; v0.0.0-20060102150405-abcedf12345
+go: downloading &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125; v0.0.0-20060102150405-abcedf12345
+</code></pre>
+
+<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
+# &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125;
+../go/pkg/mod/&#123;&#123;&#123;.PUBLIC&#125;&#125;&#125;@v0.0.0-20060102150405-abcedf12345/public.go:9:17: undefined: io.Discard
+</code></pre>
+
+<p>As you can see, when trying to run our <code class="highlighter-rouge">gopher</code> project using the
+latest <code class="highlighter-rouge">public</code>, we got an error because in our case, we’re still using
+<code class="highlighter-rouge">go</code> 1.15 in the gopher project which doesn’t support the new <code class="highlighter-rouge">io.Discard</code>
+package.</p>
+
+<p>How do we handle these situations where we shouldn’t force our clients to update?
+The right approach to tackle this is by using <a href="https://pkg.go.dev/go/build#hdr-Build_Constraints">build constraints</a> so our <code class="highlighter-rouge">public</code>
+clients can build their project regardless of the <code class="highlighter-rouge">go</code> version they’re using</p>
+
+<h3 id="adding-build-tags-to-our-public-project">Adding <code class="highlighter-rouge">build</code> tags to our <code class="highlighter-rouge">public</code> project</h3>
+
+<p>Let’s go ahead and modify our <code class="highlighter-rouge">public</code> project so it now uses the
+<code class="highlighter-rouge">// +build 1.16</code> tag.</p>
+
+<p>First we rollback the changes to our original file to keep using the <code class="highlighter-rouge">ioutil.Discard</code>
+pacage for <code class="highlighter-rouge">go</code> &lt; 1.16 clients</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3B1YmxpYw==" data-upload-src="cHVibGljLmdv:Ly8gK2J1aWxkICFnbzEuMTYKCnBhY2thZ2UgcHVibGljCgppbXBvcnQgKAogICAgImZtdCIKICAgICJpby9pb3V0aWwiCikKCmZ1bmMgRG9Tb21ldGhpbmcoKSB7CiAgICBmbXQuRnByaW50Zihpb3V0aWwuRGlzY2FyZCwgIlRoaXMgZG9lc24ndCBwcmludCBhbnl0aGluZyIpCn0=" data-upload-term=".term1"><code class="language-go">// +build !go1.16
+
+package public
+
+import (
+    &#34;fmt&#34;
+    &#34;io/ioutil&#34;
+)
+
+func DoSomething() &#123;
+    fmt.Fprintf(ioutil.Discard, &#34;This doesn&#39;t print anything&#34;)
+&#125;</code></pre>
+
+<p>Additionally, we create a new file which has the correct build tag, so
+newer clients can make use of the new package</p>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3B1YmxpYw==" data-upload-src="cHVibGljXzExNi5nbw==:Ly8gK2J1aWxkIGdvLjEuMTYKCnBhY2thZ2UgcHVibGljCgppbXBvcnQgKAogICAgImZtdCIKICAgICJpbyIKKQoKZnVuYyBEb1NvbWV0aGluZygpIHsKICAgIGZtdC5GcHJpbnRmKGlvLkRpc2NhcmQsICJUaGlzIGRvZXNuJ3QgcHJpbnQgYW55dGhpbmciKQp9" data-upload-term=".term1"><code class="language-go">// +build go.1.16
+
+package public
+
+import (
+    &#34;fmt&#34;
+    &#34;io&#34;
+)
+
+func DoSomething() &#123;
+    fmt.Fprintf(io.Discard, &#34;This doesn&#39;t print anything&#34;)
+&#125;</code></pre>
+
+<p>Let’s now publish our fixed module</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL3B1YmxpYwpnaXQgYWRkIHB1YmxpYy5nbyBwdWJsaWNfMTE2LmdvIGdvLm1vZApnaXQgY29tbWl0IC1xIC1tICdGaXggcHVibGljIGJ1bXAgdG8gZ28xLjE2JwpnaXQgcHVzaCAtcSBvcmlnaW4gbWFpbgo="><code class="language-.term1">$ cd /home/gopher/public
+$ git add public.go public_116.go go.mod
+$ git commit -q -m &#39;Fix public bump to go1.16&#39;
+$ git push -q origin main
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<p>Now, we can go ahead and update our <code class="highlighter-rouge">gopher</code> without problems with the
+benefit that <code class="highlighter-rouge">go</code> 1.16 clients and future clients will be able to use make
+use of the newer <code class="highlighter-rouge">go</code> features and packages.</p>
+
+<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2dvcGhlcgpHT1BST1hZPWRpcmVjdCBnbyBnZXQgLWQge3t7LlBVQkxJQ319fUBsYXRlc3QK"><code class="language-.term1">$ cd /home/gopher/gopher
+$ GOPROXY=direct go get -d &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125;@latest
+go: &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125; latest =&gt; v0.0.0-20060102150405-abcedf12345
+go: downloading &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125; v0.0.0-20060102150405-abcedf12345
+</code></pre>
+
+<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
+</code></pre>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>This guide serves as an example on how to leverage on <a href="https://pkg.go.dev/go/build#hdr-Build_Constraints">build constraints</a>
+to provide a backwards compatbile module to your clients. Build constraints are a very
+powerful pattern to achieve other tasks in <code class="highlighter-rouge">go</code>. We encourage the reader to check the official docs
+for further examples.</p>
+
+<p>As a next step you might like to consider:</p>
+
+<ul>
+  <li><a href="/working-with-private-modules_go115_en/">Wokring with private modules</a></li>
+  <li><a href="/retract-module-versions_go116_en/">Retract module versions</a>
+<script>let pageGuide="2021-05-02-build-flags-backwards-compatibility"; let pageLanguage="en"; let pageScenario="go115";</script></li>
+</ul>
+
+            </div>
+            <a href="/"><button class="btn btn-primary" style="margin: 10px 0 40px 0">Back to guides</button></a>
+        </article>
     </div>
 
-    <div class="row card-deck">
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">An introduction to play-with-go.dev guides</h5>
-            <p class="card-text">Learn about how to get the most out of play-with-go.dev guides</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Beginner.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                8 min read.
-                </p>
-              </div>
-            </div>
 
-          </div>
-          <a href="/intro-to-play-with-go-dev_go115_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
+    <div class="panel-right">
+        <div class="panel-nav">
+            <i class="expand-button fa fa-expand pull-right"></i>
+            <ul class="nav nav-tabs">
+            
+                <li class="nav-item">
+                    <a class="nav-link active" id="term1-tab" data-toggle="tab" href="#term1" role="tab" aria-controls="term1" aria-selected="true" >T.1</a>
+                </li>
+            
+            </ul>
         </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Get started with Go</h5>
-            <p class="card-text">You've completed the Go tour, so what next? This guide gives a brief introduction to Go programming</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Beginner.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                8 min read.
-                </p>
-              </div>
-            </div>
+        <div class="twrapper">
+            <div class="splitter"></div>
+            <div class="tab-content" id="myTabContent">
+              <div class="login" style="display: none;">
+                <div class="login-title">
+                  <div>
+                    Log in to use the terminal
+                  </div>
+                  <div class="login-buttons">
+                    <button onclick="performLogin('google')" class="btn np-login btn-primary btn-welcome">
+                      <img class="img-fluid" src="/images/google.svg" alt="Text"/>
+                      <span>Sign-in with Google</span>
+                    </button>
 
-          </div>
-          <a href="/get-started-with-go_go115_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Go fundamentals</h5>
-            <p class="card-text">Primer on creating and using go modules</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Beginner.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                56 min read.
-                </p>
-              </div>
-            </div>
+                    <button onclick="performLogin('github')" class="btn np-login btn-primary btn-welcome">
+                      <img src="/images/github.svg" alt="Text"/>
+                      <span>Sign-in with GitHub</span>
+                    </button>
+                  </div>
+                </div>
 
-          </div>
-          <a href="/go-fundamentals_go115_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
+                <img src="/images/gopher-login.png"  alt=""/>
+              </div>
+              
+              <div class="tab-pane show term1 active" id="term1" role="tabpanel" aria-labelledby="term1-tab"><div class="term-init"></div></div>
+              
             </div>
-          </a>
         </div>
-      </div>
-      
-    </div>
-    
-    <div class="row">
-      <div class="col"><hr class="line"></div>
-      <div class="col-auto catego">Next steps</div>
-      <div class="col"><hr class="line"></div>
     </div>
 
-    <div class="row card-deck">
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Using build flags for backwards compatibility</h5>
-            <p class="card-text">How to leverage go build flags to avoid breaking downstream projects </p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Intermediate.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                12 min read.
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <a href="/build-flags-backwards-compatibility_go115_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Working with private modules</h5>
-            <p class="card-text">How to create, publish and work with non-public modules in your team.</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Intermediate.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                14 min read.
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <a href="/working-with-private-modules_go115_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">How to use and tweak Staticcheck</h5>
-            <p class="card-text">Using static analysis to automatically find bugs and performance optimizations.</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Intermediate.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                24 min read.
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <a href="/using-staticcheck_go115_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Developer tools as module dependencies</h5>
-            <p class="card-text">Ensure all developers use the same version of each developer tool</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Intermediate.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                16 min read.
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <a href="/tools-as-dependencies_go115_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Installing Go</h5>
-            <p class="card-text">Ready to take the plunge and install Go on your system?!</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Beginner.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                6 min read.
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <a href="/installing-go_go115_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-    </div>
-    
-    <div class="row">
-      <div class="col"><hr class="line"></div>
-      <div class="col-auto catego">New features in Go 1.16</div>
-      <div class="col"><hr class="line"></div>
-    </div>
-
-    <div class="row card-deck">
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Installing Go programs directly</h5>
-            <p class="card-text">Simple easy-to-remember way to install Go programs</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Beginner.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                8 min read.
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <a href="/installing-go-programs-directly_go116_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Retract Module Versions</h5>
-            <p class="card-text">Learn how to flag modules that shouldn't be used</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Intermediate.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                28 min read.
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <a href="/retract-module-versions_go116_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-    </div>
-    
-  </div>
-  </div>
 </div>
 
-
+<script>
+    var imageName = "";
+    (function() {
+        var font3 = document.createElement('link');
+        font3.type = 'text/css';
+        font3.rel = 'stylesheet';
+        font3.href = '/css/syntax-highlighting.css';
+        var q = document.getElementsByTagName('link')[0];
+        q.parentNode.insertBefore(font3, q);
+    })();
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+<script src="https://rawgit.com/RickStrahl/jquery-resizable/master/dist/jquery-resizable.min.js"></script>
+<script src="https://unpkg.com/pwd-sdk@0.0.12/dist/pwd.min.js"></script>
+<script src="/js/post-layout.js"></script>
+<script src="/js/progress-bar.js"></script>
+<script src="/js/menu.js"></script>
+<script src="/js/feedback-footer.js"></script>
+<script src="/js/dark-mode.js"></script>
+<script src="/js/exit-warning.js"></script>
+<script src="/js/import-file.js"></script>
+<div
+  class="modal fade"
+  id="congratz-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img src="/images/success.png" />
+        <h2 class="post-title">
+          Congratulations!
+        </h2>
+        <p class="congratz-text">
+          Great work! you are getting closer and closer to archieving your
+          goals. Go foward!
+        </p>
+        <div class="congratz-footer">
+          <button type="button" class="text-btn" data-dismiss="modal">
+            CLOSE
+          </button>
+          <div class="share">
+            <p class="share-text">Share your archievements</p>
+            <a
+              href="http://twitter.com/share?url=URL_TO_PAGE&text=TITLE_TO_SHARE&via=TWITTER_USERNAME"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u=http://labs.docker.com"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-facebook-official" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
     
@@ -614,25 +586,6 @@ layout: compress
     <!--}}();-->
     <!--}-->
     <!---->
-    
-    <!--try {-->
-      <!--pwd.getUserInfo(function(pwduser){-->
-              <!--user = pwduser;-->
-              <!--if(user !== undefined){-->
-                  <!--analytics.identify(user.provider_user_id,{"email":user.email});-->
-              <!--}-->
-              <!--else {-->
-
-                  <!--analytics.identify();-->
-              <!--}-->
-          <!--});-->
-    <!--}-->
-    <!--catch (error) {-->
-      <!--analytics.identify();-->
-      <!--}-->
-    
-     
-      <!---->
     <!--</script>-->
     <!-- Twitter universal website tag code -->
 
