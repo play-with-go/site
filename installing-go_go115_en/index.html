@@ -193,12 +193,12 @@ Install</a> instructions.</em></p>
 
 <p>Download the latest version of Go:</p>
 
-<pre data-command-src="d2dldCAtcSBodHRwczovL2dvbGFuZy5vcmcvZGwvZ28xLjE1LjgubGludXgtYW1kNjQudGFyLmd6Cg=="><code class="language-.term1">$ wget -q https://golang.org/dl/go1.15.8.linux-amd64.tar.gz
+<pre data-command-src="d2dldCAtcSBodHRwczovL2dvbGFuZy5vcmcvZGwvZ28xLjE1LjE1LmxpbnV4LSRHT0FSQ0gudGFyLmd6Cg=="><code class="language-.term1">$ wget -q https://golang.org/dl/go1.15.15.linux-$GOARCH.tar.gz
 </code></pre>
 
 <p>Extract and install:</p>
 
-<pre data-command-src="c3VkbyB0YXIgLUMgL3Vzci9sb2NhbCAteHpmIGdvMS4xNS44LmxpbnV4LWFtZDY0LnRhci5nego="><code class="language-.term1">$ sudo tar -C /usr/local -xzf go1.15.8.linux-amd64.tar.gz
+<pre data-command-src="c3VkbyB0YXIgLUMgL3Vzci9sb2NhbCAteHpmIGdvMS4xNS4xNS5saW51eC0kR09BUkNILnRhci5nego="><code class="language-.term1">$ sudo tar -C /usr/local -xzf go1.15.15.linux-$GOARCH.tar.gz
 </code></pre>
 
 <p>Add the install target to your profile <code class="highlighter-rouge">PATH</code>:</p>
@@ -214,7 +214,7 @@ Install</a> instructions.</em></p>
 <p>Verify the Go installation:</p>
 
 <pre data-command-src="Z28gdmVyc2lvbgo="><code class="language-.term1">$ go version
-go version go1.15.8 linux/amd64
+go version go1.15.15 linux/amd64
 </code></pre>
 
 <h3 id="the-go-environment">The Go environment</h3>
@@ -259,7 +259,7 @@ CGO_CXXFLAGS=&#34;-g -O2&#34;
 CGO_FFLAGS=&#34;-g -O2&#34;
 CGO_LDFLAGS=&#34;-g -O2&#34;
 PKG_CONFIG=&#34;pkg-config&#34;
-GOGCCFLAGS=&#34;-fPIC -m64 -pthread -fno-caret-diagnostics -Qunused-arguments -fmessage-length=0 -fdebug-prefix-map=/tmp/go-build -gno-record-gcc-switches&#34;
+GOGCCFLAGS=&#34;fake_gcc_flags&#34;
 </code></pre>
 
 <p>To see the effective setting of a specific variable, for example <code class="highlighter-rouge">GOBIN</code>, you can run:</p>
