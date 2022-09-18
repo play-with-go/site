@@ -191,7 +191,7 @@ publicly available source code.</p>
 <p>This guide is running using:</p>
 
 <pre data-command-src="Z28gdmVyc2lvbgo="><code class="language-.term1">$ go version
-go version go1.15.15 linux/amd64
+go version go1.19.1 linux/amd64
 </code></pre>
 
 <h3 id="the-public-and-private-modules">The <code class="highlighter-rouge">public</code> and <code class="highlighter-rouge">private</code> modules</h3>
@@ -325,7 +325,7 @@ public proxy, using the <code class="highlighter-rouge">go env</code> command:</
 
 <pre data-command-src="Z28gZ2V0IHt7ey5QVUJMSUN9fX0K"><code class="language-.term1">$ go get &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125;
 go: downloading &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125; v0.0.0-20060102150405-abcedf12345
-go: &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125; upgrade =&gt; v0.0.0-20060102150405-abcedf12345
+go: added &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125; v0.0.0-20060102150405-abcedf12345
 </code></pre>
 
 <p>As expected, that succeeded.</p>
@@ -333,7 +333,7 @@ go: &#123;&#123;&#123;.PUBLIC&#125;&#125;&#125; upgrade =&gt; v0.0.0-20060102150
 <p>Try to add a dependency on the <code class="highlighter-rouge">private</code> module:</p>
 
 <pre data-command-src="Z28gZ2V0IHt7ey5QUklWQVRFfX19Cg=="><code class="language-.term1">$ go get &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;
-go get &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;: module &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;: reading https://proxy.golang.org/&#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;/@v/list: 404 Not Found
+go: module &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;: reading https://proxy.golang.org/&#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;/@v/list: 404 Not Found
 	server response:
 	not found: module &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;: git ls-remote -q origin in /tmp/gopath/pkg/mod/cache/vcs/0123456789abcdef: exit status 128:
 		fatal: could not read Username for &#39;https://gopher.live&#39;: terminal prompts disabled
@@ -352,7 +352,7 @@ go get &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;: module &#123;&#123;&#123;.P
 
 <pre data-command-src="Z28gZ2V0IHt7ey5QUklWQVRFfX19Cg=="><code class="language-.term1">$ go get &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;
 go: downloading &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125; v0.0.0-20060102150405-abcedf12345
-go get &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;: &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;@v0.0.0-20060102150405-abcedf12345: verifying module: &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;@v0.0.0-20060102150405-abcedf12345: reading https://sum.golang.org/lookup/&#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;@v0.0.0-20060102150405-abcedf12345: 404 Not Found
+go: &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;@v0.0.0-20060102150405-abcedf12345: verifying module: &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;@v0.0.0-20060102150405-abcedf12345: reading https://sum.golang.org/lookup/&#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;@v0.0.0-20060102150405-abcedf12345: 404 Not Found
 	server response:
 	not found: &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;@v0.0.0-20060102150405-abcedf12345: invalid version: git ls-remote -q origin in /tmp/gopath/pkg/mod/cache/vcs/0123456789abcdef: exit status 128:
 		fatal: could not read Username for &#39;https://gopher.live&#39;: terminal prompts disabled
@@ -382,7 +382,7 @@ succeeded):</p>
 
 <pre data-command-src="Z28gZ2V0IHt7ey5QUklWQVRFfX19Cg=="><code class="language-.term1">$ go get &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125;
 go: downloading &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125; v0.0.0-20060102150405-abcedf12345
-go: &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125; upgrade =&gt; v0.0.0-20060102150405-abcedf12345
+go: added &#123;&#123;&#123;.PRIVATE&#125;&#125;&#125; v0.0.0-20060102150405-abcedf12345
 </code></pre>
 
 <p>Success! As a final check, run the <code class="highlighter-rouge">gopher</code> module <code class="highlighter-rouge">main</code> package:</p>
@@ -393,11 +393,11 @@ private.Secret(): This is a top secret message... for your eyes only
 </code></pre>
 
 <p>For more details on the <code class="highlighter-rouge">GOPRIVATE</code> environment variable and the values it can take, see
-<code class="highlighter-rouge">go help module-private</code>, which also includes examples of how to use the <code class="highlighter-rouge">*</code> glob to match multiple sub domains
+<code class="highlighter-rouge">go help module-auth</code>, which also includes examples of how to use the <code class="highlighter-rouge">*</code> glob to match multiple sub domains
 or modules.</p>
 
 <p>The <code class="highlighter-rouge">GONOPROXY</code> and <code class="highlighter-rouge">GONOSUMDB</code> environment variables can be used for more fine
-grained control. Again, see <code class="highlighter-rouge">go help module-private</code> for more information.</p>
+grained control. Again, see <code class="highlighter-rouge">go help module-auth</code> for more information.</p>
 
 <h3 id="conclusion">Conclusion</h3>
 
