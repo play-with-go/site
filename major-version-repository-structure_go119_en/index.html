@@ -9,13 +9,13 @@ layout: compress
 <html>
 
   <head>
-<title>play-with-go.dev</title>
+<title>Repository structure with multiple major versions</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="play-with-go.dev" />
+<meta name="twitter:title" content="Repository structure with multiple major versions" />
 <meta name="twitter:description" content="Learn Go through interactive online guides on play-with-go.dev" />
 <meta name="twitter:image" content="https://play-with-go.dev/images/playgo.png" />
 
@@ -72,23 +72,12 @@ layout: compress
       <div class="btn-group">
 
         
-        <!-- We only want to show this nav-bar in the post page -->
+        <button type="button" class="btn btn-lg btn-secondary btn-toggle btn-mode fa dark-mode" data-toggle="button">
+        </button>
 
-
-        <a class="nav-link about" href="about">About</a>
-
-
-        <a href="https://github.com/play-with-go/play-with-go" target="_blank">
-          <button type="button" class="btn btn-lg btn-navbar fa fa-github" aria-hidden="true">
-          </button>
-        </a>
-
-        <a href="https://twitter.com/playwithgo" target="_blank">
-          <button type="button" class="btn btn-lg btn-navbar fa fa-twitter" aria-hidden="true">
-          </button>
-        </a>
-
-
+        <button type="button" id="help" class="btn btn-lg btn-link" style="color: white;">
+          Help &nbsp <span class="btn-label"><i class="fa fa-question-circle"></i></span>
+        </button>
         
 
       </div>
@@ -162,357 +151,316 @@ layout: compress
 </div>
 
     
-    <div class="landing">
-  <div class="container">
-    <div class="row d-flex align-items-center mb-4">
-      <div class="col-lg-7 col-md-9 guides-hero">
-        <h1 class= "title-guides" style="color: #FDDD00;">
-            Welcome to Play with Go</h1>
-        <p class="lead welcome-par guides-link" style="color: seashell;" >
-          A series of hands-on, interactive, browser-based guides that introduce the tools required to work with the Go programming language.
-      </div>
-      <div class="col-lg-5">
-        <div class="d-none d-lg-block">
-          <img src="/images/playgo.png">
-        </div>
-      </div>
-    </div>
-
-
     
+<div class="progress-bar"></div>
+<div class="panel-container">
 
-    
-    <div class="row">
-      <div class="col"><hr class="line"></div>
-      <div class="col-auto catego">Start here</div>
-      <div class="col"><hr class="line"></div>
+
+    <div class="panel-left">
+
+        <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
+            <header class="post-header">
+                <h1 class="post-title" itemprop="name headline">Repository structure with multiple major versions</h1>
+            </header>
+            <div class="post-content" itemprop="articleBody">
+                <h3 id="introduction">Introduction</h3>
+
+<p>In this guide you will:</p>
+
+<ul>
+  <li>create a <code class="highlighter-rouge">{{{.BRANCH}}}</code> module</li>
+  <li>publish <code class="highlighter-rouge">{{{.BRANCH}}}</code> <code class="highlighter-rouge">v1.0.0</code></li>
+  <li>make breaking changes to create <code class="highlighter-rouge">{{{.BRANCH}}}/v2</code>, using the major version branch strategy</li>
+  <li>publish <code class="highlighter-rouge">{{{.BRANCH}}}</code> <code class="highlighter-rouge">v2.0.0</code></li>
+  <li>create a <code class="highlighter-rouge">{{{.SUBDIR}}}</code> module</li>
+  <li>publish <code class="highlighter-rouge">{{{.SUBDIR}}}</code> <code class="highlighter-rouge">v1.0.0</code></li>
+  <li>make breaking changes to create <code class="highlighter-rouge">{{{.SUBDIR}}}/v2</code>, using the major version subdirectory strategy</li>
+  <li>publish <code class="highlighter-rouge">{{{.SUBDIR}}}</code> <code class="highlighter-rouge">v2.0.0</code></li>
+  <li>create a <code class="highlighter-rouge">gopher</code> module that uses all the aforementioned modules</li>
+</ul>
+
+<h3 id="context">Context</h3>
+
+<pre data-command-src="Z28gdmVyc2lvbgo="><code class="language-.term1">$ go version
+go version go1.19.1 linux/amd64
+</code></pre>
+
+<h3 id="major-branch-strategy">Major branch strategy</h3>
+
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL2JyYW5jaApjZCAvaG9tZS9nb3BoZXIvYnJhbmNoCmdvIG1vZCBpbml0IHt7ey5CUkFOQ0h9fX0KZ2l0IGluaXQgLXEKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8ve3t7LkJSQU5DSH19fS5naXQK"><code class="language-.term1">$ mkdir /home/gopher/branch
+$ cd /home/gopher/branch
+$ go mod init &#123;&#123;&#123;.BRANCH&#125;&#125;&#125;
+go: creating new go.mod: module &#123;&#123;&#123;.BRANCH&#125;&#125;&#125;
+$ git init -q
+$ git remote add origin https://&#123;&#123;&#123;.BRANCH&#125;&#125;&#125;.git
+</code></pre>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2JyYW5jaA==" data-upload-src="YnJhbmNoLmdv:Ly8gL2hvbWUvZ29waGVyL2JyYW5jaC9icmFuY2guZ28KCnBhY2thZ2UgYnJhbmNoCgpjb25zdCBNZXNzYWdlID0gImJyYW5jaCB2MSIK" data-upload-term=".term1"><code class="language-go">// /home/gopher/branch/branch.go
+
+package branch
+
+const Message = &#34;branch v1&#34;
+</code></pre>
+
+<pre data-command-src="Z2l0IGFkZCBicmFuY2guZ28gZ28ubW9kCmdpdCBjb21taXQgLXEgLW0gJ0luaXRpYWwgY29tbWl0IG9mIGJyYW5jaCBtb2R1bGUnCmdpdCB0YWcgdjEuMC4wCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluIHYxLjAuMAo="><code class="language-.term1">$ git add branch.go go.mod
+$ git commit -q -m &#39;Initial commit of branch module&#39;
+$ git tag v1.0.0
+$ git push -q origin main v1.0.0
+remote: .. Processing 2 references        
+remote: Processed 2 references in total        
+</code></pre>
+
+<pre data-command-src="Z2l0IGJyYW5jaCBtYWluLnYxCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluLnYxCg=="><code class="language-.term1">$ git branch main.v1
+$ git push -q origin main.v1
+remote: 
+remote: Create a new pull request for &#39;main.v1&#39;:        
+remote:   https://&#123;&#123;&#123;.BRANCH&#125;&#125;&#125;/compare/main...main.v1        
+remote: 
+remote: . Processing 1 references        
+remote: Processed 1 references in total        
+</code></pre>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2JyYW5jaA==" data-upload-src="Z28ubW9k:Ly8gL2hvbWUvZ29waGVyL2JyYW5jaC9nby5tb2QKCm1vZHVsZSB7e3suQlJBTkNIfX19L3YyCgpnbyAxLjE1Cg==" data-upload-term=".term1"><code class="language-go.mod">// /home/gopher/branch/go.mod
+
+module &#123;&#123;&#123;.BRANCH&#125;&#125;&#125;/v2
+
+go 1.15
+</code></pre>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2JyYW5jaA==" data-upload-src="YnJhbmNoLmdv:Ly8gL2hvbWUvZ29waGVyL2JyYW5jaC9icmFuY2guZ28KCnBhY2thZ2UgYnJhbmNoCgpjb25zdCBNZXNzYWdlID0gImJyYW5jaCB2MiIK" data-upload-term=".term1"><code class="language-go">// /home/gopher/branch/branch.go
+
+package branch
+
+const Message = &#34;branch v2&#34;
+</code></pre>
+
+<pre data-command-src="Z2l0IGFkZCBicmFuY2guZ28gZ28ubW9kCmdpdCBjb21taXQgLXEgLW0gJ3YyIGNvbW1pdCBvZiBicmFuY2ggbW9kdWxlJwpnaXQgdGFnIHYyLjAuMApnaXQgcHVzaCAtcSBvcmlnaW4gbWFpbiB2Mi4wLjAK"><code class="language-.term1">$ git add branch.go go.mod
+$ git commit -q -m &#39;v2 commit of branch module&#39;
+$ git tag v2.0.0
+$ git push -q origin main v2.0.0
+remote: .. Processing 2 references        
+remote: Processed 2 references in total        
+</code></pre>
+
+<h3 id="major-subdirectory-strategy">Major subdirectory strategy</h3>
+
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL3N1YmRpcgpjZCAvaG9tZS9nb3BoZXIvc3ViZGlyCmdvIG1vZCBpbml0IHt7ey5TVUJESVJ9fX0KZ2l0IGluaXQgLXEKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8ve3t7LlNVQkRJUn19fS5naXQK"><code class="language-.term1">$ mkdir /home/gopher/subdir
+$ cd /home/gopher/subdir
+$ go mod init &#123;&#123;&#123;.SUBDIR&#125;&#125;&#125;
+go: creating new go.mod: module &#123;&#123;&#123;.SUBDIR&#125;&#125;&#125;
+$ git init -q
+$ git remote add origin https://&#123;&#123;&#123;.SUBDIR&#125;&#125;&#125;.git
+</code></pre>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3N1YmRpcg==" data-upload-src="c3ViZGlyLmdv:Ly8gL2hvbWUvZ29waGVyL3N1YmRpci9zdWJkaXIuZ28KCnBhY2thZ2Ugc3ViZGlyCgpjb25zdCBNZXNzYWdlID0gInN1YmRpciB2MSIK" data-upload-term=".term1"><code class="language-go">// /home/gopher/subdir/subdir.go
+
+package subdir
+
+const Message = &#34;subdir v1&#34;
+</code></pre>
+
+<pre data-command-src="Z2l0IGFkZCBzdWJkaXIuZ28gZ28ubW9kCmdpdCBjb21taXQgLXEgLW0gJ0luaXRpYWwgY29tbWl0IG9mIHN1YmRpciBtb2R1bGUnCmdpdCB0YWcgdjEuMC4wCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluIHYxLjAuMAo="><code class="language-.term1">$ git add subdir.go go.mod
+$ git commit -q -m &#39;Initial commit of subdir module&#39;
+$ git tag v1.0.0
+$ git push -q origin main v1.0.0
+remote: .. Processing 2 references        
+remote: Processed 2 references in total        
+</code></pre>
+
+<pre data-command-src="bWtkaXIgdjIKY3AgZ28ubW9kIHN1YmRpci5nbyB2Mgo="><code class="language-.term1">$ mkdir v2
+$ cp go.mod subdir.go v2
+</code></pre>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3N1YmRpci92Mg==" data-upload-src="Z28ubW9k:Ly8gL2hvbWUvZ29waGVyL3N1YmRpci92Mi9nby5tb2QKCm1vZHVsZSB7e3suU1VCRElSfX19L3YyCgpnbyAxLjE1Cg==" data-upload-term=".term1"><code class="language-go.mod">// /home/gopher/subdir/v2/go.mod
+
+module &#123;&#123;&#123;.SUBDIR&#125;&#125;&#125;/v2
+
+go 1.15
+</code></pre>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL3N1YmRpci92Mg==" data-upload-src="c3ViZGlyLmdv:Ly8gL2hvbWUvZ29waGVyL3N1YmRpci92Mi9zdWJkaXIuZ28KCnBhY2thZ2Ugc3ViZGlyCgpjb25zdCBNZXNzYWdlID0gInN1YmRpciB2MiIK" data-upload-term=".term1"><code class="language-go">// /home/gopher/subdir/v2/subdir.go
+
+package subdir
+
+const Message = &#34;subdir v2&#34;
+</code></pre>
+
+<pre data-command-src="Z2l0IGFkZCB2MgpnaXQgY29tbWl0IC1xIC1tICd2MiBjb21taXQgb2Ygc3ViZGlyIG1vZHVsZScKZ2l0IHRhZyB2Mi4wLjAKZ2l0IHB1c2ggLXEgb3JpZ2luIG1haW4gdjIuMC4wCg=="><code class="language-.term1">$ git add v2
+$ git commit -q -m &#39;v2 commit of subdir module&#39;
+$ git tag v2.0.0
+$ git push -q origin main v2.0.0
+remote: .. Processing 2 references        
+remote: Processed 2 references in total        
+</code></pre>
+
+<h3 id="using-allthemodules-the-gopher-module">Using <code class="highlighter-rouge">#allthemodules</code>: the <code class="highlighter-rouge">gopher</code> module</h3>
+
+<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL2dvcGhlcgpjZCAvaG9tZS9nb3BoZXIvZ29waGVyCmdvIG1vZCBpbml0IGdvcGhlcgo="><code class="language-.term1">$ mkdir /home/gopher/gopher
+$ cd /home/gopher/gopher
+$ go mod init gopher
+go: creating new go.mod: module gopher
+</code></pre>
+
+<pre data-upload-path="L2hvbWUvZ29waGVyL2dvcGhlcg==" data-upload-src="Z29waGVyLmdv:Ly8gL2hvbWUvZ29waGVyL2dvcGhlci9nb3BoZXIuZ28KCnBhY2thZ2UgbWFpbgoKaW1wb3J0ICgKCSJmbXQiCgoJYnJhbmNoICJ7e3suQlJBTkNIfX19IgoJYnJhbmNoX3YyICJ7e3suQlJBTkNIfX19L3YyIgoJc3ViZGlyICJ7e3suU1VCRElSfX19IgoJc3ViZGlyX3YyICJ7e3suU1VCRElSfX19L3YyIgopCgpmdW5jIG1haW4oKSB7CglmbXQuUHJpbnRmKCJicmFuY2guTWVzc2FnZTogJXZcbiIsIGJyYW5jaC5NZXNzYWdlKQoJZm10LlByaW50ZigiYnJhbmNoL3YyLk1lc3NhZ2U6ICV2XG4iLCBicmFuY2hfdjIuTWVzc2FnZSkKCWZtdC5QcmludGYoInN1YmRpci5NZXNzYWdlOiAldlxuIiwgc3ViZGlyLk1lc3NhZ2UpCglmbXQuUHJpbnRmKCJzdWJkaXIvdjIuTWVzc2FnZTogJXZcbiIsIHN1YmRpcl92Mi5NZXNzYWdlKQp9Cg==" data-upload-term=".term1"><code class="language-go">// /home/gopher/gopher/gopher.go
+
+package main
+
+import (
+	&#34;fmt&#34;
+
+	branch &#34;&#123;&#123;&#123;.BRANCH&#125;&#125;&#125;&#34;
+	branch_v2 &#34;&#123;&#123;&#123;.BRANCH&#125;&#125;&#125;/v2&#34;
+	subdir &#34;&#123;&#123;&#123;.SUBDIR&#125;&#125;&#125;&#34;
+	subdir_v2 &#34;&#123;&#123;&#123;.SUBDIR&#125;&#125;&#125;/v2&#34;
+)
+
+func main() &#123;
+	fmt.Printf(&#34;branch.Message: %v\n&#34;, branch.Message)
+	fmt.Printf(&#34;branch/v2.Message: %v\n&#34;, branch_v2.Message)
+	fmt.Printf(&#34;subdir.Message: %v\n&#34;, subdir.Message)
+	fmt.Printf(&#34;subdir/v2.Message: %v\n&#34;, subdir_v2.Message)
+&#125;
+</code></pre>
+
+<pre data-command-src="Z28gZ2V0IHt7ey5CUkFOQ0h9fX1AdjEuMC4wCmdvIGdldCB7e3suQlJBTkNIfX19L3YyQHYyLjAuMApnbyBnZXQge3t7LlNVQkRJUn19fUB2MS4wLjAKZ28gZ2V0IHt7ey5TVUJESVJ9fX0vdjJAdjIuMC4wCg=="><code class="language-.term1">$ go get &#123;&#123;&#123;.BRANCH&#125;&#125;&#125;@v1.0.0
+go: downloading &#123;&#123;&#123;.BRANCH&#125;&#125;&#125; v1.0.0
+go: added &#123;&#123;&#123;.BRANCH&#125;&#125;&#125; v1.0.0
+$ go get &#123;&#123;&#123;.BRANCH&#125;&#125;&#125;/v2@v2.0.0
+go: downloading &#123;&#123;&#123;.BRANCH&#125;&#125;&#125;/v2 v2.0.0
+go: added &#123;&#123;&#123;.BRANCH&#125;&#125;&#125;/v2 v2.0.0
+$ go get &#123;&#123;&#123;.SUBDIR&#125;&#125;&#125;@v1.0.0
+go: downloading &#123;&#123;&#123;.SUBDIR&#125;&#125;&#125; v1.0.0
+go: added &#123;&#123;&#123;.SUBDIR&#125;&#125;&#125; v1.0.0
+$ go get &#123;&#123;&#123;.SUBDIR&#125;&#125;&#125;/v2@v2.0.0
+go: downloading &#123;&#123;&#123;.SUBDIR&#125;&#125;&#125;/v2 v2.0.0
+go: added &#123;&#123;&#123;.SUBDIR&#125;&#125;&#125;/v2 v2.0.0
+</code></pre>
+
+<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
+branch.Message: branch v1
+branch/v2.Message: branch v2
+subdir.Message: subdir v1
+subdir/v2.Message: subdir v2
+</code></pre>
+<script>let pageGuide="2020-11-19-major-version-repository-structure"; let pageLanguage="en"; let pageScenario="go119";</script>
+
+
+            </div>
+            <a href="/"><button class="btn btn-primary" style="margin: 10px 0 40px 0">Back to guides</button></a>
+        </article>
     </div>
 
-    <div class="row card-deck">
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">An introduction to play-with-go.dev guides</h5>
-            <p class="card-text">Learn about how to get the most out of play-with-go.dev guides</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Beginner.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                8 min read.
-                </p>
-              </div>
-            </div>
 
-          </div>
-          <a href="/intro-to-play-with-go-dev_go119_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
+    <div class="panel-right">
+        <div class="panel-nav">
+            <i class="expand-button fa fa-expand pull-right"></i>
+            <ul class="nav nav-tabs">
+            
+                <li class="nav-item">
+                    <a class="nav-link active" id="term1-tab" data-toggle="tab" href="#term1" role="tab" aria-controls="term1" aria-selected="true" >T.1</a>
+                </li>
+            
+            </ul>
         </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Get started with Go</h5>
-            <p class="card-text">You've completed the Go tour, so what next? This guide gives a brief introduction to Go programming</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Beginner.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                8 min read.
-                </p>
-              </div>
-            </div>
+        <div class="twrapper">
+            <div class="splitter"></div>
+            <div class="tab-content" id="myTabContent">
+              <div class="login" style="display: none;">
+                <div class="login-title">
+                  <div>
+                    Log in to use the terminal
+                  </div>
+                  <div class="login-buttons">
+                    <button onclick="performLogin('google')" class="btn np-login btn-primary btn-welcome">
+                      <img class="img-fluid" src="/images/google.svg" alt="Text"/>
+                      <span>Sign-in with Google</span>
+                    </button>
 
-          </div>
-          <a href="/get-started-with-go_go119_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Go fundamentals</h5>
-            <p class="card-text">Primer on creating and using go modules</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Beginner.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                56 min read.
-                </p>
-              </div>
-            </div>
+                    <button onclick="performLogin('github')" class="btn np-login btn-primary btn-welcome">
+                      <img src="/images/github.svg" alt="Text"/>
+                      <span>Sign-in with GitHub</span>
+                    </button>
+                  </div>
+                </div>
 
-          </div>
-          <a href="/go-fundamentals_go119_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
+                <img src="/images/gopher-login.png"  alt=""/>
+              </div>
+              
+              <div class="tab-pane show term1 active" id="term1" role="tabpanel" aria-labelledby="term1-tab"><div class="term-init"></div></div>
+              
             </div>
-          </a>
         </div>
-      </div>
-      
-    </div>
-    
-    <div class="row">
-      <div class="col"><hr class="line"></div>
-      <div class="col-auto catego">Next steps</div>
-      <div class="col"><hr class="line"></div>
     </div>
 
-    <div class="row card-deck">
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Working with private modules</h5>
-            <p class="card-text">How to create, publish and work with non-public modules in your team.</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Intermediate.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                14 min read.
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <a href="/working-with-private-modules_go119_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">How to use and tweak Staticcheck</h5>
-            <p class="card-text">Using static analysis to automatically find bugs and performance optimizations.</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Intermediate.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                24 min read.
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <a href="/using-staticcheck_go119_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Installing Go programs directly</h5>
-            <p class="card-text">Simple easy-to-remember way to install Go programs</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Beginner.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                4 min read.
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <a href="/installing-go-programs-directly_go119_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Retract Module Versions</h5>
-            <p class="card-text">Learn how to flag modules that shouldn't be used</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Intermediate.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                28 min read.
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <a href="/retract-module-versions_go119_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Developer tools as module dependencies</h5>
-            <p class="card-text">Ensure all developers use the same version of each developer tool</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Intermediate.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                16 min read.
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <a href="/tools-as-dependencies_go119_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-      <div class="col-md-4 card-pad">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">Installing Go</h5>
-            <p class="card-text">Ready to take the plunge and install Go on your system?!</p>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text d-inline time">   Beginner.</p>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <i class="fa fa-clock-o" style="margin-left: 3px;" aria-hidden="true"></i>
-              </div>
-              <div class="col">
-                <p class="card-text time d-inline" title="Estimated read time">
-                
-                6 min read.
-                </p>
-              </div>
-            </div>
-
-          </div>
-          <a href="/installing-go_go119_en/" class="card-link">
-            <div class="card-footer fofo">
-              Start guide
-            </div>
-          </a>
-        </div>
-      </div>
-      
-    </div>
-    
-  </div>
-  </div>
 </div>
 
-
+<script>
+    var imageName = "";
+    (function() {
+        var font3 = document.createElement('link');
+        font3.type = 'text/css';
+        font3.rel = 'stylesheet';
+        font3.href = '/css/syntax-highlighting.css';
+        var q = document.getElementsByTagName('link')[0];
+        q.parentNode.insertBefore(font3, q);
+    })();
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.11/lodash.min.js"></script>
+<script src="https://rawgit.com/RickStrahl/jquery-resizable/master/dist/jquery-resizable.min.js"></script>
+<script src="https://unpkg.com/pwd-sdk@0.0.12/dist/pwd.min.js"></script>
+<script src="/js/post-layout.js"></script>
+<script src="/js/progress-bar.js"></script>
+<script src="/js/menu.js"></script>
+<script src="/js/feedback-footer.js"></script>
+<script src="/js/dark-mode.js"></script>
+<script src="/js/exit-warning.js"></script>
+<script src="/js/import-file.js"></script>
+<div
+  class="modal fade"
+  id="congratz-modal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <img src="/images/success.png" />
+        <h2 class="post-title">
+          Congratulations!
+        </h2>
+        <p class="congratz-text">
+          Great work! you are getting closer and closer to archieving your
+          goals. Go foward!
+        </p>
+        <div class="congratz-footer">
+          <button type="button" class="text-btn" data-dismiss="modal">
+            CLOSE
+          </button>
+          <div class="share">
+            <p class="share-text">Share your archievements</p>
+            <a
+              href="http://twitter.com/share?url=URL_TO_PAGE&text=TITLE_TO_SHARE&via=TWITTER_USERNAME"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-twitter" aria-hidden="true"></i>
+            </a>
+            <a
+              href="https://www.facebook.com/sharer/sharer.php?u=http://labs.docker.com"
+              class="share-link"
+              target="_blank"
+            >
+              <i class="fa fa-facebook-official" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
     
@@ -570,25 +518,6 @@ layout: compress
     <!--}}();-->
     <!--}-->
     <!---->
-    
-    <!--try {-->
-      <!--pwd.getUserInfo(function(pwduser){-->
-              <!--user = pwduser;-->
-              <!--if(user !== undefined){-->
-                  <!--analytics.identify(user.provider_user_id,{"email":user.email});-->
-              <!--}-->
-              <!--else {-->
-
-                  <!--analytics.identify();-->
-              <!--}-->
-          <!--});-->
-    <!--}-->
-    <!--catch (error) {-->
-      <!--analytics.identify();-->
-      <!--}-->
-    
-     
-      <!---->
     <!--</script>-->
     <!-- Twitter universal website tag code -->
 

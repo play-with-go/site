@@ -9,13 +9,13 @@ layout: compress
 <html>
 
   <head>
-<title>Retract Module Versions</title>
+<title>Installing Go</title>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Retract Module Versions" />
+<meta name="twitter:title" content="Installing Go" />
 <meta name="twitter:description" content="Learn Go through interactive online guides on play-with-go.dev" />
 <meta name="twitter:image" content="https://play-with-go.dev/images/playgo.png" />
 
@@ -160,534 +160,193 @@ layout: compress
 
         <article class="post content" itemscope itemtype="http://schema.org/BlogPosting">
             <header class="post-header">
-                <h1 class="post-title" itemprop="name headline">Retract Module Versions</h1>
+                <h1 class="post-title" itemprop="name headline">Installing Go</h1>
             </header>
             <div class="post-content" itemprop="articleBody">
-                <p><em>By <a href="https://twitter.com/jayconrod">Jay Conrod</a>, software engineer on the <a href="https://golang.org/">Go</a> tools team, and
-principal author of module retraction in the <code class="highlighter-rouge">go</code> command.</em></p>
+                <p>So you’re ready to take the plunge and install Go on your local system? Congratulations!</p>
 
-<p>Module authors need a way to indicate that published module versions should not be used. There are a number of reasons
-this may be needed:</p>
+<p>The official <a href="https://golang.org/doc/install"><em>Download and Install</em></a> instructions get you quickly up and running with Go.</p>
 
-<ul>
-  <li>A severe security vulnerability has been identified.</li>
-  <li>A severe incompatibility or bug was discovered.</li>
-  <li>The version was published accidentally or prematurely.</li>
-</ul>
-
-<p>Authors can’t simply delete version tags, since they remain available on module proxies. If an author were able to
-delete a version from all proxies, it would break downstream users that depend on that version.</p>
-
-<p>Authors also can’t change versions after they’ve published. <code class="highlighter-rouge">go.sum</code> files and the checksum database verify that published
-versions never change.</p>
-
-<p>Instead, authors should be able to <em>retract</em> module versions. A retracted module version is a version with an explicit
-declaration from the module author that it should not be used. (The word retract is borrowed from academic literature: a
-retracted research paper is still available, but it has problems and should not be the basis of future work).</p>
-
-<p>Retracted versions should remain available in module proxies and origin repositories. Builds that depend on retracted
-versions should continue to work. However, users should be notified when they depend on a retracted version (either
-directly or indirectly). It should also be difficult to unintentionally upgrade to a retracted version.</p>
-
-<p>This guide walks you through how to use module retractions. In the guide you will create two modules:</p>
-
-<ul>
-  <li><code class="highlighter-rouge">{{{.PROVERB}}}</code> (part of a module at the same path) that provides various different wise proverbs. You will
-publish a number of versions of this module.</li>
-  <li><code class="highlighter-rouge">gopher</code>, a simple <code class="highlighter-rouge">main</code> package that uses <code class="highlighter-rouge">{{{.PROVERB}}}</code>. You will not publish this module; it
-will be local-only.</li>
-</ul>
+<p>This guide walks you through those steps, discusses the Go environment, and also explains how to setup your <code class="highlighter-rouge">PATH</code> for
+running any Go programs you install.</p>
 
 <h3 id="prerequisites">Prerequisites</h3>
 
 <p>You should already have completed:</p>
 
 <ul>
-  <li><a href="/go-fundamentals_go115_en">Go Fundamentals</a></li>
+  <li><a href="https://tour.golang.org/">The Go Tour</a></li>
+  <li><a href="/intro-to-play-with-go-dev_go119_en/">An introduction to play-with-go.dev guides</a></li>
+  <li><a href="/get-started-with-go_go119_en/">Get started with Go</a></li>
 </ul>
 
-<p>This guide is running using:</p>
+<h3 id="installing-go">Installing Go</h3>
+
+<p><em>Note: this guide is running on Linux. For Mac or Windows steps, see the official <a href="https://golang.org/doc/install">Download and
+Install</a> instructions.</em></p>
+
+<p>Start in your home directory:</p>
+
+<pre data-command-src="cHdkCg=="><code class="language-.term1">$ pwd
+/home/gopher
+</code></pre>
+
+<p>Download the latest version of Go:</p>
+
+<pre data-command-src="d2dldCAtcSBodHRwczovL2dvbGFuZy5vcmcvZGwvZ28xLjE5LjEubGludXgtJEdPQVJDSC50YXIuZ3oK"><code class="language-.term1">$ wget -q https://golang.org/dl/go1.19.1.linux-$GOARCH.tar.gz
+</code></pre>
+
+<p>Extract and install:</p>
+
+<pre data-command-src="c3VkbyB0YXIgLUMgL3Vzci9sb2NhbCAteHpmIGdvMS4xOS4xLmxpbnV4LSRHT0FSQ0gudGFyLmd6Cg=="><code class="language-.term1">$ sudo tar -C /usr/local -xzf go1.19.1.linux-$GOARCH.tar.gz
+</code></pre>
+
+<p>Add the install target to your profile <code class="highlighter-rouge">PATH</code>:</p>
+
+<pre data-command-src="ZWNobyBleHBvcnQgUEFUSD0iL3Vzci9sb2NhbC9nby9iaW46JFBBVEgiID4+JEhPTUUvLnByb2ZpbGUK"><code class="language-.term1">$ echo export PATH=&#34;/usr/local/go/bin:$PATH&#34; &gt;&gt;$HOME/.profile
+</code></pre>
+
+<p>Source your profile to test the new settings:</p>
+
+<pre data-command-src="c291cmNlICRIT01FLy5wcm9maWxlCg=="><code class="language-.term1">$ source $HOME/.profile
+</code></pre>
+
+<p>Verify the Go installation:</p>
 
 <pre data-command-src="Z28gdmVyc2lvbgo="><code class="language-.term1">$ go version
 go version go1.19.1 linux/amd64
 </code></pre>
 
-<h3 id="the-proverb-module">The <code class="highlighter-rouge">proverb</code> module</h3>
+<h3 id="the-go-environment">The Go environment</h3>
 
-<p>Start by initialising your <code class="highlighter-rouge">proverb</code> module:</p>
+<p>The <code class="highlighter-rouge">go</code> command and the tools it invokes consult environment variables
+for configuration. If an environment variable is unset, the <code class="highlighter-rouge">go</code> command
+uses a sensible default setting.</p>
 
-<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL3Byb3ZlcmIKY2QgL2hvbWUvZ29waGVyL3Byb3ZlcmIKZ2l0IGluaXQgLXEKZ2l0IHJlbW90ZSBhZGQgb3JpZ2luIGh0dHBzOi8ve3t7LlBST1ZFUkJ9fX0uZ2l0CmdvIG1vZCBpbml0IHt7ey5QUk9WRVJCfX19Cg=="><code class="language-.term1">$ mkdir /home/gopher/proverb
-$ cd /home/gopher/proverb
-$ git init -q
-$ git remote add origin https://&#123;&#123;&#123;.PROVERB&#125;&#125;&#125;.git
-$ go mod init &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
-go: creating new go.mod: module &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
+<p>Let’s examine the default settings in your setup:</p>
+
+<pre data-command-src="Z28gZW52Cg=="><code class="language-.term1">$ go env
+GO111MODULE=&#34;&#34;
+GOARCH=&#34;amd64&#34;
+GOBIN=&#34;&#34;
+GOCACHE=&#34;/home/gopher/.cache/go-build&#34;
+GOENV=&#34;/home/gopher/.config/go/env&#34;
+GOEXE=&#34;&#34;
+GOEXPERIMENT=&#34;&#34;
+GOFLAGS=&#34;&#34;
+GOHOSTARCH=&#34;amd64&#34;
+GOHOSTOS=&#34;linux&#34;
+GOINSECURE=&#34;&#34;
+GOMODCACHE=&#34;/home/gopher/go/pkg/mod&#34;
+GONOPROXY=&#34;&#34;
+GONOSUMDB=&#34;&#34;
+GOOS=&#34;linux&#34;
+GOPATH=&#34;/home/gopher/go&#34;
+GOPRIVATE=&#34;&#34;
+GOPROXY=&#34;https://proxy.golang.org,direct&#34;
+GOROOT=&#34;/usr/local/go&#34;
+GOSUMDB=&#34;sum.golang.org&#34;
+GOTMPDIR=&#34;&#34;
+GOTOOLDIR=&#34;/usr/local/go/pkg/tool/linux_amd64&#34;
+GOVCS=&#34;&#34;
+GOVERSION=&#34;go1.19.1&#34;
+GCCGO=&#34;gccgo&#34;
+AR=&#34;ar&#34;
+CC=&#34;gcc&#34;
+CXX=&#34;g++&#34;
+CGO_ENABLED=&#34;1&#34;
+GOMOD=&#34;/dev/null&#34;
+GOWORK=&#34;&#34;
+CGO_CFLAGS=&#34;-g -O2&#34;
+CGO_CPPFLAGS=&#34;&#34;
+CGO_CXXFLAGS=&#34;-g -O2&#34;
+CGO_FFLAGS=&#34;-g -O2&#34;
+CGO_LDFLAGS=&#34;-g -O2&#34;
+PKG_CONFIG=&#34;pkg-config&#34;
 </code></pre>
 
-<p>Create an initial version with a <code class="highlighter-rouge">Go</code> function that returns a Go proverb in the file <code class="highlighter-rouge">proverb.go</code>:</p>
+<p>To see the effective setting of a specific variable, for example <code class="highlighter-rouge">GOBIN</code>, you can run:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="cHJvdmVyYi5nbw==:cGFja2FnZSBwcm92ZXJiCgovLyBHbyByZXR1cm5zIGEgR28gcHJvdmVyYgpmdW5jIEdvKCkgc3RyaW5nIHsKCXJldHVybiAiRG9uJ3QgY29tbXVuaWNhdGUgYnkgc2hhcmluZyBtZW1vcnksIHNoYXJlIG1lbW9yeSBieSBjb21tdW5pY2F0aW5nLiIKfQo=" data-upload-term=".term1"><code class="language-go">package proverb
+<pre data-command-src="Z28gZW52IEdPQklOCg=="><code class="language-.term1">$ go env GOBIN
 
-// Go returns a Go proverb
-func Go() string &#123;
-	return &#34;Don&#39;t communicate by sharing memory, share memory by communicating.&#34;
-&#125;
 </code></pre>
 
-<p>Commit and push this initial version:</p>
+<p>To change the default setting of a variable, for example <code class="highlighter-rouge">GOBIN</code>, you can run:</p>
 
-<pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJJbml0aWFsIGNvbW1pdCIKZ2l0IHB1c2ggLXEgb3JpZ2luIG1haW4K"><code class="language-.term1">$ git add -A
-$ git commit -q -m &#34;Initial commit&#34;
-$ git push -q origin main
-remote: . Processing 1 references        
-remote: Processed 1 references in total        
+<pre data-command-src="Z28gZW52IC13IEdPQklOPS9wYXRoL3RvL215L2dvYmluCg=="><code class="language-.term1">$ go env -w GOBIN=/path/to/my/gobin
 </code></pre>
 
-<p>It’s early days for the <code class="highlighter-rouge">proverb</code> module, so you decide to tag it with a <code class="highlighter-rouge">v0</code> semantic version, indicating it
-is not yet stable:</p>
+<p>Check the new value is set:</p>
 
-<pre data-command-src="Z2l0IHRhZyB2MC4xLjAKZ2l0IHB1c2ggLXEgb3JpZ2luIHYwLjEuMAo="><code class="language-.term1">$ git tag v0.1.0
-$ git push -q origin v0.1.0
-remote: . Processing 1 references        
-remote: Processed 1 references in total        
+<pre data-command-src="Z28gZW52IEdPQklOCg=="><code class="language-.term1">$ go env GOBIN
+/path/to/my/gobin
 </code></pre>
 
-<p>With the first version of the <code class="highlighter-rouge">proverb</code> module published, it’s time to create a first cut of your
-<code class="highlighter-rouge">gopher</code> module.</p>
+<p>Defaults changed in this way
+are recorded in a Go environment configuration file stored in the
+per-user configuration directory, as reported by <a href="https://pkg.go.dev/os#UserConfigDir"><code class="highlighter-rouge">os.UserConfigDir</code></a>.
+The location of the configuration file can be changed by setting
+the environment variable <code class="highlighter-rouge">GOENV</code>.</p>
 
-<h3 id="the-gopher-module">The <code class="highlighter-rouge">gopher</code> module</h3>
+<p>Print the effective location of the configuration file:</p>
 
-<p>You are not going to publish the <code class="highlighter-rouge">gopher</code> module, so the setup is simpler:</p>
-
-<pre data-command-src="bWtkaXIgL2hvbWUvZ29waGVyL2dvcGhlcgpjZCAvaG9tZS9nb3BoZXIvZ29waGVyCmdvIG1vZCBpbml0IGdvcGhlcgo="><code class="language-.term1">$ mkdir /home/gopher/gopher
-$ cd /home/gopher/gopher
-$ go mod init gopher
-go: creating new go.mod: module gopher
+<pre data-command-src="Z28gZW52IEdPRU5WCg=="><code class="language-.term1">$ go env GOENV
+/home/gopher/.config/go/env
 </code></pre>
 
-<p>Notice how you skipped the <code class="highlighter-rouge">git</code> steps, and also how the module path is simply <code class="highlighter-rouge">gopher</code>. As this module
-will be local-only, you can use any path you like.</p>
+<p>Note, you cannot change the default location of the configuration file.</p>
 
-<p>Create an initial version of the <code class="highlighter-rouge">main</code> function in <code class="highlighter-rouge">gopher.go</code>:</p>
+<p>Unset <code class="highlighter-rouge">GOBIN</code>, returning to its default value:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVyL2dvcGhlcg==" data-upload-src="Z29waGVyLmdv:cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKCgkie3t7LlBST1ZFUkJ9fX0iCikKCmZ1bmMgbWFpbigpIHsKCWZtdC5QcmludGxuKHByb3ZlcmIuR28oKSkKfQo=" data-upload-term=".term1"><code class="language-go">package main
-
-import (
-	&#34;fmt&#34;
-
-	&#34;&#123;&#123;&#123;.PROVERB&#125;&#125;&#125;&#34;
-)
-
-func main() &#123;
-	fmt.Println(proverb.Go())
-&#125;
+<pre data-command-src="Z28gZW52IC13IEdPQklOPQo="><code class="language-.term1">$ go env -w GOBIN=
 </code></pre>
 
-<p>In this code you:</p>
+<p>Check the effective value of <code class="highlighter-rouge">GOBIN</code> now:</p>
 
-<ul>
-  <li>Import the <code class="highlighter-rouge">{{{.PROVERB}}}</code> package. This declares the dependency on this package.</li>
-  <li>Use the <a href="https://pkg.go.dev/fmt#Println"><code class="highlighter-rouge">fmt.Println</code></a> to print the proverb returned by <code class="highlighter-rouge">proverb.Go()</code>
-function.</li>
-</ul>
+<pre data-command-src="Z28gZW52IEdPQklOCg=="><code class="language-.term1">$ go env GOBIN
 
-<p>Add a dependency on the <code class="highlighter-rouge">{{{.PROVERB}}}</code> module:</p>
-
-<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QHYwLjEuMAo="><code class="language-.term1">$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v0.1.0
-go: downloading &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.1.0
-go: added &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.1.0
 </code></pre>
 
-<p>Run to make sure everything works:</p>
+<p>That is to say, <code class="highlighter-rouge">GOBIN</code> is not set by default.</p>
 
-<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
-Don&#39;t communicate by sharing memory, share memory by communicating.
+<p>See <code class="highlighter-rouge">go help env</code> for more details.</p>
+
+<h3 id="setting-up-your-path">Setting up your <code class="highlighter-rouge">PATH</code></h3>
+
+<p><em>Note: this section applies to Linux and Mac users only.</em></p>
+
+<p><code class="highlighter-rouge">go get</code> and <code class="highlighter-rouge">go install</code> install programs to <code class="highlighter-rouge">$GOPATH/bin</code>, or
+<code class="highlighter-rouge">$GOBIN</code> if set. <code class="highlighter-rouge">GOBIN</code> is not set in the <code class="highlighter-rouge">play-with-go.dev</code> environment:</p>
+
+<pre data-command-src="Z28gZW52IEdPQklOCg=="><code class="language-.term1">$ go env GOBIN
+
 </code></pre>
 
-<p>Looks great!</p>
+<p>So you need to add <code class="highlighter-rouge">$GOPATH/bin</code> to your profile <code class="highlighter-rouge">PATH</code>:</p>
 
-<h3 id="a-better-initial-version">A “better” initial version</h3>
-
-<p>After much debate with some friends, you decide that there is a better Go proverb to use in the initial version of your
-<code class="highlighter-rouge">proverb</code> module.</p>
-
-<p>Change back to the <code class="highlighter-rouge">proverb</code> module:</p>
-
-<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL3Byb3ZlcmIK"><code class="language-.term1">$ cd /home/gopher/proverb
+<pre data-command-src="ZWNobyBleHBvcnQgUEFUSD0iJChnbyBlbnYgR09QQVRIKS9iaW46JFBBVEgiID4+JEhPTUUvLnByb2ZpbGUK"><code class="language-.term1">$ echo export PATH=&#34;$(go env GOPATH)/bin:$PATH&#34; &gt;&gt;$HOME/.profile
 </code></pre>
 
-<p>Update <code class="highlighter-rouge">proverb.go</code> as follows:</p>
+<p>Source your profile again to test the new settings:</p>
 
-<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="cHJvdmVyYi5nbw==:cGFja2FnZSBwcm92ZXJiCgovLyBHbyByZXR1cm5zIGEgR28gcHJvdmVyYgpmdW5jIEdvKCkgc3RyaW5nIHsKCXJldHVybiAiQ29uY3VycmVuY3kgaXMgcGFyYWxsZWxpc20uIgp9Cg==" data-upload-term=".term1"><code class="language-go">package proverb
-
-// Go returns a Go proverb
-func Go() string &#123;
-<b>	return &#34;Concurrency is parallelism.&#34;</b>
-&#125;
+<pre data-command-src="c291cmNlICRIT01FLy5wcm9maWxlCg=="><code class="language-.term1">$ source $HOME/.profile
 </code></pre>
 
-<p>Commit and push this updated version:</p>
+<p>Verify the new setting of <code class="highlighter-rouge">PATH</code>:</p>
 
-<pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJTd2l0Y2ggR28gcHJvdmVyYiB0byBzb21ldGhpbmcgbW9yZSBmYW1vdXMiCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluCg=="><code class="language-.term1">$ git add -A
-$ git commit -q -m &#34;Switch Go proverb to something more famous&#34;
-$ git push -q origin main
-remote: . Processing 1 references        
-remote: Processed 1 references in total        
+<pre data-command-src="ZWNobyAkUEFUSAo="><code class="language-.term1">$ echo $PATH
+/home/gopher/go/bin:/usr/local/go/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
 </code></pre>
-
-<p>Given there might be further changes to the <code class="highlighter-rouge">proverb</code> module before you mark it as <code class="highlighter-rouge">v1</code> stable, you decide to
-publish <code class="highlighter-rouge">v0.2.0</code> to be on the safe side:</p>
-
-<pre data-command-src="Z2l0IHRhZyB2MC4yLjAKZ2l0IHB1c2ggLXEgb3JpZ2luIHYwLjIuMAo="><code class="language-.term1">$ git tag v0.2.0
-$ git push -q origin v0.2.0
-remote: . Processing 1 references        
-remote: Processed 1 references in total        
-</code></pre>
-
-<p>With the second version of the <code class="highlighter-rouge">proverb</code> module now published, return to your <code class="highlighter-rouge">gopher</code> module and
-try this out:</p>
-
-<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2dvcGhlcgpnbyBnZXQge3t7LlBST1ZFUkJ9fX1AdjAuMi4wCmdvIHJ1biAuCg=="><code class="language-.term1">$ cd /home/gopher/gopher
-$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v0.2.0
-go: downloading &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.2.0
-go: upgraded &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.1.0 =&gt; v0.2.0
-$ go run .
-Concurrency is parallelism.
-</code></pre>
-
-<p>Oops! That doesn’t look right: the proverb should read <em>“Concurrency is <strong>not</strong> parallelism.”</em> Looks like you made a
-mistake with the changes in <code class="highlighter-rouge">v0.2.0</code>. You can surely publish a new version of the <code class="highlighter-rouge">proverb</code>
-module to correct the mistake, but how can you prevent your users from depending on this broken version?</p>
-
-<p>Module retraction to the rescue.</p>
-
-<h3 id="retracting-module-versions">Retracting module versions</h3>
-
-<p>A module author can retract a version of a module by adding a <code class="highlighter-rouge">retract</code> directive to the <code class="highlighter-rouge">go.mod</code> file. The <code class="highlighter-rouge">retract</code>
-directive simply lists retracted versions. The <code class="highlighter-rouge">go</code> command reads retractions from the highest release version of the
-module.</p>
-
-<p>To retract <code class="highlighter-rouge">v0.2.0</code> of the <code class="highlighter-rouge">proverb</code> module, you will therefore publish
-<code class="highlighter-rouge">v0.3.0</code>. This new version will also fix the bug you found in <code class="highlighter-rouge">v0.2.0</code>.</p>
-
-<p>Return to the <code class="highlighter-rouge">proverb</code> module:</p>
-
-<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL3Byb3ZlcmIK"><code class="language-.term1">$ cd /home/gopher/proverb
-</code></pre>
-
-<p>Rather than making the change to your <code class="highlighter-rouge">go.mod</code> file by hand, you can instead use
-<code class="highlighter-rouge">go mod edit</code> as follows:</p>
-
-<pre data-command-src="Z28gbW9kIGVkaXQgLXJldHJhY3Q9djAuMi4wCg=="><code class="language-.term1">$ go mod edit -retract=v0.2.0
-</code></pre>
-
-<p>Inspect the <code class="highlighter-rouge">go.mod</code> to see the result:</p>
-
-<pre data-command-src="Y2F0IGdvLm1vZAo="><code class="language-.term1">$ cat go.mod
-module &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
-
-go 1.19
-
-retract v0.2.0
-</code></pre>
-
-<p>As is best practice, add a comment to the <code class="highlighter-rouge">retract</code> directive documenting why the retraction was
-necessary:</p>
-
-<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="Z28ubW9k:bW9kdWxlIHt7ey5QUk9WRVJCfX19CgpnbyAxLjE2CgovLyBHbyBwcm92ZXJiIHdhcyB0b3RhbGx5IHdyb25nCnJldHJhY3QgdjAuMi4wCg==" data-upload-term=".term1"><code class="language-go.mod">module &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
-
-go 1.16
-
-// Go proverb was totally wrong
-retract v0.2.0
-</code></pre>
-
-<p>The comment may be shown by tools like <code class="highlighter-rouge">go get</code> and <code class="highlighter-rouge">go list</code>. It will be shown by
-<a href="https://pkg.go.dev/golang.org/x/exp/cmd/gorelease"><code class="highlighter-rouge">gorelease</code></a> and <a href="https://pkg.go.dev/"><code class="highlighter-rouge">pkg.go.dev</code></a> later on, too.</p>
-
-<p>Fix the bug in <code class="highlighter-rouge">proverb.go</code>:</p>
-
-<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="cHJvdmVyYi5nbw==:cGFja2FnZSBwcm92ZXJiCgovLyBHbyByZXR1cm5zIGEgR28gcHJvdmVyYgpmdW5jIEdvKCkgc3RyaW5nIHsKCXJldHVybiAiQ29uY3VycmVuY3kgaXMgbm90IHBhcmFsbGVsaXNtLiIKfQo=" data-upload-term=".term1"><code class="language-go">package proverb
-
-// Go returns a Go proverb
-func Go() string &#123;
-<b>	return &#34;Concurrency is not parallelism.&#34;</b>
-&#125;
-</code></pre>
-
-<p>Commit, push and tag <code class="highlighter-rouge">v0.3.0</code>:</p>
-
-<pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJGaXggc2V2ZXJlIGVycm9yIGluIEdvIHByb3ZlcmIiCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluCmdpdCB0YWcgdjAuMy4wCmdpdCBwdXNoIC1xIG9yaWdpbiB2MC4zLjAK"><code class="language-.term1">$ git add -A
-$ git commit -q -m &#34;Fix severe error in Go proverb&#34;
-$ git push -q origin main
-remote: . Processing 1 references        
-remote: Processed 1 references in total        
-$ git tag v0.3.0
-$ git push -q origin v0.3.0
-remote: . Processing 1 references        
-remote: Processed 1 references in total        
-</code></pre>
-
-<p>Return to your <code class="highlighter-rouge">gopher</code> module to use this new version:</p>
-
-<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2dvcGhlcgpnbyBnZXQge3t7LlBST1ZFUkJ9fX1AdjAuMy4wCg=="><code class="language-.term1">$ cd /home/gopher/gopher
-$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v0.3.0
-go: downloading &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.3.0
-go: upgraded &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.2.0 =&gt; v0.3.0
-</code></pre>
-
-<p>This step also ensures that <a href="https://proxy.golang.org/">proxy.golang.org</a> is now aware of <code class="highlighter-rouge">v0.3.0</code>.
-Manually “pulling” a version of a module into the proxy using <code class="highlighter-rouge">go get</code> in this way means you (or indeed
-others) do not have to rely or wait on the proxy automatically checking for later versions of a module.</p>
-
-<p>Verify this new version fixes things:</p>
-
-<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
-Concurrency is not parallelism.
-</code></pre>
-
-<p>That’s better.</p>
-
-<p>So what exactly has happened to <code class="highlighter-rouge">v0.2.0</code>? Remember, you can’t simply delete a version of the
-<code class="highlighter-rouge">proverb</code> module, since it remains available on module proxies.  Let’s use <code class="highlighter-rouge">go list</code> to dig a
-bit deeper.</p>
-
-<p>But first you need to wait for the proxy to update its state:</p>
-
-<pre data-command-src="c2xlZXAgMW0K"><code class="language-.term1">$ sleep 1m
-</code></pre>
-
-<p>Why? The FAQ on the <a href="https://proxy.golang.org/">proxy website</a> explains:</p>
-
-<blockquote>
-  <p>In order to improve the proxy’s caching and serving latencies, new versions may not show up right away. If you want new
-code to be immediately available in the mirror, then first make sure there is a semantically versioned tag for this
-revision in the underlying source repository. Then explicitly request that version via go get module@version. After one
-minute for caches to expire, the go command will see that tagged version. If this doesn’t work for you, please file an
-issue.</p>
-</blockquote>
-
-<p>List the non-retracted, “usable” versions of the <code class="highlighter-rouge">{{{.PROVERB}}}</code> module known to the proxy:</p>
-
-<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMge3t7LlBST1ZFUkJ9fX0K"><code class="language-.term1">$ go list -m -versions &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
-&#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.1.0 v0.3.0
-</code></pre>
-
-<p>Notice that the newly published <code class="highlighter-rouge">v0.3.0</code> is in this list, but <code class="highlighter-rouge">v0.2.0</code> is not.</p>
-
-<p>List <em>all</em> versions versions (including any that are retracted):</p>
-
-<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMgLXJldHJhY3RlZCB7e3suUFJPVkVSQn19fQo="><code class="language-.term1">$ go list -m -versions -retracted &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
-&#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.1.0 v0.2.0 v0.3.0
-</code></pre>
-
-<p>Ah, there is the mischievous <code class="highlighter-rouge">v0.2.0</code>.</p>
-
-<p>So what would happen if you were to rely on the now retracted <code class="highlighter-rouge">v0.2.0</code>?</p>
-
-<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QHYwLjIuMAo="><code class="language-.term1">$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v0.2.0
-go: warning: &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v0.2.0: retracted by module author: Go proverb was totally wrong
-go: to switch to the latest unretracted version, run:
-	go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@latest
-go: downgraded &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.3.0 =&gt; v0.2.0
-</code></pre>
-
-<p>A helpful message is printed, warning that you are now depending on a retracted version. Notice that this error message
-includes the text from the comment you added to the <code class="highlighter-rouge">retract</code> directive.</p>
-
-<p>But does the code run?</p>
-
-<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
-Concurrency is parallelism.
-</code></pre>
-
-<p>Interesting: your code continues to “work” as before.</p>
-
-<p>So how do you tell if you are relying on retracted versions of a module? For this, you again turn to
-<code class="highlighter-rouge">go list</code>:</p>
-
-<pre data-command-src="Z28gbGlzdCAtbSAtdSBhbGwK"><code class="language-.term1">$ go list -m -u all
-gopher
-&#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.2.0 (retracted) [v0.3.0]
-</code></pre>
-
-<p>Let’s follow the advice of the warning message, and return to the latest un-retracted version:</p>
-
-<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QGxhdGVzdAo="><code class="language-.term1">$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@latest
-go: upgraded &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.2.0 =&gt; v0.3.0
-</code></pre>
-
-<h3 id="another-type-of-proverb">Another type of proverb</h3>
-
-<p>After consulting a wise friend, you decide that your <code class="highlighter-rouge">proverb</code> module needs to be a bit more rounded with
-its advice, and that one more change is therefore required before you declare it stable at <code class="highlighter-rouge">v1</code>. Returning to the
-<code class="highlighter-rouge">proverb</code> module:</p>
-
-<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL3Byb3ZlcmIK"><code class="language-.term1">$ cd /home/gopher/proverb
-</code></pre>
-
-<p>Update <code class="highlighter-rouge">proverb.go</code> as follows:</p>
-
-<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="cHJvdmVyYi5nbw==:cGFja2FnZSBwcm92ZXJiCgovLyBHbyByZXR1cm5zIGEgR28gcHJvdmVyYgpmdW5jIEdvKCkgc3RyaW5nIHsKCXJldHVybiAiQ29uY3VycmVuY3kgaXMgbm90IHBhcmFsbGVsaXNtLiIKfQoKLy8gTGlmZSByZXR1cm5zIGEgcHJvdmVyYiB1c2VmdWwgZm9yIGRheS10by1kYXkgbGl2aW5nCmZ1bmMgTGlmZSgpIHN0cmluZyB7CglyZXR1cm4gIkEgYmlyZCBpbiB0aGUgaGFuZCBpcyB3b3J0aCB0d28gaW4gdGhlIGJ1c2guIgp9Cg==" data-upload-term=".term1"><code class="language-go">package proverb
-
-// Go returns a Go proverb
-func Go() string &#123;
-	return &#34;Concurrency is not parallelism.&#34;
-&#125;
-<b></b>
-<b>// Life returns a proverb useful for day-to-day living</b>
-<b>func Life() string &#123;</b>
-<b>	return &#34;A bird in the hand is worth two in the bush.&#34;</b>
-<b>&#125;</b>
-</code></pre>
-
-<p>Commit and push this updated version:</p>
-
-<pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJBZGQgTGlmZSgpIHByb3ZlcmIiCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluCg=="><code class="language-.term1">$ git add -A
-$ git commit -q -m &#34;Add Life() proverb&#34;
-$ git push -q origin main
-remote: . Processing 1 references        
-remote: Processed 1 references in total        
-</code></pre>
-
-<p>To be safe, you decide to publish <code class="highlighter-rouge">v0.4.0</code> before committing to a <code class="highlighter-rouge">v1</code> stable version:</p>
-
-<pre data-command-src="Z2l0IHRhZyB2MS4wLjAKZ2l0IHB1c2ggLXEgb3JpZ2luIHYxLjAuMAo="><code class="language-.term1">$ git tag v1.0.0
-$ git push -q origin v1.0.0
-remote: . Processing 1 references        
-remote: Processed 1 references in total        
-</code></pre>
-
-<p>Oh no! You accidentally tagged and pushed <code class="highlighter-rouge">v1.0.0</code> instead of <code class="highlighter-rouge">v0.4.0</code>. Users of
-your module might mistakenly think the <code class="highlighter-rouge">proverb</code> API is stable and that there will not therefore be any
-breaking changes. But you’re not ready to make that sort of commitment!</p>
-
-<p>Let’s retract <code class="highlighter-rouge">v1.0.0</code> of the <code class="highlighter-rouge">proverb</code> module, but first publish with the correct version,
-<code class="highlighter-rouge">v0.4.0</code>:</p>
-
-<pre data-command-src="Z2l0IHRhZyB2MC40LjAKZ2l0IHB1c2ggLXEgb3JpZ2luIHYwLjQuMAo="><code class="language-.term1">$ git tag v0.4.0
-$ git push -q origin v0.4.0
-remote: . Processing 1 references        
-remote: Processed 1 references in total        
-</code></pre>
-
-<p>To retract <code class="highlighter-rouge">v1.0.0</code> you will need to publish <code class="highlighter-rouge">v1.0.1</code>. But that means you will <em>also</em>
-need to retract version <code class="highlighter-rouge">v1.0.1</code>. You do so using a <a href="https://en.wikipedia.org/wiki/Interval_(mathematics)">closed
-range</a>. Make this change by hand by editing the
-<code class="highlighter-rouge">proverb</code> <code class="highlighter-rouge">go.mod</code> file, commenting the <code class="highlighter-rouge">retract</code> directive as is best practice:</p>
-
-<pre data-upload-path="L2hvbWUvZ29waGVyL3Byb3ZlcmI=" data-upload-src="Z28ubW9k:bW9kdWxlIHt7ey5QUk9WRVJCfX19CgpnbyAxLjE2CgpyZXRyYWN0ICgKCS8vIEdvIHByb3ZlcmIgd2FzIHRvdGFsbHkgd3JvbmcKCXYwLjIuMAoKCS8vIFB1Ymxpc2hlZCB2MSB0b28gZWFybHkKCVt2MS4wLjAsIHYxLjAuMV0KKQo=" data-upload-term=".term1"><code class="language-go.mod">module &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
-
-go 1.16
-
-<b>retract (</b>
-<b>	// Go proverb was totally wrong</b>
-<b>	v0.2.0</b>
-<b></b>
-<b>	// Published v1 too early</b>
-<b>	[v1.0.0, v1.0.1]</b>
-<b>)</b>
-</code></pre>
-
-<p>Commit, tag, push and publish <code class="highlighter-rouge">v1.0.1</code>:</p>
-
-<pre data-command-src="Z2l0IGFkZCAtQQpnaXQgY29tbWl0IC1xIC1tICJSZXRyYWN0IFt2MS4wLjAsIHYxLjAuMV0iCmdpdCBwdXNoIC1xIG9yaWdpbiBtYWluCmdpdCB0YWcgdjEuMC4xCmdpdCBwdXNoIC1xIG9yaWdpbiB2MS4wLjEK"><code class="language-.term1">$ git add -A
-$ git commit -q -m &#34;Retract [v1.0.0, v1.0.1]&#34;
-$ git push -q origin main
-remote: . Processing 1 references        
-remote: Processed 1 references in total        
-$ git tag v1.0.1
-$ git push -q origin v1.0.1
-remote: . Processing 1 references        
-remote: Processed 1 references in total        
-</code></pre>
-
-<p>Return to the <code class="highlighter-rouge">gopher</code> module to experiment with the newly retracted versions:</p>
-
-<pre data-command-src="Y2QgL2hvbWUvZ29waGVyL2dvcGhlcgo="><code class="language-.term1">$ cd /home/gopher/gopher
-</code></pre>
-
-<p>Ensure proxy.golang.org is aware of the new versions of <code class="highlighter-rouge">proverb</code> you just published. <code class="highlighter-rouge">go get</code>
-<code class="highlighter-rouge">v0.4.0</code> last to leave that version as the current dependency (you will test it later).</p>
-
-<pre data-command-src="Z28gZ2V0IHt7ey5QUk9WRVJCfX19QHYxLjAuMApnbyBnZXQge3t7LlBST1ZFUkJ9fX1AdjEuMC4xCmdvIGdldCB7e3suUFJPVkVSQn19fUB2MC40LjAK"><code class="language-.term1">$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v1.0.0
-go: downloading &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v1.0.0
-go: warning: &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v1.0.0: retracted by module author: Published v1 too early
-go: to switch to the latest unretracted version, run:
-	go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@latest
-go: upgraded &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.3.0 =&gt; v1.0.0
-$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v1.0.1
-go: downloading &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v1.0.1
-go: warning: &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v1.0.1: retracted by module author: Published v1 too early
-go: to switch to the latest unretracted version, run:
-	go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@latest
-go: upgraded &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v1.0.0 =&gt; v1.0.1
-$ go get &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;@v0.4.0
-go: downloading &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.4.0
-go: downgraded &#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v1.0.1 =&gt; v0.4.0
-</code></pre>
-
-<p><em>Note: you might not see the warning about either <code class="highlighter-rouge">v1.0.0</code> or <code class="highlighter-rouge">v1.0.1</code> being
-retracted versions. proxy.golang.org automatically updates periodically; depending on how lucky you are, an automatic
-update may have occurred in the time since you published <code class="highlighter-rouge">v1.0.1</code> in which case you will see the
-warning message, or it may not.</em></p>
-
-<p>Now that you have pulled these versions through the proxy, wait for the proxy cache to update:</p>
-
-<pre data-command-src="c2xlZXAgMW0K"><code class="language-.term1">$ sleep 1m
-</code></pre>
-
-<p>List all versions of the <code class="highlighter-rouge">{{{.PROVERB}}}</code> known to the proxy, including the retracted ones:</p>
-
-<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMgLXJldHJhY3RlZCB7e3suUFJPVkVSQn19fQo="><code class="language-.term1">$ go list -m -versions -retracted &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
-&#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.1.0 v0.2.0 v0.3.0 v0.4.0 v1.0.0 v1.0.1
-</code></pre>
-
-<p>List the non-retracted versions of the <code class="highlighter-rouge">{{{.PROVERB}}}</code> known to the proxy:</p>
-
-<pre data-command-src="Z28gbGlzdCAtbSAtdmVyc2lvbnMge3t7LlBST1ZFUkJ9fX0K"><code class="language-.term1">$ go list -m -versions &#123;&#123;&#123;.PROVERB&#125;&#125;&#125;
-&#123;&#123;&#123;.PROVERB&#125;&#125;&#125; v0.1.0 v0.3.0 v0.4.0
-</code></pre>
-
-<p>This shows that <code class="highlighter-rouge">v0.4.0</code> is the latest version of the <code class="highlighter-rouge">proverb</code> module, as expected.</p>
-
-<p>Update <code class="highlighter-rouge">gopher.go</code> to use the new proverb:</p>
-
-<pre data-upload-path="L2hvbWUvZ29waGVyL2dvcGhlcg==" data-upload-src="Z29waGVyLmdv:cGFja2FnZSBtYWluCgppbXBvcnQgKAoJImZtdCIKCgkie3t7LlBST1ZFUkJ9fX0iCikKCmZ1bmMgbWFpbigpIHsKCWZtdC5QcmludGYoIkdvIHByb3ZlcmI6ICV2XG4iLCBwcm92ZXJiLkdvKCkpCglmbXQuUHJpbnRmKCJMaWZlIGFkdmljZTogJXZcbiIsIHByb3ZlcmIuTGlmZSgpKQp9Cg==" data-upload-term=".term1"><code class="language-go">package main
-
-import (
-	&#34;fmt&#34;
-
-	&#34;&#123;&#123;&#123;.PROVERB&#125;&#125;&#125;&#34;
-)
-
-func main() &#123;
-<b>	fmt.Printf(&#34;Go proverb: %v\n&#34;, proverb.Go())</b>
-<b>	fmt.Printf(&#34;Life advice: %v\n&#34;, proverb.Life())</b>
-&#125;
-</code></pre>
-
-<p>Finally, run <code class="highlighter-rouge">gopher</code> to verify everything works:</p>
-
-<pre data-command-src="Z28gcnVuIC4K"><code class="language-.term1">$ go run .
-Go proverb: Concurrency is not parallelism.
-Life advice: A bird in the hand is worth two in the bush.
-</code></pre>
-
-<p>Note that when you come to publish the “real” <code class="highlighter-rouge">v1.0.0</code> of the <code class="highlighter-rouge">proverb</code> module, it must
-be published as <code class="highlighter-rouge">v1.0.2</code> since you cannot change or delete versions (retracted or not).</p>
 
 <h3 id="conclusion">Conclusion</h3>
 
-<p>That’s it! This guide has introduced module retraction, demonstrating how to retract a simple bad version, as well as
-retracting an accidental <code class="highlighter-rouge">v1</code>. For more information on module retraction, see <a href="https://golang.org/ref/mod">the modules
-reference</a>.</p>
+<p>That’s it! You’re all set for working with Go on your local system.</p>
 
 <p>As a next step you might like to consider:</p>
 
 <ul>
-  <li><a href="/installing-go-programs-directly_go116_en/">Installing Go programs directly</a>
-<script>let pageGuide="2020-11-08-retract-module-versions"; let pageLanguage="en"; let pageScenario="go116";</script></li>
+  <li><a href="/go-fundamentals_go119_en">Go Fundamentals</a>
+<script>let pageGuide="2020-08-13-installing-go"; let pageLanguage="en"; let pageScenario="go119";</script></li>
 </ul>
 
             </div>
